@@ -1,0 +1,6 @@
+name: Commedia dell'arte
+version: '${project.version}'
+main: org.red.library.CommediaDell_arte
+api-version: '1.16'
+authors: [Arlecchino]
+description: For Fun
