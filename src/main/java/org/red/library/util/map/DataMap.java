@@ -178,14 +178,6 @@ public class DataMap implements ConfigurationSerializable {
         this.map.clear();
     }
 
-    public void save() {
-        throw new UnsupportedOperationException("DataMap No Supported this method plz extend and use");
-    }
-
-    public void load() {
-        throw new UnsupportedOperationException("DataMap No Supported this method plz extend and use");
-    }
-
     @Override
     public Map<String, Object> serialize() {
         return map;
