@@ -5,6 +5,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.red.library.CommediaDell_arte;
+import org.red.library.util.ConfigData;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 
@@ -12,7 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class PlayerData {
+public class PlayerData implements ConfigData {
     private final OfflinePlayer player;
     private final DataMap dataMap;
     private final CoolTime coolTime;
@@ -36,6 +37,7 @@ public class PlayerData {
         return coolTime;
     }
 
+    @Override
     public void save() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
         fileConfiguration.set("dataMap", this.dataMap);
@@ -52,6 +54,7 @@ public class PlayerData {
         }
     }
 
+    @Override
     public void load() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
         File file = new File(this.path);
