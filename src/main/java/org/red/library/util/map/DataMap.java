@@ -6,6 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 
@@ -40,6 +41,14 @@ public class DataMap implements ConfigurationSerializable {
 
     public Location getLocation(String key, Location nullValue) {
         return (Location) this.get(key, nullValue);
+    }
+
+    public Vector getVector(String key) {
+        return getVector(key, new Vector(0, 0, 0));
+    }
+
+    public Vector getVector(String key, Vector nullValue) {
+        return (Vector) this.get(key, nullValue);
     }
 
     public int getInt(String key) {
@@ -80,18 +89,6 @@ public class DataMap implements ConfigurationSerializable {
 
     public boolean getBoolean(String key, boolean nullValue) {
         return (boolean) this.get(key, nullValue);
-    }
-
-    public Long getLong(String key) {
-        return getLong(key, 0L);
-    }
-
-    public Long getLong(String key, Long nullValue) {
-        return (Long) this.get(key, nullValue);
-    }
-
-    public void addLong(String key, Long value) {
-        put(key, getLong(key) + value);
     }
 
     public Object get(String key) {
