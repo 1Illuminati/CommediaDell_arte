@@ -4,8 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.util.BoundingBox;
+import org.red.library.world.rule.HasRule;
 
-public interface Area {
+public interface Area extends HasRule {
     BoundingBox getBoundingBox();
     World getWorld();
     NamespacedKey getKey();
@@ -44,7 +45,7 @@ public interface Area {
      */
     boolean overlap(BoundingBox boundingBox);
 
-    default String log() {
+    default String asString() {
         return String.format("Area{world=%s, key=%s, boundingBox=%s}", getWorld().getName(), getKey().toString(), getBoundingBox().toString());
     }
 }
