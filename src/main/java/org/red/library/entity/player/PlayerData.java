@@ -18,6 +18,9 @@ public class PlayerData implements ConfigData {
     private final DataMap dataMap;
     private final CoolTime coolTime;
     private final String path;
+    public PlayerData(OfflinePlayer player) {
+        this(player, new DataMap(), new CoolTime());
+    }
     public PlayerData(OfflinePlayer player, DataMap dataMap, CoolTime coolTime) {
         this.player = player;
         this.dataMap = dataMap;

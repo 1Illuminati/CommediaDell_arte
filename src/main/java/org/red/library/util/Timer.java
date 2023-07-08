@@ -70,7 +70,7 @@ public class Timer {
         Bukkit.getScheduler().runTaskAsynchronously(CommediaDell_arte.getPlugin(), () -> {
             while (!stop) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
