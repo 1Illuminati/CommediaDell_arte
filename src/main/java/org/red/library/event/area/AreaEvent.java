@@ -8,12 +8,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AreaEvent<T extends Event> extends Event {
-    private static final Map<Class<? extends Event>, HandlerList> HANDLERS_MAP = new HashMap<>();
+
+    protected static final Map<Class<? extends AreaEvent>, HandlerList> handler_map = new HashMap<>();
     private final Area area;
     private final T event;
     protected AreaEvent(Area area, T event) {
         this.area = area;
         this.event = event;
+    }
+
+    @Override
+    public HandlerList getHandlers() {
+        return handler_map.computeIfAbsent(this.getClass(), k -> new HandlerList());
     }
 
     public T getEvent() {
@@ -22,10 +28,5 @@ public abstract class AreaEvent<T extends Event> extends Event {
 
     public Area getArea() {
         return area;
-    }
-
-    @Override
-    public HandlerList getHandlers() {
-        return HANDLERS_MAP.computeIfAbsent(event.getClass(), c -> new HandlerList());
     }
 }

@@ -3,6 +3,8 @@ package org.red.library.entity.player;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.red.library.CommediaDell_arte;
 import org.red.library.entity.player.npc.NpcData;
 import org.red.library.entity.player.npc.NpcPlayer;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
@@ -53,14 +55,8 @@ public class NewPlayer extends PlayerAdapter {
     private boolean ignoreCloseEvent = false;
     protected NewPlayer(Player player) {
         super(player);
-
-        if (this.isNpc()) {
-            this.newOfflinePlayer = null;
-            this.playerData = new NpcData((NpcPlayer) this);
-        } else {
-            this.newOfflinePlayer = NewOfflinePlayer.getNewOfflinePlayer(player);
-            this.playerData = newOfflinePlayer.getPlayerData();
-        }
+        this.newOfflinePlayer = NewOfflinePlayer.getNewOfflinePlayer(player);
+        this.playerData = newOfflinePlayer.getPlayerData();
     }
 
     public void openInventory(CustomGui gui) {
@@ -80,15 +76,12 @@ public class NewPlayer extends PlayerAdapter {
     }
 
     public void delayOpenInventory(Inventory inv, boolean ignoreCloseEvent) {
-        Scheduler.delayScheduler(new Scheduler.RunnableEx() {
-            @Override
-            public void function() {
-                openInventory(inv);
+        Bukkit.getScheduler().runTaskLater(CommediaDell_arte.getPlugin(), () -> {
+            openInventory(inv);
 
-                if (ignoreCloseEvent)
-                    setIgnoreCloseEvent(true);
-            }
-        }, 2);
+            if (ignoreCloseEvent)
+                setIgnoreCloseEvent(true);
+        }, 2L);
     }
 
     public boolean isIgnoreCloseEvent() {

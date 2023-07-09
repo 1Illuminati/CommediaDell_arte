@@ -3,6 +3,7 @@ package org.red.library.util;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.red.library.CommediaDell_arte;
+import org.red.library.event.TimerEndEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,7 +64,9 @@ public class Timer {
     }
 
     public void stop() {
-        this.stop = true;
+        TimerEndEvent event = new TimerEndEvent(this);
+        Bukkit.getPluginManager().callEvent(event);
+        this.stop = !event.isCancelled();
     }
 
     public void start() {
@@ -76,8 +79,9 @@ public class Timer {
                 }
                 addTime(1);
 
-                if (time >= maxTime)
+                if (time >= maxTime) {
                     stop();
+                }
             }
         });
     }
