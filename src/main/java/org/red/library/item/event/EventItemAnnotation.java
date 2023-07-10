@@ -19,6 +19,8 @@ public @interface EventItemAnnotation {
         SHIFT_LEFT_CLICK_BLOCK,
         RIGHT_CLICK_BLOCK,
         SHIFT_RIGHT_CLICK_BLOCK,
+        PHYSICAL,
+        SHIFT_PHYSICAL,
         DROP,
         SHIFT_DROP,
         SWAP_HAND,

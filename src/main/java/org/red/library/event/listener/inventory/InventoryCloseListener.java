@@ -2,6 +2,7 @@ package org.red.library.event.listener.inventory;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.red.library.event.area.AreaEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.inventory.CustomGui;
 
@@ -16,5 +17,10 @@ public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent
         try {
             customGui.onClose(event);
         } catch(UnsupportedOperationException ignore) {}
+    }
+
+    @Override
+    protected Class<? extends AreaEvent<InventoryCloseEvent>> getAreaEventClass() {
+        return null;
     }
 }

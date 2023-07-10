@@ -6,6 +6,6 @@ import org.red.library.event.listener.AbstractListener;
 public class PlayerQuitListener extends AbstractListener<PlayerQuitEvent> {
     @Override
     public void onEvent(PlayerQuitEvent event) {
-
+        super.runAreaPlayerEvent(event);
     }
 }

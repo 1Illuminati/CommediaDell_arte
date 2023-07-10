@@ -12,7 +12,7 @@ public abstract class AreaEvent<T extends Event> extends Event {
     protected static final Map<Class<? extends AreaEvent>, HandlerList> handler_map = new HashMap<>();
     private final Area area;
     private final T event;
-    protected AreaEvent(Area area, T event) {
+    public AreaEvent(Area area, T event) {
         this.area = area;
         this.event = event;
     }

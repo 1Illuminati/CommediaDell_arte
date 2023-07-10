@@ -11,12 +11,7 @@ import org.red.library.world.WorldData;
 public class RunEventItemListener extends AbstractListener<RunEventItemEvent> {
     @Override
     public void onEvent(RunEventItemEvent event) {
-        NewPlayer player = event.getNewPlayer();
-        WorldData worldData = WorldData.get(player.getWorld());
-
-        for (Area area : worldData.getContainArea(player.getLocation())) {
-
-        }
+        super.runAreaPlayerEvent(event);
     }
 
     @Override

@@ -3,6 +3,7 @@ package org.red.library.event.listener.inventory;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
+import org.red.library.event.area.AreaEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.inventory.CustomGui;
 
@@ -17,5 +18,10 @@ public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> 
         try {
             customGui.onOpen(event);
         } catch(UnsupportedOperationException ignore) {}
+    }
+
+    @Override
+    protected Class<? extends AreaEvent<InventoryOpenEvent>> getAreaEventClass() {
+        return null;
     }
 }
