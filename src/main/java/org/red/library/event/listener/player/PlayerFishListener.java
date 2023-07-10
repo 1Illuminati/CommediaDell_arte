@@ -7,6 +7,8 @@ import org.red.library.event.area.player.AreaPlayerFishEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
 import org.red.library.item.event.EventItemManager;
+import org.red.library.world.WorldData;
+import org.red.library.world.rule.Rule;
 
 public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
     @Override
@@ -15,6 +17,10 @@ public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
 
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.FISHING, event);
+
+        WorldData worldData = WorldData.getWorldData(player.getWorld());
+
+        if (worldData.getRuleValue(Rule.FISHING)) event.setCancelled(true);
     }
 
     @Override

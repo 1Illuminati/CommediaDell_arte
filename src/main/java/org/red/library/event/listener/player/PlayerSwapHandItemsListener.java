@@ -7,6 +7,8 @@ import org.red.library.event.area.player.AreaPlayerSwapHandItemsEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
 import org.red.library.item.event.EventItemManager;
+import org.red.library.world.WorldData;
+import org.red.library.world.rule.Rule;
 
 public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHandItemsEvent> {
     @Override
@@ -16,6 +18,10 @@ public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHand
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), player.isSneaking() ?
                 EventItemAnnotation.Act.SHIFT_SWAP_HAND : EventItemAnnotation.Act.SWAP_HAND, event);
+
+        WorldData worldData = WorldData.getWorldData(player.getWorld());
+
+        if (worldData.getRuleValue(Rule.SWAP_HAND)) event.setCancelled(true);
     }
 
     @Override

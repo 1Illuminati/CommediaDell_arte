@@ -9,6 +9,8 @@ import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
 import org.red.library.item.event.EventItemManager;
+import org.red.library.world.WorldData;
+import org.red.library.world.rule.Rule;
 
 public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent> {
     @Override

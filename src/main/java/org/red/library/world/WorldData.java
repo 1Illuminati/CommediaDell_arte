@@ -26,7 +26,7 @@ import java.util.Map;
 public class WorldData implements ConfigData, HasRule {
     private static final Map<World, WorldData> worldDataMap = new HashMap<>();
 
-    public static WorldData get(World world) {
+    public static WorldData getWorldData(World world) {
         return worldDataMap.computeIfAbsent(world, WorldData::new);
     }
 

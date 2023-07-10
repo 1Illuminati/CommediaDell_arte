@@ -7,6 +7,8 @@ import org.red.library.event.area.player.AreaPlayerDropItemEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
 import org.red.library.item.event.EventItemManager;
+import org.red.library.world.WorldData;
+import org.red.library.world.rule.Rule;
 
 public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent> {
     @Override
@@ -16,6 +18,10 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), player.isSneaking() ?
                 EventItemAnnotation.Act.SHIFT_DROP : EventItemAnnotation.Act.DROP, event);
+
+        WorldData worldData = WorldData.getWorldData(player.getWorld());
+
+        if (worldData.getRuleValue(Rule.DROP)) event.setCancelled(true);
     }
 
     @Override
