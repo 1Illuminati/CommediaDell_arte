@@ -14,6 +14,7 @@ import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
+import org.red.library.world.rule.RuleMap;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,7 +36,7 @@ public class WorldData implements ConfigData, HasRule {
     private final DataMap dataMap = new DataMap();
     private final CoolTime coolTime = new CoolTime();
     private final NameSpaceMap<Area> areaMap = new NameSpaceMap<>();
-    private final DataMap ruleMap = this.dataMap.getDataMap("world_data_rule");
+    private final RuleMap ruleMap = new RuleMap();
     private WorldData(World world) {
         this.world = world;
         this.path = "plugins/Dell_arte/worldData/" + world.getName() + ".yml";
@@ -127,6 +128,9 @@ public class WorldData implements ConfigData, HasRule {
 
         CoolTime coolTime = (CoolTime) fileConfiguration.get("coolTime");
         if (coolTime != null) this.coolTime.copy(coolTime);
+
+        RuleMap ruleMap = (RuleMap) fileConfiguration.get("ruleMap");
+        if (ruleMap != null) this.ruleMap.copy(ruleMap);
     }
 
     @Override
@@ -134,6 +138,7 @@ public class WorldData implements ConfigData, HasRule {
         FileConfiguration fileConfiguration = new YamlConfiguration();
         fileConfiguration.set("dataMap", this.dataMap);
         fileConfiguration.set("coolTime", this.coolTime);
+        fileConfiguration.set("ruleMap", this.ruleMap);
 
 
         File file = new File(this.path);
@@ -148,11 +153,11 @@ public class WorldData implements ConfigData, HasRule {
 
     @Override
     public <T> T getRuleValue(Rule<T> rule) {
-        return (T) ruleMap.get(rule.getKey(), rule.getDefaultValue());
+        return ruleMap.get(rule);
     }
 
     @Override
     public <T> void setRuleValue(Rule<T> rule, T value) {
-        ruleMap.put(rule.getKey(), value);
+        ruleMap.set(rule, value);
     }
 }

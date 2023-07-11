@@ -3,13 +3,10 @@ package org.red.library.entity.player;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.red.library.CommediaDell_arte;
-import org.red.library.entity.player.npc.NpcData;
 import org.red.library.entity.player.npc.NpcPlayer;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.inventory.CustomGui;
-import org.red.library.util.Scheduler;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 

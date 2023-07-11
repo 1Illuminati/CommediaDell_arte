@@ -59,6 +59,7 @@ public final class CommediaDell_arte extends JavaPlugin {
 
         this.registerEvent(new EntityDamageByEntityListener());
 
+        this.registerEvent(new PlayerCommandPreProcessListener());
         this.registerEvent(new PlayerDropItemListener());
         this.registerEvent(new PlayerInteractListener());
         this.registerEvent(new PlayerFishListener());
