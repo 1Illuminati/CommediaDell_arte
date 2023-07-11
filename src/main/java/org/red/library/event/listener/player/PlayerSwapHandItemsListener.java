@@ -21,7 +21,7 @@ public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHand
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (worldData.getRuleValue(Rule.SWAP_HAND)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.SWAP_HAND)) event.setCancelled(true);
     }
 
     @Override

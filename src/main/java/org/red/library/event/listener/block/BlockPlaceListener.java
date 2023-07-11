@@ -16,7 +16,7 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (worldData.getRuleValue(Rule.PLACE)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.PLACE)) event.setCancelled(true);
     }
 
     @Override

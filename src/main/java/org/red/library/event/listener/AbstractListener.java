@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -18,6 +19,7 @@ import org.red.library.world.rule.Rule;
 import java.util.List;
 
 public abstract class AbstractListener<T extends Event> implements Listener {
+    @EventHandler
     public abstract void onEvent(T event);
 
     protected abstract Class<? extends AreaEvent<T>> getAreaEventClass();

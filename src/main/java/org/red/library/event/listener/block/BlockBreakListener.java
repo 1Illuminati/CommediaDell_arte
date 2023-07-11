@@ -24,7 +24,7 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (worldData.getRuleValue(Rule.BREAK)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.BREAK)) event.setCancelled(true);
     }
 
     @Override

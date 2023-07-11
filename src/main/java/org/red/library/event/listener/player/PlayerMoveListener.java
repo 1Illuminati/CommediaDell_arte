@@ -16,7 +16,7 @@ public class PlayerMoveListener extends AbstractListener<PlayerMoveEvent> {
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (worldData.getRuleValue(Rule.MOVE)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.MOVE)) event.setCancelled(true);
     }
 
     @Override

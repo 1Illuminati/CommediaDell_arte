@@ -44,8 +44,4 @@ public interface Area extends HasRule {
      * @return 겹치는 공간이 존재하면 true, 아니면 false
      */
     boolean overlap(BoundingBox boundingBox);
-
-    default String asString() {
-        return String.format("Area{world=%s, key=%s, boundingBox=%s}", getWorld().getName(), getKey().toString(), getBoundingBox().toString());
-    }
 }

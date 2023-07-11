@@ -25,10 +25,10 @@ public class EntityDamageByEntityListener extends AbstractListener<EntityDamageB
             EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.HIT, event);
             WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-            if (worldData.getRuleValue(Rule.ATTACK)) event.setCancelled(true);
+            if (!worldData.getRuleValue(Rule.ATTACK)) event.setCancelled(true);
 
             if (damager instanceof Player) {
-                if (worldData.getRuleValue(Rule.PVP)) event.setCancelled(true);
+                if (!worldData.getRuleValue(Rule.PVP)) event.setCancelled(true);
             }
         }
     }

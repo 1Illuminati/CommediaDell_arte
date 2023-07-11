@@ -21,7 +21,7 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (worldData.getRuleValue(Rule.DROP)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.DROP)) event.setCancelled(true);
     }
 
     @Override
