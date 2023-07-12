@@ -20,7 +20,7 @@ public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.FISHING)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.FISHING, player.getLocation())) event.setCancelled(true);
     }
 
     @Override

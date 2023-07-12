@@ -14,7 +14,6 @@ import org.bukkit.event.player.PlayerEvent;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 import org.red.library.world.WorldData;
-import org.red.library.world.rule.Rule;
 
 import java.util.List;
 
@@ -24,10 +23,6 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
     protected abstract Class<? extends AreaEvent<T>> getAreaEventClass();
 
-    protected <V> V getWorldRuleValue(Rule<V> rule, World world) {
-        WorldData worldData = WorldData.getWorldData(world);
-        return worldData.getRuleValue(rule);
-    }
     protected void runAreaPlayerEvent(T event) {
         if (!(event instanceof PlayerEvent)) throw new IllegalArgumentException("Event must be PlayerEvent");
 

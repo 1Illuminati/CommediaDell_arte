@@ -17,7 +17,7 @@ public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEve
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.CHAT)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.CHAT, player.getLocation())) event.setCancelled(true);
     }
 
     @Override

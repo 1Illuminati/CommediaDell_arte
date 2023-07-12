@@ -163,11 +163,11 @@ public class WorldData implements ConfigData, HasRule {
         return result;
     }
 
-    public <T> T getRuleValue(Rule<T> rule, List<Location> loccations) {
+    public <T> T getRuleValue(Rule<T> rule, List<Location> locations) {
         T result = ruleMap.get(rule);
         int num = 6;
         List<Area> areas = new ArrayList<>();
-        loccations.forEach(loc -> areas.addAll(getContainArea(loc)));
+        locations.forEach(loc -> areas.addAll(getContainArea(loc)));
         for (Area area : new HashSet<>(areas)) {
             int areaNum = area.getRulePriority().getNum();
 
