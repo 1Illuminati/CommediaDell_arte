@@ -19,10 +19,7 @@ import org.red.library.world.rule.RuleMap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WorldData implements ConfigData, HasRule {
     private static final Map<World, WorldData> worldDataMap = new HashMap<>();
@@ -149,6 +146,38 @@ public class WorldData implements ConfigData, HasRule {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public <T> T getRuleValue(Rule<T> rule, Location location) {
+        T result = ruleMap.get(rule);
+        int num = 6;
+        for (Area area : getContainArea(location)) {
+            int areaNum = area.getRulePriority().getNum();
+
+            if (areaNum < num) {
+                num = areaNum;
+                result = area.getRuleValue(rule);
+            }
+        }
+
+        return result;
+    }
+
+    public <T> T getRuleValue(Rule<T> rule, List<Location> loccations) {
+        T result = ruleMap.get(rule);
+        int num = 6;
+        List<Area> areas = new ArrayList<>();
+        loccations.forEach(loc -> areas.addAll(getContainArea(loc)));
+        for (Area area : new HashSet<>(areas)) {
+            int areaNum = area.getRulePriority().getNum();
+
+            if (areaNum < num) {
+                num = areaNum;
+                result = area.getRuleValue(rule);
+            }
+        }
+
+        return result;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.red.library.event.listener.block;
 
+import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.red.library.entity.player.NewPlayer;
 import org.red.library.event.area.AreaEvent;
@@ -14,9 +15,10 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
         super.runAreaBlockEvent(event);
 
         NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
+        Block block = event.getBlock();
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.PLACE)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.PLACE, block.getLocation())) event.setCancelled(true);
     }
 
     @Override

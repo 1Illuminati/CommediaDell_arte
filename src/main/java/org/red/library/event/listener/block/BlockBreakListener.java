@@ -1,6 +1,6 @@
 package org.red.library.event.listener.block;
 
-import org.bukkit.entity.Player;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -18,13 +18,14 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
     public void onEvent(BlockBreakEvent event) {
         runAreaBlockEvent(event);
 
-        Player player = event.getPlayer();
+        NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
         ItemStack mainHand = player.getInventory().getItemInMainHand();
-        EventItemManager.runItemEvent(NewPlayer.getNewPlayer(player), mainHand, EventItemAnnotation.Act.BREAK, event);
+        Block block = event.getBlock();
+        EventItemManager.runItemEvent(player, mainHand, EventItemAnnotation.Act.BREAK, event);
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.BREAK)) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.BREAK, block.getLocation())) event.setCancelled(true);
     }
 
     @Override

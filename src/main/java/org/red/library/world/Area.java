@@ -98,10 +98,19 @@ public class Area implements HasRule {
          * 일단 서로 겹칠경우 우선순위 정해줄려고 만듬 ㅋㅋ
          * 만약 우선순위도 같으면 등록된 순서대로 일듯?
          */
-        HIGHEST, //마지막
-        HIGH, //뒤에서 두번째
-        NORMAL, //기본값
-        LOW, //두번째
-        LOWEST //첫번째
+        HIGHEST(5),
+        HIGH(4),
+        NORMAL(3),
+        LOW(2),
+        LOWEST(1);
+
+        private final int num;
+        RulePriority(int num) {
+            this.num = num;
+        }
+
+        public int getNum() {
+            return num;
+        }
     }
 }
