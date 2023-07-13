@@ -1,5 +1,7 @@
 package org.red.library.entity.player;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -111,5 +113,9 @@ public class NewPlayer extends PlayerAdapter {
 
     public boolean isNpc() {
         return false;
+    }
+
+    public void sendActionBar(String message) {
+        super.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 }
