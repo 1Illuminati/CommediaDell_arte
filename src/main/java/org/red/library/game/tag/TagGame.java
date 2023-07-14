@@ -1,17 +1,18 @@
 package org.red.library.game.tag;
 
 import org.bukkit.plugin.Plugin;
+import org.red.library.CommediaDell_arte;
 import org.red.library.game.Game;
 
 public class TagGame extends Game {
     @Override
     public Plugin getPlugin() {
-        return null;
+        return CommediaDell_arte.getPlugin();
     }
 
     @Override
     public String getName() {
-        return null;
+        return "술래잡기";
     }
 
     @Override

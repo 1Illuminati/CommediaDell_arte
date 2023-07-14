@@ -2,6 +2,8 @@ package org.red.library.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.boss.KeyedBossBar;
+import org.red.library.util.Timer;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.Area;
 import org.red.library.world.WorldData;
@@ -32,13 +34,29 @@ public final class GameManager {
 
         if (game instanceof GameArea) {
             GameArea gameArea = (GameArea) game;
-            Area area = gameArea.getArea();
-
-            WorldData worldData = WorldData.getWorldData(area.getWorld());
-            worldData.putArea(area);
+            gameArea.getArea().forEach(area -> {
+                WorldData worldData = WorldData.getWorldData(area.getWorld());
+                worldData.putArea(area);
+            });
         }
 
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {
+            if (game instanceof GameTimer) {
+                GameTimer gameTimer = (GameTimer) game;
+                Timer timer = gameTimer.getTimer();
+                KeyedBossBar bossBar = gameTimer.getBossBar();
+                timer.start();
+
+                game.getJoinPlayers().forEach(player -> {
+                    if (player.isOnline())
+                        bossBar.addPlayer(player.getNewPlayer().getPlayer());
+                });
+
+                Bukkit.getScheduler().runTaskTimer(game.getPlugin(), () -> {
+                    bossBar.setProgress((double) timer.getTime() / timer.getMaxTime());
+                }, 0, 1);
+            }
+
             game.start();
             game.setGameStatus(Game.GameStatus.RUNNING);
         });
@@ -51,15 +69,23 @@ public final class GameManager {
 
         if (game instanceof GameArea) {
             GameArea gameArea = (GameArea) game;
-            Area area = gameArea.getArea();
-
-            WorldData worldData = WorldData.getWorldData(area.getWorld());
-            worldData.removeArea(area.getKey());
+            gameArea.getArea().forEach(area -> {
+                WorldData worldData = WorldData.getWorldData(area.getWorld());
+                worldData.removeArea(area.getKey());
+            });
         }
 
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {
             game.stop();
             game.setGameStatus(Game.GameStatus.STOPPED);
+
+            if (game instanceof GameTimer) {
+                GameTimer gameTimer = (GameTimer) game;
+                Timer timer = gameTimer.getTimer();
+                KeyedBossBar bossBar = gameTimer.getBossBar();
+                timer.stop();
+                bossBar.removeAll();
+            }
         });
     }
 }
