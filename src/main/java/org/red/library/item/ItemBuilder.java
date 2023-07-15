@@ -14,6 +14,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.red.library.item.event.EventItem;
 import org.red.library.item.event.EventItemManager;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,11 @@ public class ItemBuilder {
 
     public ItemBuilder setLore(List<String> arg0) {
         itemMeta.setLore(arg0);
+        return this;
+    }
+
+    public ItemBuilder setLore(String... lore) {
+        itemMeta.setLore(Arrays.asList(lore));
         return this;
     }
 

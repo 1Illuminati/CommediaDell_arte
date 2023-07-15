@@ -6,6 +6,11 @@ import org.red.library.game.Game;
 
 public class TagGame extends Game {
     @Override
+    public String gameDisplayName() {
+        return null;
+    }
+
+    @Override
     public Plugin getPlugin() {
         return CommediaDell_arte.getPlugin();
     }
@@ -22,6 +27,10 @@ public class TagGame extends Game {
 
     @Override
     public void stop() {
+
+    }
+
+    public enum GameType {
 
     }
 }
