@@ -1,4 +1,4 @@
-package org.red.library.game.tag;
+package org.red.library.game.demo.tag;
 
 import org.bukkit.plugin.Plugin;
 import org.red.library.CommediaDell_arte;
@@ -27,10 +27,6 @@ public class TagGame extends Game {
 
     @Override
     public void stop() {
-
-    }
-
-    public enum GameType {
 
     }
 }

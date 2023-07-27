@@ -1,4 +1,4 @@
-package org.red.library.game.tag;
+package org.red.library.game.demo.tag;
 
 import org.bukkit.Material;
 import org.red.library.inventory.CustomGui;
