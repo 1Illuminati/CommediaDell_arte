@@ -1,100 +1,37 @@
 package org.red.library.game.demo.tag;
 
 import org.bukkit.Material;
+import org.red.library.game.setting.Setting;
+import org.red.library.game.setting.SettingInventory;
 import org.red.library.inventory.CustomGui;
 import org.red.library.item.ItemBuilder;
 
-public final class TagGameSetting {
-    private boolean sameSkin = false;
-    private boolean hideName = true;
-    private boolean disableChat = true;
-    private boolean disableCommand = true;
-    private boolean maintainInventory = true;
-    private boolean ability = true;
-    private float chaserSpeed = 2.2f;
-    private float runnerSpeed = 2.0f;
-    private int maxPlayer = 10;
-    private int murderNum = 1;
+import java.util.Set;
 
-    public boolean isSameSkin() {
-        return sameSkin;
+public final class TagGameSetting extends Setting {
+    private static final Setting.Properties<Boolean> sameSkin = new Setting.Properties<>("같은 스킨", false);
+    private static final Setting.Properties<Boolean> hideName = new Setting.Properties<>("이름 숨기기", false);
+    private static final Setting.Properties<Boolean> disableChat = new Setting.Properties<>("채팅 비활성화", false);
+    private static final Setting.Properties<Boolean> disableCommand = new Setting.Properties<>("커맨드 비활성화", false);
+    private static final Setting.Properties<Boolean> maintainInventory = new Setting.Properties<>("인벤토리 보존", false);
+    private static final Setting.Properties<Boolean> ability = new Setting.Properties<>("능력", false);
+    private static final Setting.Properties<Float> chaserSpeed = new Setting.Properties<>("술래 속도", 2.2F);
+    private static final Setting.Properties<Float> runnerSpeed = new Setting.Properties<>("도망자 속도", 2.0F);
+    private static final Setting.Properties<Integer> maxPlayer = new Setting.Properties<>("최대 참여자 수", 10);
+    private static final Setting.Properties<Integer> chaserNum = new Setting.Properties<>("술래 수", 1);
+
+    @Override
+    public Properties[] getProperties() {
+        return new Properties[] {
+                sameSkin, hideName, disableChat, disableCommand, maintainInventory, ability, chaserSpeed, runnerSpeed, maxPlayer, chaserNum
+        };
     }
 
-    public void setSameSkin(boolean sameSkin) {
-        this.sameSkin = sameSkin;
+    @Override
+    public SettingInventory getInventory() {
+        return null;
     }
 
-    public boolean isHideName() {
-        return hideName;
-    }
-
-    public void setHideName(boolean hideName) {
-        this.hideName = hideName;
-    }
-
-    public boolean isDisableChat() {
-        return disableChat;
-    }
-
-    public void setDisableChat(boolean disableChat) {
-        this.disableChat = disableChat;
-    }
-
-    public boolean isDisableCommand() {
-        return disableCommand;
-    }
-
-    public void setDisableCommand(boolean disableCommand) {
-        this.disableCommand = disableCommand;
-    }
-
-    public boolean isMaintainInventory() {
-        return maintainInventory;
-    }
-
-    public void setMaintainInventory(boolean maintainInventory) {
-        this.maintainInventory = maintainInventory;
-    }
-
-    public boolean isAbility() {
-        return ability;
-    }
-
-    public void setAbility(boolean ability) {
-        this.ability = ability;
-    }
-
-    public float getChaserSpeed() {
-        return chaserSpeed;
-    }
-
-    public void setChaserSpeed(float chaserSpeed) {
-        this.chaserSpeed = chaserSpeed;
-    }
-
-    public float getRunnerSpeed() {
-        return runnerSpeed;
-    }
-
-    public void setRunnerSpeed(float runnerSpeed) {
-        this.runnerSpeed = runnerSpeed;
-    }
-
-    public int getMaxPlayer() {
-        return maxPlayer;
-    }
-
-    public void setMaxPlayer(int maxPlayer) {
-        this.maxPlayer = maxPlayer;
-    }
-
-    public int getMurderNum() {
-        return murderNum;
-    }
-
-    public void setMurderNum(int murderNum) {
-        this.murderNum = murderNum;
-    }
 
     public static class SettingGui extends CustomGui {
 

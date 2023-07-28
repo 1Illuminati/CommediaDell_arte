@@ -1,8 +1,5 @@
 package org.red.library.game.setting;
 
-import org.bukkit.NamespacedKey;
-import org.bukkit.event.inventory.ClickType;
-
 public abstract class Setting {
     private final Properties[] properties;
     private final Object[] values;
@@ -22,7 +19,7 @@ public abstract class Setting {
 
     public <T> T getValue(Properties<T> properties) {
         for (int i = 0; i < this.properties.length; i++) {
-            if (this.properties[i].getKey().equals(properties.getKey())) {
+            if (this.properties[i].getName().equals(properties.getName())) {
                 return (T) values[i];
             }
         }
@@ -32,7 +29,7 @@ public abstract class Setting {
 
     public <T> void setValue(Properties<T> properties, T value) {
         for (int i = 0; i < this.properties.length; i++) {
-            if (this.properties[i].getKey().equals(properties.getKey())) {
+            if (this.properties[i].getName().equals(properties.getName())) {
                 values[i] = value;
                 return;
             }
@@ -48,15 +45,15 @@ public abstract class Setting {
     }
 
     public static class Properties<T> {
-        private final NamespacedKey key;
+        private final String name;
         private final T defaultValue;
-        protected Properties(NamespacedKey key, T defaultValue) {
-            this.key = key;
+        public Properties(String name, T defaultValue) {
+            this.name = name;
             this.defaultValue = defaultValue;
         }
 
-        public NamespacedKey getKey() {
-            return key;
+        public String getName() {
+            return name;
         }
 
         public T getDefaultValue() {
