@@ -2,10 +2,14 @@ package org.red.library.util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.boss.BossBar;
+import org.bukkit.boss.KeyedBossBar;
 import org.red.library.CommediaDell_arte;
 import org.red.library.event.TimerEndEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Timer {
@@ -20,6 +24,7 @@ public class Timer {
     }
 
     private final NamespacedKey key;
+    private final List<BossBar> bossBars = new ArrayList<>();
     private int maxTime;
     private int time = 0;
     private boolean stop = false;
@@ -69,11 +74,23 @@ public class Timer {
         this.stop = !event.isCancelled();
     }
 
+    public List<BossBar> getBossBars() {
+        return bossBars;
+    }
+
+    public void addBossBar(BossBar bossBar) {
+        bossBars.add(bossBar);
+    }
+
     public void start() {
         Bukkit.getScheduler().runTaskAsynchronously(CommediaDell_arte.getPlugin(), () -> {
             while (!stop) {
                 try {
                     Thread.sleep(1);
+
+                    for (BossBar bossBar : this.bossBars) {
+                        bossBar.setProgress((double) time / maxTime);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -2,6 +2,7 @@ package org.red.library.world.rule;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ public final class RuleMap implements ConfigurationSerializable {
                 return (T) values[i];
             }
         }
+
         return null;
     }
 

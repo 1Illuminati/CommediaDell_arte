@@ -2,6 +2,7 @@ package org.red.library.game;
 
 import org.bukkit.plugin.Plugin;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
+import org.red.library.game.setting.Setting;
 
 import java.util.*;
 
@@ -76,6 +77,7 @@ public abstract class Game {
     public abstract String getName();
     public abstract void start();
     public abstract void stop();
+    public abstract Setting getSetting();
 
     public enum GameStatus {
         WAITING,

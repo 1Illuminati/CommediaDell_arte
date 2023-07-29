@@ -15,7 +15,7 @@ public abstract class Setting {
 
     public abstract Properties[] getProperties();
 
-    public abstract SettingInventory getInventory();
+    public abstract SettingGui getInventory();
 
     public <T> T getValue(Properties<T> properties) {
         for (int i = 0; i < this.properties.length; i++) {
