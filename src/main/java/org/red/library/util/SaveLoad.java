@@ -1,6 +1,6 @@
 package org.red.library.util;
 
-public interface ConfigData {
+public interface SaveLoad {
     void load();
     void save();
 }

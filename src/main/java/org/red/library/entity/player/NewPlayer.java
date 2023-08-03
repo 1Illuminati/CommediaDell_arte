@@ -129,10 +129,10 @@ public class NewPlayer extends NewLivingEntity {
         this.getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 
-    @Override
-    public HumanEntity getEntity() {
-        return player;
-    }
+    /***
+     * 이 밑에서부턴 위임 메서드
+     */
+
 
     public String getDisplayName() {
         return player.getDisplayName();

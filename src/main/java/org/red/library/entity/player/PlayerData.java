@@ -5,7 +5,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.red.library.CommediaDell_arte;
-import org.red.library.util.ConfigData;
+import org.red.library.util.SaveLoad;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 
@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class PlayerData implements ConfigData {
+public class PlayerData implements SaveLoad {
     private final OfflinePlayer player;
     private final DataMap dataMap;
     private final CoolTime coolTime;

@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.BoundingBox;
 import org.red.library.CommediaDell_arte;
-import org.red.library.util.ConfigData;
+import org.red.library.util.SaveLoad;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-public class WorldData implements ConfigData, HasRule {
+public class WorldData implements SaveLoad, HasRule {
     private static final Map<World, WorldData> worldDataMap = new HashMap<>();
 
     public static WorldData getWorldData(World world) {

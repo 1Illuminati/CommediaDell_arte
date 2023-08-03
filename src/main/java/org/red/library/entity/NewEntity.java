@@ -3,6 +3,8 @@ package org.red.library.entity;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
@@ -14,11 +16,17 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+import org.red.library.CommediaDell_arte;
 import org.red.library.entity.player.NewPlayer;
+import org.red.library.util.SaveLoad;
+import org.red.library.util.map.CoolTime;
+import org.red.library.util.map.DataMap;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-public class NewEntity {
+public class NewEntity implements SaveLoad {
     private static final Map<UUID, NewEntity> newEntityMap = new HashMap<>();
 
     public static NewEntity getNewEntity(Entity entity) {
@@ -42,8 +50,40 @@ public class NewEntity {
     }
 
     private final Entity entity;
+    private final DataMap dataMap;
+    private final CoolTime coolTime;
     protected NewEntity(Entity entity) {
         this.entity = entity;
+    }
+
+    public DataMap getDataMap() {
+        return dataMap;
+    }
+
+    public CoolTime getCoolTime() {
+        return coolTime;
+    }
+
+    @Override
+    public void load() {
+        FileConfiguration fileConfiguration = new YamlConfiguration();
+        fileConfiguration.set("dataMap", this.dataMap);
+        fileConfiguration.set("coolTime", this.coolTime);
+
+
+        File file = new File(this.path);
+
+        try {
+            fileConfiguration.save(file);
+            CommediaDell_arte.sendLog("§aSave PlayerData: " + this.player.getUniqueId());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void save() {
+
     }
 
     public Entity getEntity() {
