@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.red.library.CommediaDell_arte;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.event.RunEventItemEvent;
 
 import java.lang.reflect.Method;
@@ -85,7 +85,7 @@ public class EventItemManager {
         return map.get(code).eventItem;
     }
 
-    public static void runItemEvent(NewPlayer player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
+    public static void runItemEvent(APlayer player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
         if (itemStack == null) {
             return;
         }

@@ -1,14 +1,14 @@
 package org.red.library.game.demo.tag;
 
 import org.bukkit.entity.Entity;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.skill.Skill;
 
 public abstract class TagGameSkill extends Skill {
     private final TagGame game;
-    private final NewPlayer caster;
+    private final APlayer caster;
 
-    public TagGameSkill(TagGame game, NewPlayer caster) {
+    public TagGameSkill(TagGame game, APlayer caster) {
         this.game = game;
         this.caster = caster;
     }

@@ -2,7 +2,7 @@ package org.red.library.event.listener.block;
 
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockPlaceEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -14,7 +14,7 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     public void onEvent(BlockPlaceEvent event) {
         super.runAreaBlockEvent(event);
 
-        NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
+        APlayer player = APlayer.getNewPlayer(event.getPlayer());
         Block block = event.getBlock();
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 

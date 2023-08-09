@@ -1,12 +1,9 @@
 package org.red.library.event.listener.player;
 
-import org.red.library.entity.player.NewPlayer;
 import org.red.library.event.RunEventItemEvent;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaRunEventItemEvent;
 import org.red.library.event.listener.AbstractListener;
-import org.red.library.world.Area;
-import org.red.library.world.WorldData;
 
 public class RunEventItemListener extends AbstractListener<RunEventItemEvent> {
     @Override

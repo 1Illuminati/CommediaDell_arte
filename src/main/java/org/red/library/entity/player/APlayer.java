@@ -13,8 +13,9 @@ import org.bukkit.inventory.*;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
+import org.jetbrains.annotations.NotNull;
 import org.red.library.CommediaDell_arte;
-import org.red.library.entity.NewLivingEntity;
+import org.red.library.entity.a_.impl.A_LivingEntityImpl;
 import org.red.library.entity.player.npc.NpcPlayer;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.inventory.CustomGui;
@@ -24,36 +25,36 @@ import org.red.library.util.map.DataMap;
 import java.net.InetSocketAddress;
 import java.util.*;
 
-public class NewPlayer extends NewLivingEntity {
-    private static final HashMap<UUID, NewPlayer> newPlayerMap = new HashMap<>();
+public class APlayer {
+    private static final HashMap<UUID, APlayer> newPlayerMap = new HashMap<>();
 
-    public static NewPlayer getNewPlayer(UUID playerUUID) {
+    public static APlayer getNewPlayer(UUID playerUUID) {
         Player player = Bukkit.getPlayer(playerUUID);
 
         if (player == null)
             return null;
 
-        return NewPlayer.getNewPlayer(player);
+        return APlayer.getNewPlayer(player);
     }
 
-    public static NewPlayer getNewPlayer(String playerName) {
+    public static APlayer getNewPlayer(String playerName) {
         Player player = Bukkit.getPlayer(playerName);
 
         if (player == null)
             return null;
 
-        return NewPlayer.getNewPlayer(player);
+        return APlayer.getNewPlayer(player);
     }
 
-    public static NewPlayer getNewPlayer(Player player) {
+    public static APlayer getNewPlayer(Player player) {
         if (player.hasMetadata("NPC")) {
             return NpcPlayer.getNPCPlayer(player);
         }
 
         if (!newPlayerMap.containsKey(player.getUniqueId()))
-            newPlayerMap.put(player.getUniqueId(), new NewPlayer(player));
+            newPlayerMap.put(player.getUniqueId(), new APlayer(player));
         else if (!newPlayerMap.get(player.getUniqueId()).getPlayer().equals(player))
-            newPlayerMap.put(player.getUniqueId(), new NewPlayer(player));
+            newPlayerMap.put(player.getUniqueId(), new APlayer(player));
 
         return newPlayerMap.get(player.getUniqueId());
     }
@@ -61,7 +62,7 @@ public class NewPlayer extends NewLivingEntity {
     private final NewOfflinePlayer newOfflinePlayer;
     private final PlayerData playerData;
     private boolean ignoreCloseEvent = false;
-    protected NewPlayer(Player player) {
+    protected APlayer(Player player) {
         super(player);
         this.player = player;
         this.newOfflinePlayer = NewOfflinePlayer.getNewOfflinePlayer(player);
@@ -924,7 +925,7 @@ public class NewPlayer extends NewLivingEntity {
         player.setStatistic(statistic, entityType, i);
     }
 
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         return player.serialize();
     }
 

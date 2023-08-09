@@ -1,11 +1,12 @@
-package org.red.library.entity;
+package org.red.library.entity.a_.impl;
 
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.PistonMoveReaction;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Pose;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.metadata.MetadataValue;
@@ -16,434 +17,524 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
-import org.red.library.CommediaDell_arte;
-import org.red.library.entity.player.NewPlayer;
-import org.red.library.util.SaveLoad;
-import org.red.library.util.map.CoolTime;
-import org.red.library.util.map.DataMap;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.red.library.a_.A_Data;
+import org.red.library.a_.A_Manager;
+import org.red.library.entity.a_.A_Entity;
+import org.red.library.entity.a_.A_LivingEntity;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
-public class NewEntity implements SaveLoad {
-    private static final Map<UUID, NewEntity> newEntityMap = new HashMap<>();
-
-    public static NewEntity getNewEntity(Entity entity) {
-        if (entity instanceof HumanEntity) {
-            return NewPlayer.getNewPlayer(entity.getUniqueId());
-        }
-
-        return newEntityMap.computeIfAbsent(entity.getUniqueId(), uuid -> {
-            if (entity instanceof LivingEntity) return new NewLivingEntity((LivingEntity) entity);
-            else return new NewEntity(entity);
-        });
-    }
-
-    public static NewEntity getNewEntity(UUID entityUUID) {
-        Entity entity = Bukkit.getEntity(entityUUID);
-
-        if (entity == null)
-            return null;
-
-        return NewEntity.getNewEntity(entity);
-    }
-
+public class A_EntityImpl implements A_Entity {
     private final Entity entity;
-    private final DataMap dataMap;
-    private final CoolTime coolTime;
-    protected NewEntity(Entity entity) {
+    private final A_Data aData;
+    private final A_Manager.A_Version version;
+
+    public A_EntityImpl(Entity entity, A_Data aData, A_Manager.A_Version version) {
         this.entity = entity;
-    }
-
-    public DataMap getDataMap() {
-        return dataMap;
-    }
-
-    public CoolTime getCoolTime() {
-        return coolTime;
+        this.aData = aData;
+        this.version = version;
     }
 
     @Override
-    public void load() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
-        fileConfiguration.set("dataMap", this.dataMap);
-        fileConfiguration.set("coolTime", this.coolTime);
-
-
-        File file = new File(this.path);
-
-        try {
-            fileConfiguration.save(file);
-            CommediaDell_arte.sendLog("§aSave PlayerData: " + this.player.getUniqueId());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public A_Data getAData() {
+        return this.aData;
     }
 
     @Override
-    public void save() {
-
-    }
-
-    public Entity getEntity() {
-        return entity;
-    }
-
+    @NotNull
     public Location getLocation() {
         return entity.getLocation();
     }
 
-    public Location getLocation(Location location) {
+    @Override
+    @Nullable
+    @Contract("null -> null; !null -> !null")
+    public Location getLocation(@Nullable Location location) {
         return entity.getLocation(location);
     }
 
-    public void setVelocity(Vector vector) {
+    @Override
+    public void setVelocity(@NotNull Vector vector) {
         entity.setVelocity(vector);
     }
 
+    @Override
+    @NotNull
     public Vector getVelocity() {
         return entity.getVelocity();
     }
 
+    @Override
     public double getHeight() {
         return entity.getHeight();
     }
 
+    @Override
     public double getWidth() {
         return entity.getWidth();
     }
 
+    @Override
+    @NotNull
     public BoundingBox getBoundingBox() {
         return entity.getBoundingBox();
     }
 
+    @Override
     public boolean isOnGround() {
         return entity.isOnGround();
     }
 
+    @Override
     public boolean isInWater() {
         return entity.isInWater();
     }
 
+    @Override
+    @NotNull
     public World getWorld() {
         return entity.getWorld();
     }
 
+    @Override
     public void setRotation(float v, float v1) {
         entity.setRotation(v, v1);
     }
 
-    public boolean teleport(Location location) {
+    @Override
+    public boolean teleport(@NotNull Location location) {
         return entity.teleport(location);
     }
 
-    public boolean teleport(Location location, PlayerTeleportEvent.TeleportCause teleportCause) {
+    @Override
+    public boolean teleport(@NotNull Location location, @NotNull PlayerTeleportEvent.TeleportCause teleportCause) {
         return entity.teleport(location, teleportCause);
     }
 
-    public boolean teleport(Entity entity) {
+    @Override
+    public boolean teleport(@NotNull Entity entity) {
         return this.entity.teleport(entity);
     }
 
-    public boolean teleport(Entity entity, PlayerTeleportEvent.TeleportCause teleportCause) {
+    @Override
+    public boolean teleport(@NotNull Entity entity, @NotNull PlayerTeleportEvent.TeleportCause teleportCause) {
         return this.entity.teleport(entity, teleportCause);
     }
 
+    @Override
+    @NotNull
     public List<Entity> getNearbyEntities(double v, double v1, double v2) {
         return entity.getNearbyEntities(v, v1, v2);
     }
 
+    @Override
     public int getEntityId() {
         return entity.getEntityId();
     }
 
+    @Override
     public int getFireTicks() {
         return entity.getFireTicks();
     }
 
+    @Override
     public int getMaxFireTicks() {
         return entity.getMaxFireTicks();
     }
 
+    @Override
     public void setFireTicks(int i) {
         entity.setFireTicks(i);
     }
 
+    @Override
     public void remove() {
         entity.remove();
     }
 
+    @Override
     public boolean isDead() {
         return entity.isDead();
     }
 
+    @Override
     public boolean isValid() {
         return entity.isValid();
     }
 
+    @Override
+    @NotNull
     public Server getServer() {
         return entity.getServer();
     }
 
+    @Override
     public boolean isPersistent() {
         return entity.isPersistent();
     }
 
+    @Override
     public void setPersistent(boolean b) {
         entity.setPersistent(b);
     }
 
+    @Override
+    @Nullable
     @Deprecated
     public Entity getPassenger() {
         return entity.getPassenger();
     }
 
+    @Override
     @Deprecated
-    public boolean setPassenger(Entity entity) {
+    public boolean setPassenger(@NotNull Entity entity) {
         return this.entity.setPassenger(entity);
     }
 
+    @Override
+    @NotNull
     public List<Entity> getPassengers() {
         return entity.getPassengers();
     }
 
-    public boolean addPassenger(Entity entity) {
+    @Override
+    public boolean addPassenger(@NotNull Entity entity) {
         return this.entity.addPassenger(entity);
     }
 
-    public boolean removePassenger(Entity entity) {
+    @Override
+    public boolean removePassenger(@NotNull Entity entity) {
         return this.entity.removePassenger(entity);
     }
 
+    @Override
     public boolean isEmpty() {
         return entity.isEmpty();
     }
 
+    @Override
     public boolean eject() {
         return entity.eject();
     }
 
+    @Override
     public float getFallDistance() {
         return entity.getFallDistance();
     }
 
+    @Override
     public void setFallDistance(float v) {
         entity.setFallDistance(v);
     }
 
-    public void setLastDamageCause(EntityDamageEvent entityDamageEvent) {
+    @Override
+    public void setLastDamageCause(@Nullable EntityDamageEvent entityDamageEvent) {
         entity.setLastDamageCause(entityDamageEvent);
     }
 
+    @Override
+    @Nullable
     public EntityDamageEvent getLastDamageCause() {
         return entity.getLastDamageCause();
     }
 
+    @Override
+    @NotNull
     public UUID getUniqueId() {
         return entity.getUniqueId();
     }
 
+    @Override
     public int getTicksLived() {
         return entity.getTicksLived();
     }
 
+    @Override
     public void setTicksLived(int i) {
         entity.setTicksLived(i);
     }
 
-    public void playEffect(EntityEffect entityEffect) {
+    @Override
+    public void playEffect(@NotNull EntityEffect entityEffect) {
         entity.playEffect(entityEffect);
     }
 
+    @Override
+    @NotNull
     public EntityType getType() {
         return entity.getType();
     }
 
+    @Override
     public boolean isInsideVehicle() {
         return entity.isInsideVehicle();
     }
 
+    @Override
     public boolean leaveVehicle() {
         return entity.leaveVehicle();
     }
 
+    @Override
+    @Nullable
     public Entity getVehicle() {
         return entity.getVehicle();
     }
 
+    @Override
     public void setCustomNameVisible(boolean b) {
         entity.setCustomNameVisible(b);
     }
 
+    @Override
     public boolean isCustomNameVisible() {
         return entity.isCustomNameVisible();
     }
 
+    @Override
     public void setGlowing(boolean b) {
         entity.setGlowing(b);
     }
 
+    @Override
     public boolean isGlowing() {
         return entity.isGlowing();
     }
 
+    @Override
     public void setInvulnerable(boolean b) {
         entity.setInvulnerable(b);
     }
 
+    @Override
     public boolean isInvulnerable() {
         return entity.isInvulnerable();
     }
 
+    @Override
     public boolean isSilent() {
         return entity.isSilent();
     }
 
+    @Override
     public void setSilent(boolean b) {
         entity.setSilent(b);
     }
 
+    @Override
     public boolean hasGravity() {
         return entity.hasGravity();
     }
 
+    @Override
     public void setGravity(boolean b) {
         entity.setGravity(b);
     }
 
+    @Override
     public int getPortalCooldown() {
         return entity.getPortalCooldown();
     }
 
+    @Override
     public void setPortalCooldown(int i) {
         entity.setPortalCooldown(i);
     }
 
+    @Override
+    @NotNull
     public Set<String> getScoreboardTags() {
         return entity.getScoreboardTags();
     }
 
-    public boolean addScoreboardTag(String s) {
+    @Override
+    public boolean addScoreboardTag(@NotNull String s) {
         return entity.addScoreboardTag(s);
     }
 
-    public boolean removeScoreboardTag(String s) {
+    @Override
+    public boolean removeScoreboardTag(@NotNull String s) {
         return entity.removeScoreboardTag(s);
     }
 
+    @Override
+    @NotNull
     public PistonMoveReaction getPistonMoveReaction() {
         return entity.getPistonMoveReaction();
     }
 
+    @Override
+    @NotNull
     public BlockFace getFacing() {
         return entity.getFacing();
     }
 
+    @Override
+    @NotNull
     public Pose getPose() {
         return entity.getPose();
     }
 
+    @Override
+    @NotNull
     public Entity.Spigot spigot() {
         return entity.spigot();
     }
 
-    public void setMetadata(String s, MetadataValue metadataValue) {
+    @Override
+    public Entity getEntity() {
+        return null;
+    }
+
+    @Override
+    public void setMetadata(@NotNull String s, @NotNull MetadataValue metadataValue) {
         entity.setMetadata(s, metadataValue);
     }
 
-    public List<MetadataValue> getMetadata(String s) {
+    @Override
+    @NotNull
+    public List<MetadataValue> getMetadata(@NotNull String s) {
         return entity.getMetadata(s);
     }
 
-    public boolean hasMetadata(String s) {
+    @Override
+    public boolean hasMetadata(@NotNull String s) {
         return entity.hasMetadata(s);
     }
 
-    public void removeMetadata(String s, Plugin plugin) {
+    @Override
+    public void removeMetadata(@NotNull String s, @NotNull Plugin plugin) {
         entity.removeMetadata(s, plugin);
     }
 
-    public void sendMessage(String s) {
+    @Override
+    public void sendMessage(@NotNull String s) {
         entity.sendMessage(s);
     }
 
-    public void sendMessage(String[] strings) {
+    @Override
+    public void sendMessage(@NotNull String[] strings) {
         entity.sendMessage(strings);
     }
 
-    public void sendMessage(UUID uuid, String s) {
+    @Override
+    public void sendMessage(@Nullable UUID uuid, @NotNull String s) {
         entity.sendMessage(uuid, s);
     }
 
-    public void sendMessage(UUID uuid, String[] strings) {
+    @Override
+    public void sendMessage(@Nullable UUID uuid, @NotNull String[] strings) {
         entity.sendMessage(uuid, strings);
     }
 
+    @Override
+    @NotNull
     public String getName() {
         return entity.getName();
     }
 
-    public boolean isPermissionSet(String s) {
+    @Override
+    public boolean isPermissionSet(@NotNull String s) {
         return entity.isPermissionSet(s);
     }
 
-    public boolean isPermissionSet(Permission permission) {
+    @Override
+    public boolean isPermissionSet(@NotNull Permission permission) {
         return entity.isPermissionSet(permission);
     }
 
-    public boolean hasPermission(String s) {
+    @Override
+    public boolean hasPermission(@NotNull String s) {
         return entity.hasPermission(s);
     }
 
-    public boolean hasPermission(Permission permission) {
+    @Override
+    public boolean hasPermission(@NotNull Permission permission) {
         return entity.hasPermission(permission);
     }
 
-    public PermissionAttachment addAttachment(Plugin plugin, String s, boolean b) {
+    @Override
+    @NotNull
+    public PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String s, boolean b) {
         return entity.addAttachment(plugin, s, b);
     }
 
-    public PermissionAttachment addAttachment(Plugin plugin) {
+    @Override
+    @NotNull
+    public PermissionAttachment addAttachment(@NotNull Plugin plugin) {
         return entity.addAttachment(plugin);
     }
 
-    public PermissionAttachment addAttachment(Plugin plugin, String s, boolean b, int i) {
+    @Override
+    @Nullable
+    public PermissionAttachment addAttachment(@NotNull Plugin plugin, @NotNull String s, boolean b, int i) {
         return entity.addAttachment(plugin, s, b, i);
     }
 
-    public PermissionAttachment addAttachment(Plugin plugin, int i) {
+    @Override
+    @Nullable
+    public PermissionAttachment addAttachment(@NotNull Plugin plugin, int i) {
         return entity.addAttachment(plugin, i);
     }
 
-    public void removeAttachment(PermissionAttachment permissionAttachment) {
+    @Override
+    public void removeAttachment(@NotNull PermissionAttachment permissionAttachment) {
         entity.removeAttachment(permissionAttachment);
     }
 
+    @Override
     public void recalculatePermissions() {
         entity.recalculatePermissions();
     }
 
+    @Override
+    @NotNull
     public Set<PermissionAttachmentInfo> getEffectivePermissions() {
         return entity.getEffectivePermissions();
     }
 
+    @Override
     public boolean isOp() {
         return entity.isOp();
     }
 
+    @Override
     public void setOp(boolean b) {
         entity.setOp(b);
     }
 
+    @Override
+    public LivingEntity getLivingEntity() {
+        if (this.entity instanceof LivingEntity)
+            return (LivingEntity) this.entity;
+
+        throw new IllegalStateException("Entity is not a living entity");
+    }
+
+    @Override
+    public A_LivingEntity getALivingEntity() {
+        if (this.entity instanceof LivingEntity)
+            return (A_LivingEntity) this;
+
+        throw new IllegalStateException("Entity is not a living entity");
+    }
+
+    @Override
+    @Nullable
     public String getCustomName() {
         return entity.getCustomName();
     }
 
-    public void setCustomName(String s) {
+    @Override
+    public void setCustomName(@Nullable String s) {
         entity.setCustomName(s);
     }
 
+    @Override
+    @NotNull
     public PersistentDataContainer getPersistentDataContainer() {
         return entity.getPersistentDataContainer();
     }

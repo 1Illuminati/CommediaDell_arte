@@ -4,7 +4,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockBreakEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -18,7 +18,7 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
     public void onEvent(BlockBreakEvent event) {
         runAreaBlockEvent(event);
 
-        NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
+        APlayer player = APlayer.getNewPlayer(event.getPlayer());
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
         EventItemManager.runItemEvent(player, mainHand, EventItemAnnotation.Act.BREAK, event);

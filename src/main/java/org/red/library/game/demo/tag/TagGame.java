@@ -3,19 +3,15 @@ package org.red.library.game.demo.tag;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.boss.KeyedBossBar;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.red.library.CommediaDell_arte;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.game.Game;
 import org.red.library.game.GameTimer;
-import org.red.library.game.setting.Setting;
 import org.red.library.util.Timer;
 
 import java.util.ArrayList;
@@ -67,7 +63,7 @@ public class TagGame extends Game implements GameTimer {
         }
 
         this.getJoinPlayers().forEach(newOfflinePlayer -> {
-            NewPlayer newPlayer = newOfflinePlayer.getNewPlayer();
+            APlayer newPlayer = newOfflinePlayer.getNewPlayer();
 
             if (newPlayer == null) {
                 this.sendMessage(ChatColor.RED + newOfflinePlayer.getName() + "님이 오프라인 상태임으로 게임에서 제외됩니다.");
@@ -115,7 +111,7 @@ public class TagGame extends Game implements GameTimer {
     @Override
     public void stop() {
         this.getJoinPlayers().forEach(newOfflinePlayer -> {
-            NewPlayer newPlayer = newOfflinePlayer.getNewPlayer();
+            APlayer newPlayer = newOfflinePlayer.getNewPlayer();
 
             if (newPlayer == null) {
                 return;

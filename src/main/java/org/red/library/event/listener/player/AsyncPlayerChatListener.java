@@ -1,8 +1,7 @@
 package org.red.library.event.listener.player;
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaAsyncPlayerChatEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -14,7 +13,7 @@ public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEve
     public void onEvent(AsyncPlayerChatEvent event) {
         super.runAreaPlayerEvent(event);
 
-        NewPlayer player = NewPlayer.getNewPlayer(event.getPlayer());
+        APlayer player = APlayer.getNewPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
         if (!worldData.getRuleValue(Rule.CHAT, player.getLocation())) event.setCancelled(true);

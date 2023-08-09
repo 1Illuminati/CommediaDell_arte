@@ -1,13 +1,11 @@
 package org.red.library.game.demo.tag.items;
 
-import org.bukkit.entity.Entity;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.game.demo.tag.TagGame;
 import org.red.library.game.demo.tag.TagGameSkill;
 import org.red.library.item.event.EventItem;
 import org.red.library.item.event.EventItemAnnotation;
-import org.red.library.skill.Skill;
 
 public abstract class Angel implements EventItem {
 
@@ -32,7 +30,7 @@ public abstract class Angel implements EventItem {
     }
 
     public static class AngelSkill extends TagGameSkill {
-        public AngelSkill(NewPlayer caster, TagGame game) {
+        public AngelSkill(APlayer caster, TagGame game) {
             super(game, caster);
         }
 

@@ -3,7 +3,7 @@ package org.red.library.entity.player.offline;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.red.library.CommediaDell_arte;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.entity.player.PlayerData;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
@@ -52,8 +52,8 @@ public final class NewOfflinePlayer extends OfflinePlayerAdapter {
         this.isClown = clowns.contains(offlinePlayer.getUniqueId());
     }
 
-    public NewPlayer getNewPlayer() {
-        return this.isOnline() ? NewPlayer.getNewPlayer(this.getPlayer()) : null;
+    public APlayer getNewPlayer() {
+        return this.isOnline() ? APlayer.getNewPlayer(this.getPlayer()) : null;
     }
 
     public boolean isClown() {

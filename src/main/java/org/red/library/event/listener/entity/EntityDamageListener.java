@@ -3,7 +3,7 @@ package org.red.library.event.listener.entity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.APlayer;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntityDamageEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -20,7 +20,7 @@ public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
         WorldData worldData = WorldData.getWorldData(entity.getWorld());
 
         if (entity instanceof Player) {
-            NewPlayer player = NewPlayer.getNewPlayer((Player) entity);
+            APlayer player = APlayer.getNewPlayer((Player) entity);
 
             if (cause != EntityDamageEvent.DamageCause.FALL) return;
 
