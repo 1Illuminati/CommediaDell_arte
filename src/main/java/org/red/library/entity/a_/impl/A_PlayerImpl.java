@@ -16,7 +16,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.library.a_.A_Data;
 import org.red.library.a_.A_Manager;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
@@ -33,12 +32,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
-        this.player = player;
-    }
-
-    protected A_PlayerImpl(Player player, A_Data aData, A_Manager.A_Version aVersion) {
-        super(player, aData, aVersion);
-        this.aOfflinePlayer = A_Manager.INSTANCE.getAOfflinePlayer(player);
         this.player = player;
     }
 
