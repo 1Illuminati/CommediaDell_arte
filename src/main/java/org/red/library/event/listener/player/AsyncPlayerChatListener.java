@@ -13,7 +13,7 @@ public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEve
     public void onEvent(AsyncPlayerChatEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
         if (!worldData.getRuleValue(Rule.CHAT, player.getLocation())) event.setCancelled(true);

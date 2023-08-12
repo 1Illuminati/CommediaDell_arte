@@ -14,7 +14,7 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     public void onEvent(BlockPlaceEvent event) {
         super.runAreaBlockEvent(event);
 
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         Block block = event.getBlock();
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 

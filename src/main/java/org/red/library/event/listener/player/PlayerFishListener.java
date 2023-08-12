@@ -15,7 +15,7 @@ public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
     public void onEvent(PlayerFishEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.FISHING, event);
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());

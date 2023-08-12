@@ -16,7 +16,7 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         super.runAreaPlayerEvent(event);
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) return;
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         Action action = event.getAction();
 
         EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf((player.isSneaking() ? "SHIFT_" : "") + action.name());

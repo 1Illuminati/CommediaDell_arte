@@ -25,7 +25,7 @@ public class EntityDamageByEntityListener extends AbstractListener<EntityDamageB
         Entity damager = event.getDamager();
 
         if (entity instanceof Player) {
-            A_Player player = APlayer.getAPlayer((Player) entity);
+            A_Player player = A_Player.getAPlayer((Player) entity);
             EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.HIT, event);
             WorldData worldData = WorldData.getWorldData(player.getWorld());
             List<Location> locs = Arrays.asList(entity.getLocation(), damager.getLocation());

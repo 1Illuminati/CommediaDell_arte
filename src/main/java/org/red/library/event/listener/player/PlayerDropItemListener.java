@@ -15,7 +15,7 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
     public void onEvent(PlayerDropItemEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), player.isSneaking() ?
                 EventItemAnnotation.Act.SHIFT_DROP : EventItemAnnotation.Act.DROP, event);
 

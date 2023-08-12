@@ -13,7 +13,7 @@ public class PlayerCommandPreProcessListener extends AbstractListener<PlayerComm
     public void onEvent(PlayerCommandPreprocessEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = APlayer.getAPlayer(event.getPlayer());
+        A_Player player = A_Player.getAPlayer(event.getPlayer());
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
         if (!worldData.getRuleValue(Rule.COMMAND, player.getLocation())) event.setCancelled(true);

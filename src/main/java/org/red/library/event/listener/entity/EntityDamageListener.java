@@ -20,7 +20,7 @@ public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
         WorldData worldData = WorldData.getWorldData(entity.getWorld());
 
         if (entity instanceof Player) {
-            A_Player player = APlayer.getAPlayer((Player) entity);
+            A_Player player = A_Player.getAPlayer((Player) entity);
 
             if (cause != EntityDamageEvent.DamageCause.FALL) return;
 
