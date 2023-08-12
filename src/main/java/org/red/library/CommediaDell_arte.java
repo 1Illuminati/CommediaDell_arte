@@ -3,6 +3,7 @@ package org.red.library;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.red.library.a_.A_Manager;
 import org.red.library.event.listener.block.BlockBreakListener;
 import org.red.library.event.listener.block.BlockPlaceListener;
 import org.red.library.event.listener.entity.EntityDamageByEntityListener;
@@ -41,11 +42,12 @@ public final class CommediaDell_arte extends JavaPlugin {
     public void onEnable() {
         CommediaDell_arte.plugin = this;
         this.setEvent();
+        A_Manager.INSTANCE.entitiesADataLoad();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        A_Manager.INSTANCE.entitiesADataSave();
     }
 
     private void registerEvent(Listener listener) {

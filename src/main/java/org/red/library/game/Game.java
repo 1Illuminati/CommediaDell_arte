@@ -1,17 +1,17 @@
 package org.red.library.game;
 
 import org.bukkit.plugin.Plugin;
-import org.red.library.entity.player.offline.NewOfflinePlayer;
+import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 import org.red.library.game.setting.Setting;
 
 import java.util.*;
 
 public abstract class Game {
     private final UUID gameID = UUID.randomUUID();
-    private final List<NewOfflinePlayer> joinPlayers = new ArrayList<>();
+    private final List<A_OfflinePlayer> joinPlayers = new ArrayList<>();
     private GameStatus gameStatus = GameStatus.WAITING;
 
-    public List<NewOfflinePlayer> getJoinPlayers() {
+    public List<A_OfflinePlayer> getJoinPlayers() {
         return joinPlayers;
     }
 
@@ -31,14 +31,14 @@ public abstract class Game {
         sendMessage(gameDisplayName() + message);
     }
 
-    public void sendGameMessage(String message, List<NewOfflinePlayer> players) {
+    public void sendGameMessage(String message, List<A_OfflinePlayer> players) {
         sendMessage(gameDisplayName() + message, players);
     }
 
-    public void sendMessage(String message, List<NewOfflinePlayer> players) {
+    public void sendMessage(String message, List<A_OfflinePlayer> players) {
         players.forEach(player -> {
             if (player.isOnline())
-                player.getNewPlayer().sendMessage(message);
+                player.getAPlayer().sendMessage(message);
         });
     }
 
@@ -46,10 +46,10 @@ public abstract class Game {
         sendMessage(message, this.getJoinPlayers());
     }
 
-    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, List<NewOfflinePlayer> players) {
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, List<A_OfflinePlayer> players) {
         players.forEach(player -> {
             if (player.isOnline())
-                player.getNewPlayer().sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+                player.getAPlayer().sendTitle(title, subtitle, fadeIn, stay, fadeOut);
         });
     }
 
@@ -57,10 +57,10 @@ public abstract class Game {
         sendTitle(title, subtitle, fadeIn, stay, fadeOut, this.getJoinPlayers());
     }
 
-    public void sendActionBar(String message, List<NewOfflinePlayer> players) {
+    public void sendActionBar(String message, List<A_OfflinePlayer> players) {
         players.forEach(player -> {
             if (player.isOnline())
-                player.getNewPlayer().sendActionBar(message);
+                player.getAPlayer().sendActionBar(message);
         });
     }
 

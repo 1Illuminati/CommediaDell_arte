@@ -79,7 +79,7 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
 
     @Override
     public @Nullable A_Player getAPlayer() {
-        return isOnline() ? A_Manager.getPlayer(this.getUniqueId()) : null;
+        return isOnline() ? A_Player.getAPlayer(this.getUniqueId()) : null;
     }
 
     @Override

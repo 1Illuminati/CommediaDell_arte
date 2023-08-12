@@ -1,7 +1,7 @@
 package org.red.library.event.listener.player;
 
 import org.bukkit.event.player.PlayerFishEvent;
-import org.red.library.entity.player.APlayer;
+import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerFishEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -15,7 +15,7 @@ public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
     public void onEvent(PlayerFishEvent event) {
         super.runAreaPlayerEvent(event);
 
-        APlayer player = APlayer.getNewPlayer(event.getPlayer());
+        A_Player player = APlayer.getAPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.FISHING, event);
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());

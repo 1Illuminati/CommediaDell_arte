@@ -1,7 +1,7 @@
 package org.red.library.event.listener.player;
 
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.red.library.entity.player.APlayer;
+import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerDropItemEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -15,7 +15,7 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
     public void onEvent(PlayerDropItemEvent event) {
         super.runAreaPlayerEvent(event);
 
-        APlayer player = APlayer.getNewPlayer(event.getPlayer());
+        A_Player player = APlayer.getAPlayer(event.getPlayer());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), player.isSneaking() ?
                 EventItemAnnotation.Act.SHIFT_DROP : EventItemAnnotation.Act.DROP, event);
 

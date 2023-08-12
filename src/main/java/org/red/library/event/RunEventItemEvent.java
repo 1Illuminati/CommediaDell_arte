@@ -4,7 +4,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
-import org.red.library.entity.player.APlayer;
+import org.red.library.entity.a_.player.A_Player;
 import org.red.library.item.event.EventItem;
 import org.red.library.item.event.EventItemAnnotation;
 
@@ -12,11 +12,11 @@ public class RunEventItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled = false;
     private final EventItem eventItem;
-    private final APlayer player;
+    private final A_Player player;
     private final ItemStack mainHand;
     private final EventItemAnnotation.Act act;
 
-    public RunEventItemEvent(EventItem eventItem, APlayer player, ItemStack mainHand, EventItemAnnotation.Act act) {
+    public RunEventItemEvent(EventItem eventItem, A_Player player, ItemStack mainHand, EventItemAnnotation.Act act) {
         super(player.getPlayer());
         this.eventItem = eventItem;
         this.player = player;
@@ -36,7 +36,7 @@ public class RunEventItemEvent extends PlayerEvent implements Cancellable {
         return eventItem;
     }
 
-    public APlayer getNewPlayer() {
+    public A_Player getAPlayer() {
         return this.player;
     }
 

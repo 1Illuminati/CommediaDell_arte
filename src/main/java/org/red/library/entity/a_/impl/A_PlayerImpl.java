@@ -815,13 +815,11 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Nullable
     public Player getPlayer() {
         return aOfflinePlayer.getPlayer();
     }
 
     @Override
-    @Nullable
     public A_Player getAPlayer() {
         return aOfflinePlayer.getAPlayer();
     }

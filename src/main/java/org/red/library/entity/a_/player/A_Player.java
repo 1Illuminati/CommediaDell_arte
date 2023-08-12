@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.red.library.a_.A_Manager;
 import org.red.library.entity.a_.A_LivingEntity;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 
@@ -25,6 +26,19 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface A_Player extends A_LivingEntity {
+    static A_Player getAPlayer(Player player) {
+        return A_Manager.INSTANCE.getAPlayer(player);
+    }
+
+    static A_Player getAPlayer(String name) {
+        Player player = Bukkit.getPlayer(name);
+        return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
+    }
+
+    static A_Player getAPlayer(UUID uuid) {
+        Player player = Bukkit.getPlayer(uuid);
+        return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
+    }
 
     void aDataSave();
 
@@ -42,10 +56,8 @@ public interface A_Player extends A_LivingEntity {
 
     void setWhitelisted(boolean var1);
 
-    @Nullable
     Player getPlayer();
 
-    @Nullable
     A_Player getAPlayer();
 
     long getFirstPlayed();

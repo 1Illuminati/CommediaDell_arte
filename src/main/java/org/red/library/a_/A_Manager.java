@@ -26,21 +26,6 @@ import java.util.UUID;
 
 public final class A_Manager {
     public static final A_Manager INSTANCE = new A_Manager(CommediaDell_arte.getPlugin());
-
-    public static A_Player getPlayer(Player player) {
-        return INSTANCE.getAPlayer(player);
-    }
-
-    public static A_Player getPlayer(String name) {
-        Player player = Bukkit.getPlayer(name);
-        return player == null ? null : INSTANCE.getAPlayer(player);
-    }
-
-    public static A_Player getPlayer(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        return player == null ? null : INSTANCE.getAPlayer(player);
-    }
-
     private final Map<UUID, A_Entity> aEntities = new HashMap<>();
     private final Map<UUID, A_Player> aPlayers = new HashMap<>();
     private final Map<UUID, A_NPC> aNPCs = new HashMap<>();
@@ -104,6 +89,7 @@ public final class A_Manager {
     }
 
     public A_Entity getAEntity(Entity entity) {
+        if (entity instanceof Player) return getAPlayer((Player) entity);
         return aEntities.computeIfAbsent(entity.getUniqueId(), uuid -> {
             if (entity instanceof LivingEntity) {
                 return new A_LivingEntityImpl((LivingEntity) entity, A_Data.newAData(), aVersion);

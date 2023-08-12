@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.red.library.entity.player.APlayer;
+import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntityDamageByEntityEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -25,7 +25,7 @@ public class EntityDamageByEntityListener extends AbstractListener<EntityDamageB
         Entity damager = event.getDamager();
 
         if (entity instanceof Player) {
-            APlayer player = APlayer.getNewPlayer((Player) entity);
+            A_Player player = APlayer.getAPlayer((Player) entity);
             EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.HIT, event);
             WorldData worldData = WorldData.getWorldData(player.getWorld());
             List<Location> locs = Arrays.asList(entity.getLocation(), damager.getLocation());

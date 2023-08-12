@@ -1,9 +1,9 @@
 package org.red.library.game;
 
-import org.red.library.entity.player.offline.NewOfflinePlayer;
+import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 
 import java.util.List;
 
 public interface GameSpecter {
-    List<NewOfflinePlayer> getSpecterPlayers();
+    List<A_OfflinePlayer> getSpecterPlayers();
 }

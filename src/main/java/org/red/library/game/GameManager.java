@@ -3,10 +3,9 @@ package org.red.library.game;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.boss.KeyedBossBar;
-import org.red.library.entity.player.offline.NewOfflinePlayer;
+import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 import org.red.library.util.Timer;
 import org.red.library.util.map.NameSpaceMap;
-import org.red.library.world.Area;
 import org.red.library.world.WorldData;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public final class GameManager {
         return games.computeIfAbsent(new NamespacedKey(game.getPlugin(), game.getName()), k -> new HashMap<>());
     }
 
-    public Game getPlayerJoinedGame(NewOfflinePlayer player) {
+    public Game getPlayerJoinedGame(A_OfflinePlayer player) {
         return games.values().stream().flatMap(map -> map.values().stream()).filter(game -> game.getJoinPlayers().contains(player)).findFirst().orElse(null);
     }
 
@@ -55,7 +54,7 @@ public final class GameManager {
 
                 game.getJoinPlayers().forEach(player -> {
                     if (player.isOnline())
-                        bossBar.addPlayer(player.getNewPlayer().getPlayer());
+                        bossBar.addPlayer(player.getAPlayer().getPlayer());
                 });
             }
 

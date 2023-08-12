@@ -3,7 +3,7 @@ package org.red.library.event.listener.player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.red.library.entity.player.APlayer;
+import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.library.event.listener.AbstractListener;
@@ -16,7 +16,7 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         super.runAreaPlayerEvent(event);
 
         if (event.getHand() == EquipmentSlot.OFF_HAND) return;
-        APlayer player = APlayer.getNewPlayer(event.getPlayer());
+        A_Player player = APlayer.getAPlayer(event.getPlayer());
         Action action = event.getAction();
 
         EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf((player.isSneaking() ? "SHIFT_" : "") + action.name());
