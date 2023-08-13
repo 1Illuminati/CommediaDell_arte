@@ -7,6 +7,7 @@ import org.red.library.a_.A_Manager;
 import org.red.library.event.listener.block.BlockBreakListener;
 import org.red.library.event.listener.block.BlockPlaceListener;
 import org.red.library.event.listener.entity.EntityDamageByEntityListener;
+import org.red.library.event.listener.entity.EntityDamageListener;
 import org.red.library.event.listener.inventory.InventoryClickListener;
 import org.red.library.event.listener.inventory.InventoryCloseListener;
 import org.red.library.event.listener.inventory.InventoryOpenListener;
@@ -60,6 +61,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.registerEvent(new InventoryOpenListener());
 
         this.registerEvent(new EntityDamageByEntityListener());
+        this.registerEvent(new EntityDamageListener());
 
         this.registerEvent(new PlayerCommandPreProcessListener());
         this.registerEvent(new PlayerDropItemListener());
