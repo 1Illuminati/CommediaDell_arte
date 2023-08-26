@@ -10,21 +10,22 @@ import java.lang.annotation.Target;
 public @interface EventItemAnnotation {
     Act act();
 
+    Shift shift() default Shift.NOT_PRESSED;
+
+    enum Shift {
+        PRESSED,
+        NOT_PRESSED,
+        BOTH
+    }
+
     enum Act {
         LEFT_CLICK_AIR,
-        SHIFT_LEFT_CLICK_AIR,
         RIGHT_CLICK_AIR,
-        SHIFT_RIGHT_CLICK_AIR,
         LEFT_CLICK_BLOCK,
-        SHIFT_LEFT_CLICK_BLOCK,
         RIGHT_CLICK_BLOCK,
-        SHIFT_RIGHT_CLICK_BLOCK,
         PHYSICAL,
-        SHIFT_PHYSICAL,
         DROP,
-        SHIFT_DROP,
         SWAP_HAND,
-        SHIFT_SWAP_HAND,
         HIT,
         BREAK,
         FISHING,

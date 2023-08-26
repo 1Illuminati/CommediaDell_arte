@@ -93,12 +93,12 @@ public class TagGame extends Game implements GameTimer {
                     chaserPlayers.add(aOfflinePlayer);
                     aPlayer.sendTitle(ChatColor.RED + "당신은 술래입니다!", ChatColor.GRAY + "도망자들을 제한시간안에 모두 사냥해야합니다!");
                     aPlayer.setWalkSpeed(setting.getValue(TagGameSetting.CHASER_SPEED).floatValue());
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 400, 5));
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 400, 130));
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 5));
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, 400, 5));
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 400, 5));
-                    aPlayer.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100000, 4));
+                    aPlayer.addPotionEffect(PotionEffectType.BLINDNESS, 400, 5);
+                    aPlayer.addPotionEffect(PotionEffectType.JUMP, 400, 130);
+                    aPlayer.addPotionEffect(PotionEffectType.SLOW, 400, 5);
+                    aPlayer.addPotionEffect(PotionEffectType.GLOWING, 400, 5);
+                    aPlayer.addPotionEffect(PotionEffectType.WEAKNESS, 400, 5);
+                    aPlayer.addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100000, 4);
                 } else {
                     runnerPlayers.add(aOfflinePlayer);
                     aPlayer.sendTitle(ChatColor.GREEN + "당신은 도망자입니다!", ChatColor.GRAY + "술래로부터 제한시간동안 살아남아야 합니다!");

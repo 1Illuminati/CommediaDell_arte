@@ -114,6 +114,8 @@ public interface A_LivingEntity extends A_Entity {
 
     boolean addPotionEffect(@NotNull PotionEffect var1, boolean var2);
 
+    boolean addPotionEffect(@NotNull PotionEffectType var1, int duration, int amplifier);
+
     boolean addPotionEffects(@NotNull Collection<PotionEffect> var1);
 
     boolean hasPotionEffect(@NotNull PotionEffectType var1);

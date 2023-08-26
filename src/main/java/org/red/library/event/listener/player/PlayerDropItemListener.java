@@ -16,8 +16,7 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
         super.runAreaPlayerEvent(event);
 
         A_Player player = A_Player.getAPlayer(event.getPlayer());
-        EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), player.isSneaking() ?
-                EventItemAnnotation.Act.SHIFT_DROP : EventItemAnnotation.Act.DROP, event);
+        EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.DROP, event);
 
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 

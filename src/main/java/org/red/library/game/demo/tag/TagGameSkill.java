@@ -1,14 +1,15 @@
 package org.red.library.game.demo.tag;
 
 import org.bukkit.entity.Entity;
+import org.red.library.entity.a_.A_Entity;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.skill.Skill;
 
-public abstract class TagGameSkill extends Skill {
+public abstract class TagGameSkill implements Skill {
     private final TagGame game;
-    private final A_Player caster;
+    private final A_Entity caster;
 
-    public TagGameSkill(TagGame game, A_Player caster) {
+    public TagGameSkill(TagGame game, A_Entity caster) {
         this.game = game;
         this.caster = caster;
     }
@@ -20,8 +21,8 @@ public abstract class TagGameSkill extends Skill {
     }
 
     @Override
-    public Entity caster() {
-        return caster.getPlayer();
+    public A_Entity caster() {
+        return caster;
     }
 
     @Override

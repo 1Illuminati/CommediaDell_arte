@@ -183,13 +183,11 @@ public class A_EntityImpl implements A_Entity {
 
     @Override
     @Nullable
-    @Deprecated
     public Entity getPassenger() {
         return entity.getPassenger();
     }
 
     @Override
-    @Deprecated
     public boolean setPassenger(@NotNull Entity entity) {
         return this.entity.setPassenger(entity);
     }

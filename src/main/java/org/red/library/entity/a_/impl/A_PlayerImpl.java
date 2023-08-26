@@ -191,7 +191,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public boolean isOnGround() {
         return player.isOnGround();
     }
@@ -353,7 +352,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void playNote(@NotNull Location location, byte b, byte b1) {
         player.playNote(location, b, b1);
     }
@@ -404,7 +402,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void playEffect(@NotNull Location location, @NotNull Effect effect, int i) {
         player.playEffect(location, effect, i);
     }
@@ -415,7 +412,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void sendBlockChange(@NotNull Location location, @NotNull Material material, byte b) {
         player.sendBlockChange(location, material, b);
     }
@@ -431,7 +427,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public boolean sendChunkChange(@NotNull Location location, int i, int i1, int i2, @NotNull byte[] bytes) {
         return player.sendChunkChange(location, i, i1, i2, bytes);
     }
@@ -558,7 +553,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void hidePlayer(@NotNull Player player) {
         this.player.hidePlayer(player);
     }
@@ -569,7 +563,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void showPlayer(@NotNull Player player) {
         this.player.showPlayer(player);
     }
@@ -600,8 +593,18 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
+    public void setFlySpeed(double v) throws IllegalArgumentException {
+        this.setFlySpeed((float) v);
+    }
+
+    @Override
     public void setWalkSpeed(float v) throws IllegalArgumentException {
         player.setWalkSpeed(v);
+    }
+
+    @Override
+    public void setWalkSpeed(double v) throws IllegalArgumentException {
+        this.setWalkSpeed((float) v);
     }
 
     @Override
@@ -615,7 +618,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void setTexturePack(@NotNull String s) {
         player.setTexturePack(s);
     }
@@ -673,7 +675,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    @Deprecated
     public void sendTitle(@Nullable String s, @Nullable String s1) {
         player.sendTitle(s, s1);
     }
@@ -786,7 +787,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         return player.spigot();
     }
 
-    @Nullable
     @Override
     @NotNull
     public String getName() {
@@ -910,13 +910,11 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
 
     @Override
     @NotNull
-    @Deprecated
     public ItemStack getItemInHand() {
         return player.getItemInHand();
     }
 
     @Override
-    @Deprecated
     public void setItemInHand(@Nullable ItemStack itemStack) {
         player.setItemInHand(itemStack);
     }
@@ -1032,20 +1030,17 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
 
     @Override
     @Nullable
-    @Deprecated
     public Entity getShoulderEntityLeft() {
         return player.getShoulderEntityLeft();
     }
 
     @Override
-    @Deprecated
     public void setShoulderEntityLeft(@Nullable Entity entity) {
         player.setShoulderEntityLeft(entity);
     }
 
     @Override
     @Nullable
-    @Deprecated
     public Entity getShoulderEntityRight() {
         return player.getShoulderEntityRight();
     }

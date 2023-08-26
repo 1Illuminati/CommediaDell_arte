@@ -19,7 +19,7 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         A_Player player = A_Player.getAPlayer(event.getPlayer());
         Action action = event.getAction();
 
-        EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf((player.isSneaking() ? "SHIFT_" : "") + action.name());
+        EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf(action.name());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), act, event);
     }
 

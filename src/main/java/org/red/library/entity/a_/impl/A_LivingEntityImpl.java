@@ -186,7 +186,11 @@ public class A_LivingEntityImpl extends A_EntityImpl implements A_LivingEntity {
     }
 
     @Override
-    @Deprecated
+    public boolean addPotionEffect(@NotNull PotionEffectType type, int duration, int amplifier) {
+        return this.addPotionEffect(new PotionEffect(type, duration, amplifier));
+    }
+
+    @Override
     public boolean addPotionEffect(@NotNull PotionEffect potionEffect, boolean b) {
         return livingEntity.addPotionEffect(potionEffect, b);
     }
@@ -400,19 +404,16 @@ public class A_LivingEntityImpl extends A_EntityImpl implements A_LivingEntity {
     }
 
     @Override
-    @Deprecated
     public double getMaxHealth() {
         return livingEntity.getMaxHealth();
     }
 
     @Override
-    @Deprecated
     public void setMaxHealth(double v) {
         livingEntity.setMaxHealth(v);
     }
 
     @Override
-    @Deprecated
     public void resetMaxHealth() {
         livingEntity.resetMaxHealth();
     }

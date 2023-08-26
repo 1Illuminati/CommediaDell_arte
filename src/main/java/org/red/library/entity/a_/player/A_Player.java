@@ -399,7 +399,11 @@ public interface A_Player extends A_LivingEntity {
 
     void setFlySpeed(float var1) throws IllegalArgumentException;
 
+    void setFlySpeed(double var1) throws IllegalArgumentException;
+
     void setWalkSpeed(float var1) throws IllegalArgumentException;
+
+    void setWalkSpeed(double var1) throws IllegalArgumentException;
 
     float getFlySpeed();
 

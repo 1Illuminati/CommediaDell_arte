@@ -133,13 +133,12 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setEventItem(String code) {
-        EventItemManager.setItemInEvent(this.itemStack, code);
-        return this;
+    public ItemBuilder setEventItem(NamespacedKey key) {
+        return this.setEventItem(EventItemManager.getEventItemByKey(key));
     }
 
     public ItemBuilder setEventItem(EventItem eventItem) {
-        EventItemManager.setItemInEvent(this.itemStack, eventItem.getCode());
+        EventItemManager.setEventItemInItem(this.itemStack, eventItem);
         return this;
     }
 

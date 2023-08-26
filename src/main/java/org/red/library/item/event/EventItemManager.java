@@ -1,6 +1,5 @@
 package org.red.library.item.event;
 
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -10,160 +9,150 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 import org.red.library.CommediaDell_arte;
 import org.red.library.entity.a_.player.A_Player;
-import org.red.library.event.RunEventItemEvent;
+import org.red.library.item.ItemBuilder;
+import org.red.library.util.map.persistent.NameSpaceKeyPersistentDataType;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EventItemManager {
-    private static final Map<String, EventItemInfo> map = new HashMap<>();
+public final class EventItemManager {
+    private static final Map<NamespacedKey, EventItemManager> map = new HashMap<>();
     private static final NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), "RedKillerLibrary_EventItem");
 
-    private EventItemManager() {
-        throw new IllegalArgumentException("Utility Class");
+    public static void registerEventItem(EventItem eventItem) {
+        NamespacedKey key = eventItem.getKey();
+        CommediaDell_arte.sendDebugLog("Register EventItem: " + key.getKey());
+        map.put(key, new EventItemManager(eventItem));
     }
 
-    public static void registerItemEvent(EventItem eventItem) {
-        String code = eventItem.getCode();
-        CommediaDell_arte.sendDebugLog("Register EventItem: " + code);
-        map.put(code, new EventItemInfo(eventItem));
+    public static void setEventItemInItem(ItemStack itemStack, EventItem eventItem) {
+        NamespacedKey key = eventItem.getKey();
+        if (!map.containsKey(key))
+            EventItemManager.registerEventItem(eventItem);
+
+        EventItemManager manager = map.get(key);
+        manager.setEventInItem(itemStack);
     }
 
-    public static void setItemInEvent(ItemStack itemStack, String code) {
-        ItemMeta itemMeta;
-        if (itemStack == null || (itemMeta = itemStack.getItemMeta()) == null)
-            throw new NullPointerException("ItemStack is Air or Null");
-
-        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        persistentDataContainer.set(key, PersistentDataType.STRING, code);
-        itemStack.setItemMeta(itemMeta);
-    }
-
-    public static void setItemInEvent(ItemStack itemStack, EventItem eventItem) {
-        String code = eventItem.getCode();
-        if (!map.containsKey(code))
-            EventItemManager.registerItemEvent(eventItem);
-
-        EventItemManager.setItemInEvent(itemStack, code);
-    }
-
-    public static boolean hasItemInEvent(ItemStack itemStack) {
-        ItemMeta itemMeta;
-        if (itemStack == null || (itemMeta = itemStack.getItemMeta()) == null)
-            throw new NullPointerException("ItemStack is Air or Null");
-
-        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        return persistentDataContainer.has(key, PersistentDataType.STRING);
-    }
-
-    public static EventItem getItemInEvent(ItemStack itemStack) {
-        ItemMeta itemMeta;
-        if (itemStack == null || (itemMeta = itemStack.getItemMeta()) == null)
-            throw new NullPointerException("ItemStack is Air or Null");
-
-        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-        if (!persistentDataContainer.has(key, PersistentDataType.STRING))
+    @Nullable
+    public static EventItem getEventItemByKey(NamespacedKey key) {
+        if (!map.containsKey(key))
             return null;
 
-        String code = persistentDataContainer.get(key, PersistentDataType.STRING);
-        if (!map.containsKey(code))
-            return null;
-
-        return map.get(code).eventItem;
+        return map.get(key).getEventItem();
     }
 
-    public static EventItem getEventItem(String code) {
-        if (!map.containsKey(code))
+    public static boolean hasEventItem(ItemStack itemStack) {
+        return itemStack != null && itemStack.getItemMeta() != null && itemStack.getItemMeta().getPersistentDataContainer().has(key, NameSpaceKeyPersistentDataType.INSTANCE);
+    }
+
+    @Nullable
+    public static NamespacedKey getKeyByItem(ItemStack itemStack) {
+        if (!hasEventItem(itemStack))
             return null;
 
-        return map.get(code).eventItem;
+        return itemStack.getItemMeta().getPersistentDataContainer().get(key, NameSpaceKeyPersistentDataType.INSTANCE);
+    }
+
+    @Nullable
+    public static EventItem getEventItemByItem(ItemStack itemStack) {
+        NamespacedKey key = getKeyByItem(itemStack);
+        if (key == null)
+            return null;
+
+        return getEventItemByKey(key);
     }
 
     public static void runItemEvent(A_Player player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
-        if (itemStack == null) {
-            return;
-        }
-
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        if (itemMeta == null) {
-            return;
-        }
-
-        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
-
-        if (!persistentDataContainer.has(key, PersistentDataType.STRING))
+        if (!hasEventItem(itemStack))
             return;
 
-        String code = persistentDataContainer.get(key, PersistentDataType.STRING);
-
-        if (!map.containsKey(code))
-            return;
-
-        EventItemInfo info = map.get(code);
-
-        RunEventItemEvent runEventItemEvent = new RunEventItemEvent(info.eventItem, player, itemStack, act);
-        Bukkit.getPluginManager().callEvent(runEventItemEvent);
-
-        if (runEventItemEvent.isCancelled())
-            return;
-
-        info.runEvent(act, event);
+        EventItem eventItem = getEventItemByItem(itemStack);
+        EventItemManager manager = map.get(eventItem.getKey());
+        manager.runEvent(event, act, player.isSneaking() ? EventItemAnnotation.Shift.PRESSED : EventItemAnnotation.Shift.NOT_PRESSED);
     }
 
-    private static class EventItemInfo {
-        private final EventItem eventItem;
-        private final Map<EventItemAnnotation.Act, Method> map = new HashMap<>();
+    private final EventItem eventItem;
+    private final Map<EventItemAnnotation.Act, EventMethod> methods = new HashMap<>();
 
-        private EventItemInfo(EventItem eventItem) {
-            this.eventItem = eventItem;
-            Method[] methods = eventItem.getClass().getMethods();
+    private EventItemManager(EventItem eventItem) {
+        this.eventItem = eventItem;
 
-            for (Method method : methods)
-                this.putMethod(method);
-        }
+        for (Method method : eventItem.getClass().getMethods())
+            putMethod(method);
+    }
 
-        private void putMethod(Method method) {
-            if (!method.isAnnotationPresent(EventItemAnnotation.class))
-                return;
+    private EventItem getEventItem() {
+        return eventItem;
+    }
 
-            EventItemAnnotation.Act act = method.getAnnotation(EventItemAnnotation.class).act();
-            Class<?>[] classes = method.getParameterTypes();
+    private void runEvent(Event event, EventItemAnnotation.Act act, EventItemAnnotation.Shift shift) {
+        EventMethod method = methods.getOrDefault(act, null);
 
-            if (classes.length != 1)
-                return;
+        if (method == null)
+            return;
 
-            Class<?> clazz = classes[0];
-            if ((clazz.isAssignableFrom(PlayerSwapHandItemsEvent.class) && (act == EventItemAnnotation.Act.SWAP_HAND || act == EventItemAnnotation.Act.SHIFT_SWAP_HAND)) ||
-                    (clazz.isAssignableFrom(PlayerDropItemEvent.class) && (act == EventItemAnnotation.Act.DROP || act == EventItemAnnotation.Act.SHIFT_DROP)) ||
-                    (clazz.isAssignableFrom(EntityDamageByEntityEvent.class) && act == EventItemAnnotation.Act.HIT) ||
-                    (clazz.isAssignableFrom(BlockBreakEvent.class) && act == EventItemAnnotation.Act.BREAK) ||
-                    (clazz.isAssignableFrom(PlayerFishEvent.class) && act == EventItemAnnotation.Act.FISHING) ||
-                    (clazz.isAssignableFrom(PlayerInteractEvent.class))) {
-                map.put(act, method);
-            }
-        }
-
-
-        private void runEvent(EventItemAnnotation.Act act, Event event) {
-            if (!map.containsKey(act))
-                return;
-
+        EventItemAnnotation.Shift methodShift = method.getShift();
+        if (methodShift == EventItemAnnotation.Shift.BOTH || methodShift == shift) {
             try {
-                map.get(act).invoke(this.getItemEvent(), event);
+                method.getMethod().invoke(event);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        private EventItem getItemEvent() {
-            return this.eventItem;
+    private void putMethod(Method method) {
+        if (!method.isAnnotationPresent(EventItemAnnotation.class))
+            return;
+
+        EventItemAnnotation.Act act = method.getAnnotation(EventItemAnnotation.class).act();
+        EventItemAnnotation.Shift shift = method.getAnnotation(EventItemAnnotation.class).shift();
+        Class<?>[] classes = method.getParameterTypes();
+
+        if (classes.length != 1)
+            return;
+
+        Class<?> clazz = classes[0];
+        if ((clazz.isAssignableFrom(PlayerSwapHandItemsEvent.class) && act == EventItemAnnotation.Act.SWAP_HAND) ||
+                (clazz.isAssignableFrom(PlayerDropItemEvent.class) && act == EventItemAnnotation.Act.DROP) ||
+                (clazz.isAssignableFrom(EntityDamageByEntityEvent.class) && act == EventItemAnnotation.Act.HIT) ||
+                (clazz.isAssignableFrom(BlockBreakEvent.class) && act == EventItemAnnotation.Act.BREAK) ||
+                (clazz.isAssignableFrom(PlayerFishEvent.class) && act == EventItemAnnotation.Act.FISHING) ||
+                (clazz.isAssignableFrom(PlayerInteractEvent.class))) {
+            methods.put(act, new EventMethod(shift, act, method));
+        }
+    }
+
+    private void setEventInItem(ItemStack itemStack) {
+        new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey());
+    }
+
+    private static class EventMethod {
+        private final EventItemAnnotation.Shift shift;
+        private final EventItemAnnotation.Act act;
+        private final Method method;
+
+        private EventMethod(EventItemAnnotation.Shift shift, EventItemAnnotation.Act act, Method method) {
+            this.shift = shift;
+            this.act = act;
+            this.method = method;
+        }
+
+        public EventItemAnnotation.Shift getShift() {
+            return shift;
+        }
+
+        public EventItemAnnotation.Act getAct() {
+            return act;
+        }
+
+        public Method getMethod() {
+            return method;
         }
     }
 }

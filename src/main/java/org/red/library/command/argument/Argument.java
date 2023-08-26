@@ -1,18 +1,12 @@
 package org.red.library.command.argument;
 
-import org.red.library.command.NewCommand;
+import org.bukkit.command.CommandSender;
+import org.red.library.command.CommandNode;
 
-public interface Argument extends NewCommand.Node {
-    void setNextArg(String arg, NewCommand.Node next);
-    void setNextArgAll(NewCommand.Node next);
+import java.util.List;
 
-    enum Type {
-        STRING,
-        INT,
-        DOUBLE,
-        BOOLEAN,
-        PLAYER,
-        OFFLINE_PLAYER,
-        CUSTOM
-    }
+public interface Argument<T> extends CommandNode<T> {
+    Argument<T> setNextArg(T arg, CommandNode<?> next);
+    CommandNode<?> getDefaultNext();
+    List<String> getTabComplete(CommandSender sender, String[] args);
 }
