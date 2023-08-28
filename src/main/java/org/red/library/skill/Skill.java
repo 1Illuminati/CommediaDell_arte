@@ -5,8 +5,8 @@ import org.bukkit.entity.Entity;
 import org.red.library.CommediaDell_arte;
 import org.red.library.entity.a_.A_Entity;
 
-public interface Skill extends Runnable {
-    A_Entity caster();
-
+public interface Skill {
     NamespacedKey key();
+
+    void run(A_Entity caster);
 }

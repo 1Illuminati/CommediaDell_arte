@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_Manager;
 import org.red.library.entity.a_.A_LivingEntity;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -39,6 +40,13 @@ public interface A_Player extends A_LivingEntity {
         Player player = Bukkit.getPlayer(uuid);
         return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
     }
+
+    void sendActionBar(@NotNull String var1);
+
+    boolean playingGame();
+
+    @Nullable
+    Game getPlayingGame();
 
     void aDataSave();
 

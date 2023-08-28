@@ -5,7 +5,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.boss.KeyedBossBar;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 import org.red.library.util.Timer;
-import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.WorldData;
 
 import java.util.HashMap;
@@ -19,16 +18,12 @@ public final class GameManager {
         return gameManager;
     }
 
-    private final NameSpaceMap<Map<UUID, Game>> games = new NameSpaceMap<>();
+    private final Map<Class<? extends Game>, Map<UUID, Game>> games = new HashMap<>();
 
     private GameManager() {}
 
     private Map<UUID, Game> getGameMap(Game game) {
-        return games.computeIfAbsent(new NamespacedKey(game.getPlugin(), game.getName()), k -> new HashMap<>());
-    }
-
-    public Game getPlayerJoinedGame(A_OfflinePlayer player) {
-        return games.values().stream().flatMap(map -> map.values().stream()).filter(game -> game.getJoinPlayers().contains(player)).findFirst().orElse(null);
+        return games.computeIfAbsent(game.getClass(), k -> new HashMap<>());
     }
 
     public void startGame(Game game) {

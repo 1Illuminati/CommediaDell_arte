@@ -1,5 +1,7 @@
 package org.red.library.entity.a_.impl;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
@@ -19,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_Manager;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -28,7 +31,7 @@ import java.util.UUID;
 public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
-
+    private Game playingGame;
     public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
@@ -41,6 +44,24 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
+    public void sendActionBar(@NotNull String var1) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(var1));
+    }
+
+    @Override
+    public boolean playingGame() {
+        return playingGame != null;
+    }
+
+    @Override
+    public Game getPlayingGame() {
+        return playingGame;
+    }
+
+    public void setPlayingGame(Game game) {
+        this.playingGame = game;
+    }
+
     public void aDataSave() {
         this.aOfflinePlayer.aDataSave();
     }

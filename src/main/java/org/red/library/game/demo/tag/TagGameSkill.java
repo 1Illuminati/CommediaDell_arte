@@ -1,37 +1,47 @@
 package org.red.library.game.demo.tag;
 
-import org.bukkit.entity.Entity;
+import org.bukkit.GameMode;
+import org.bukkit.NamespacedKey;
 import org.red.library.entity.a_.A_Entity;
 import org.red.library.entity.a_.player.A_Player;
+import org.red.library.game.Game;
 import org.red.library.skill.Skill;
 
 public abstract class TagGameSkill implements Skill {
-    private final TagGame game;
-    private final A_Entity caster;
-
-    public TagGameSkill(TagGame game, A_Entity caster) {
-        this.game = game;
-        this.caster = caster;
+    private final NamespacedKey key;
+    private final TagGame tagGame;
+    protected TagGameSkill(TagGame tagGame) {
+        this.key = new NamespacedKey("TagGame" + tagGame.getGameID(), this.skillName());
+        this.tagGame = tagGame;
     }
 
-    public abstract void onSkill();
-
-    public TagGame game() {
-        return game;
-    }
-
-    @Override
-    public A_Entity caster() {
-        return caster;
-    }
-
-    @Override
-    public void run() {
-        if (!game.getJoinPlayers().contains(caster.getAOfflinePlayer())) {
-            caster.sendMessage("게임을 플레이 할 경우에만 사용이 가능합니다.");
+    public void run(A_Entity caster) {
+        if (tagGame.getGameStatus() != Game.GameStatus.RUNNING) {
+            caster.sendMessage("게임이 진행중이 아닙니다.");
             return;
         }
 
-        onSkill();
+        if (caster instanceof A_Player) {
+            A_Player player = (A_Player) caster;
+            if (!tagGame.getJoinPlayers().contains(player.getAOfflinePlayer())) {
+                player.sendMessage("게임에 참여하지 않았습니다.");
+                return;
+            }
+
+            if (player.getGameMode() == GameMode.SPECTATOR) {
+                player.sendMessage("관전자는 스킬을 사용할 수 없습니다.");
+                return;
+            }
+        }
+
+        this.onSkill(caster);
     }
+
+    public NamespacedKey key() {
+        return key;
+    }
+
+    public abstract void onSkill(A_Entity caster);
+
+    public abstract String skillName();
 }
