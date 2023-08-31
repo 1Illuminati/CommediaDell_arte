@@ -5,6 +5,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -32,6 +33,8 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
     private Game playingGame;
+    private BlockState lastBreakBlock;
+    private BlockState lastPlaceBlock;
     public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
@@ -41,6 +44,24 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public Player getEntity() {
         return player;
+    }
+
+    @Override
+    public BlockState lastBreakBlock() {
+        return lastBreakBlock;
+    }
+
+    public void setLastBreakBlock(BlockState blockState) {
+        this.lastBreakBlock = blockState;
+    }
+
+    @Override
+    public BlockState lastPlaceBlock() {
+        return lastPlaceBlock;
+    }
+
+    public void setLastPlaceBlock(BlockState blockState) {
+        this.lastPlaceBlock = blockState;
     }
 
     @Override

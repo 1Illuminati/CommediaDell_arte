@@ -3,6 +3,7 @@ package org.red.library.entity.a_.player;
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.conversations.Conversation;
 import org.bukkit.conversations.ConversationAbandonedEvent;
@@ -40,6 +41,10 @@ public interface A_Player extends A_LivingEntity {
         Player player = Bukkit.getPlayer(uuid);
         return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
     }
+
+    BlockState lastBreakBlock();
+
+    BlockState lastPlaceBlock();
 
     void sendActionBar(@NotNull String var1);
 
