@@ -15,6 +15,8 @@ import org.red.library.item.event.EventItemManager;
 import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
 
+import java.util.Arrays;
+
 public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
     @EventHandler
     public void onEvent(BlockBreakEvent event) {
@@ -24,10 +26,9 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
         EventItemManager.runItemEvent(player, mainHand, EventItemAnnotation.Act.BREAK, event);
-
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.BREAK, block.getLocation())) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.BREAK, Arrays.asList(block.getLocation(), player.getLocation()))) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

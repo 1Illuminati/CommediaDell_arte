@@ -12,6 +12,8 @@ import org.red.library.event.listener.AbstractListener;
 import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
 
+import java.util.Arrays;
+
 public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     @Override
     public void onEvent(BlockPlaceEvent event) {
@@ -21,7 +23,7 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
         Block block = event.getBlock();
         WorldData worldData = WorldData.getWorldData(player.getWorld());
 
-        if (!worldData.getRuleValue(Rule.PLACE, block.getLocation())) event.setCancelled(true);
+        if (!worldData.getRuleValue(Rule.PLACE, Arrays.asList(block.getLocation(), player.getLocation()))) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
