@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.red.library.CommediaDell_arte;
 import org.red.library.a_.A_Manager;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
@@ -32,18 +33,49 @@ import java.util.UUID;
 public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
+    private final boolean isRedKiller;
+    private final boolean isArlecchino;
     private Game playingGame;
     private BlockState lastBreakBlock;
     private BlockState lastPlaceBlock;
+    private boolean ignoreInvCloseEvent = false;
     public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
         this.player = player;
+        this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
+        this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
+    }
+
+    public boolean isRedKiller() {
+        return isRedKiller;
+    }
+
+    public boolean isArlecchino() {
+        return isArlecchino;
+    }
+
+    public boolean isPlayerIgnoreCloseInvEvent() {
+        return ignoreInvCloseEvent;
+    }
+
+    public void setPlayerIgnoreCloseInvEvent(boolean ignoreInvCloseEvent) {
+        this.ignoreInvCloseEvent = ignoreInvCloseEvent;
     }
 
     @Override
     public Player getEntity() {
         return player;
+    }
+
+    @Override
+    public void delayOpenInventory(Inventory inv) {
+        this.delayOpenInventory(inv, 1);
+    }
+
+    @Override
+    public void delayOpenInventory(Inventory inv, int delay) {
+        Bukkit.getScheduler().runTaskLater(CommediaDell_arte.getPlugin(), () -> this.openInventory(inv), delay);
     }
 
     @Override
@@ -914,6 +946,13 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Nullable
     public InventoryView openInventory(@NotNull Inventory inventory) {
         return player.openInventory(inventory);
+    }
+
+    @Override
+    @Nullable
+    public InventoryView openInventory(@NotNull Inventory inventory, boolean ignoreInvCloseEvent) {
+        this.ignoreInvCloseEvent = ignoreInvCloseEvent;
+        return this.openInventory(inventory);
     }
 
     @Override

@@ -42,6 +42,10 @@ public interface A_Player extends A_LivingEntity {
         return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
     }
 
+    void delayOpenInventory(Inventory inv);
+
+    void delayOpenInventory(Inventory inv, int delay);
+
     BlockState lastBreakBlock();
 
     BlockState lastPlaceBlock();
@@ -136,6 +140,9 @@ public interface A_Player extends A_LivingEntity {
 
     @Nullable
     InventoryView openInventory(@NotNull Inventory var1);
+
+    @Nullable
+    InventoryView openInventory(@NotNull Inventory var1, boolean ignoreEvent);
 
     @Nullable
     InventoryView openWorkbench(@Nullable Location var1, boolean var2);
