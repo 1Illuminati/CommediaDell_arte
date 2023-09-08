@@ -13,6 +13,8 @@ import org.red.library.event.listener.inventory.InventoryCloseListener;
 import org.red.library.event.listener.inventory.InventoryOpenListener;
 import org.red.library.event.listener.player.*;
 
+import java.io.File;
+
 public final class CommediaDell_arte extends JavaPlugin {
     private static CommediaDell_arte plugin;
 
@@ -23,12 +25,12 @@ public final class CommediaDell_arte extends JavaPlugin {
     private static boolean debug = true;
 
     public static void sendLog(Object message) {
-        Bukkit.getConsoleSender().sendMessage("§c§l[ CommediaDell_arte ] §f" + message);
+        Bukkit.getConsoleSender().sendMessage("§c§l[ §cCommediaDell_arte §c§l] §f" + message);
     }
 
     public static void sendDebugLog(Object message) {
         if (debug)
-            Bukkit.getConsoleSender().sendMessage("§c§l[ CommediaDell_arte Debug ] §f" + message);
+            Bukkit.getConsoleSender().sendMessage("§c§l[ §cCommediaDell_arte Debug §c§l] §f" + message);
     }
 
     public static boolean isDebug() {
@@ -43,12 +45,13 @@ public final class CommediaDell_arte extends JavaPlugin {
     public void onEnable() {
         CommediaDell_arte.plugin = this;
         this.setEvent();
-        A_Manager.INSTANCE.entitiesADataLoad();
+        this.createFile();
+        A_Manager.INSTANCE.allLoad();
     }
 
     @Override
     public void onDisable() {
-        A_Manager.INSTANCE.entitiesADataSave();
+        A_Manager.INSTANCE.allSave();
     }
 
     private void registerEvent(Listener listener) {
@@ -76,5 +79,17 @@ public final class CommediaDell_arte extends JavaPlugin {
 
         this.registerEvent(new BlockBreakListener());
         this.registerEvent(new BlockPlaceListener());
+    }
+
+    private void createFile() {
+        boolean value1 = new File("plugins/Dell_arte").mkdir();
+        boolean value2 = new File("plugins/Dell_arte/playerData").mkdir();
+        boolean value3 = new File("plugins/Dell_arte/npcData").mkdir();
+        boolean value4 = new File("plugins/Dell_arte/worldData").mkdir();
+
+        sendLog(value1 ? "§aCreate Folder: Dell_arte" : "§aChecked Folder: Dell_arte");
+        sendLog(value2 ? "§aCreate Folder: playerData" : "§aChecked Folder: playerData");
+        sendLog(value3 ? "§aCreate Folder: npcData" : "§aChecked Folder: npcData");
+        sendLog(value4 ? "§aCreate Folder: worldData" : "§aChecked Folder: worldData");
     }
 }

@@ -16,6 +16,7 @@ import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
 
 public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
+    @Override
     @EventHandler
     public void onEvent(BlockBreakEvent event) {
         runAreaBlockEvent(event);

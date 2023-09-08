@@ -12,7 +12,6 @@ public class PersistentDataMap {
     public PersistentDataMap(PersistentDataContainer dataContainer, Plugin plugin) {
         this.dataContainer = dataContainer;
         this.plugin = plugin;
-        PersistentDataType
     }
 
     public void copy(PersistentDataMap dataMap) {

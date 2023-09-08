@@ -37,6 +37,18 @@ public final class A_Manager {
         this.aVersion = new A_Version(plugin);
     }
 
+    public void allSave() {
+        entitiesADataSave();
+        aNPCs.values().forEach(A_NPC::aDataSave);
+        aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataSave);
+    }
+
+    public void allLoad() {
+        entitiesADataLoad();
+        aNPCs.values().forEach(A_NPC::aDataLoad);
+        aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataLoad);
+    }
+
     public void entitiesADataSave() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
         aEntities.values().forEach(aEntity -> fileConfiguration.set(aEntity.getUniqueId().toString(), aEntity.getAData()));

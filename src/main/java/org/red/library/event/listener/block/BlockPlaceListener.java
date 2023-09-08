@@ -14,6 +14,7 @@ import org.red.library.world.rule.Rule;
 
 public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     @Override
+    @EventHandler
     public void onEvent(BlockPlaceEvent event) {
         super.runAreaBlockEvent(event);
 

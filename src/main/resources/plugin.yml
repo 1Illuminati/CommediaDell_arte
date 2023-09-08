@@ -1,6 +1,18 @@
-name: Commedia dell'arte
-version: '${project.version}'
+name: CommediaDell_arte
+version: 2.0
 main: org.red.library.CommediaDell_arte
 api-version: '1.16'
-authors: [Arlecchino]
+authors: [Arlecchino, RedKiller]
 description: For Fun
+
+
+commands:
+  actionbar:
+    description: "Send a message to the actionbar"
+    usage: /<command> <message>
+    permission: actionbar.use
+
+permissions:
+    actionbar.use:
+        description: "Allows you to send a message to the actionbar"
+        default: op

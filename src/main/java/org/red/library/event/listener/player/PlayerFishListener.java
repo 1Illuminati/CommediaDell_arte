@@ -1,5 +1,6 @@
 package org.red.library.event.listener.player;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -12,6 +13,7 @@ import org.red.library.world.rule.Rule;
 
 public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
     @Override
+    @EventHandler
     public void onEvent(PlayerFishEvent event) {
         super.runAreaPlayerEvent(event);
 

@@ -16,6 +16,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.inventory.*;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,8 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private BlockState lastBreakBlock;
     private BlockState lastPlaceBlock;
     private boolean ignoreInvCloseEvent = false;
+    private boolean uiActionBarRunning = false;
+    private BukkitTask uiActionBarTask = null;
     public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
@@ -66,6 +69,26 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public Player getEntity() {
         return player;
+    }
+
+    @Override
+    public void sendUIActionBar(@NotNull String message) {
+        this.uiActionBarRunning = true;
+
+        uiActionBarTask = Bukkit.getScheduler().runTaskTimerAsynchronously(CommediaDell_arte.getPlugin(), () -> {
+            if (!this.isUIActionBarRunning()) return;
+            this.sendActionBar(message);
+        }, 0, 5);
+    }
+
+    @Override
+    public boolean isUIActionBarRunning() {
+        return uiActionBarRunning;
+    }
+
+    @Override
+    public void stopUIActionBarRunning() {
+        this.uiActionBarTask.cancel();
     }
 
     @Override
@@ -98,7 +121,10 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
 
     @Override
     public void sendActionBar(@NotNull String var1) {
+        this.uiActionBarRunning = false;
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(var1));
+
+        Bukkit.getScheduler().runTaskLater(CommediaDell_arte.getPlugin(), () -> this.uiActionBarRunning = true, 20);
     }
 
     @Override

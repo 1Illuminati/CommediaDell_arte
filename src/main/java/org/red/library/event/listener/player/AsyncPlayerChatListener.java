@@ -1,5 +1,6 @@
 package org.red.library.event.listener.player;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -10,6 +11,7 @@ import org.red.library.world.rule.Rule;
 
 public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEvent> {
     @Override
+    @EventHandler
     public void onEvent(AsyncPlayerChatEvent event) {
         super.runAreaPlayerEvent(event);
 

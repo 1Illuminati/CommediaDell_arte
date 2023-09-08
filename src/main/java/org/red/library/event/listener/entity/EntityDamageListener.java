@@ -2,6 +2,7 @@ package org.red.library.event.listener.entity;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -12,6 +13,7 @@ import org.red.library.world.rule.Rule;
 
 public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
     @Override
+    @EventHandler
     public void onEvent(EntityDamageEvent event) {
         super.runAreaEntityEvent(event);
 

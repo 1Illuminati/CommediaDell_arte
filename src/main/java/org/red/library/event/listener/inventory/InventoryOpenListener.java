@@ -8,6 +8,7 @@ import org.red.library.event.listener.AbstractListener;
 import org.red.library.inventory.CustomGui;
 
 public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> {
+    @Override
     @EventHandler
     public void onEvent(InventoryOpenEvent event) {
         Inventory inventory = event.getInventory();

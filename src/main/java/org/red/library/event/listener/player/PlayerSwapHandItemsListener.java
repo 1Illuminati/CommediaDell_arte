@@ -1,5 +1,6 @@
 package org.red.library.event.listener.player;
 
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -12,6 +13,7 @@ import org.red.library.world.rule.Rule;
 
 public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHandItemsEvent> {
     @Override
+    @EventHandler
     public void onEvent(PlayerSwapHandItemsEvent event) {
         super.runAreaPlayerEvent(event);
 

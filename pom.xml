@@ -64,7 +64,7 @@
         </repository>
         <repository>
             <id>red</id>
-            <url>http://red.redkiller.o-r.kr:8081/repository/maven-releases/</url>
+            <url>http://red.redkiller.org:8081/repository/maven-releases/</url>
         </repository>
     </repositories>
 

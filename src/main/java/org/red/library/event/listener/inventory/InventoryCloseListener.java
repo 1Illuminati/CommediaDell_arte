@@ -10,6 +10,7 @@ import org.red.library.event.listener.AbstractListener;
 import org.red.library.inventory.CustomGui;
 
 public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent> {
+    @Override
     @EventHandler
     public void onEvent(InventoryCloseEvent event) {
         org.bukkit.inventory.Inventory inventory = event.getInventory();

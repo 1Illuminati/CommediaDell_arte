@@ -24,12 +24,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_DataHolder;
+import org.red.library.a_.A_Manager;
 
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 public interface A_Entity extends A_DataHolder {
+    static A_Entity getAEntity(Entity entity) {
+        return A_Manager.INSTANCE.getAEntity(entity);
+    }
+
     Entity getEntity();
 
     void setMetadata(@NotNull String var1, @NotNull MetadataValue var2);

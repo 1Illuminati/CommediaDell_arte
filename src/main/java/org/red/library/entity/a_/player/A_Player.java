@@ -42,6 +42,18 @@ public interface A_Player extends A_LivingEntity {
         return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
     }
 
+    /**
+     * 무한히 반복되는 액션바 메세지를 보내는 메소드 서버에서 액션바를 통해 플레이어 UI를 구현할 때 사용할려고 제작
+     * 기본 sendActionBar 메소드를 사용할 경우 일시적으로 해당 UI 메소드가 멈추고 액션바 메세지가 보내진다 그 후 다시 액션바를 보낸다.
+     * 해당 함수를 재 실행할 경우 기존의 메세지는 사라지고 새로운 메세지로 바뀐다.
+     * @param message 액션바에 표시할 메세지
+     */
+    void sendUIActionBar(@NotNull String message);
+
+    boolean isUIActionBarRunning();
+
+    void stopUIActionBarRunning();
+
     void delayOpenInventory(Inventory inv);
 
     void delayOpenInventory(Inventory inv, int delay);

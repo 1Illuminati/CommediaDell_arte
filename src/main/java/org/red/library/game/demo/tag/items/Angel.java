@@ -24,9 +24,18 @@ public abstract class Angel implements EventItem {
 
     public static class AngelSkill extends TagGameSkill {
 
+        protected AngelSkill(TagGame tagGame) {
+            super(tagGame);
+        }
+
         @Override
         public void onSkill(A_Entity caster) {
 
+        }
+
+        @Override
+        public String skillName() {
+            return null;
         }
 
         @Override
