@@ -1,10 +1,7 @@
 package org.red.library.game.demo.tag.items;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.red.library.entity.a_.A_Entity;
-import org.red.library.entity.a_.player.A_Player;
-import org.red.library.entity.a_.player.A_Player;
 import org.red.library.game.demo.tag.TagGame;
 import org.red.library.game.demo.tag.TagGameSkill;
 import org.red.library.item.event.EventItem;
@@ -23,7 +20,6 @@ public abstract class Angel implements EventItem {
     }
 
     public static class AngelSkill extends TagGameSkill {
-
         protected AngelSkill(TagGame tagGame) {
             super(tagGame);
         }
@@ -39,8 +35,8 @@ public abstract class Angel implements EventItem {
         }
 
         @Override
-        public NamespacedKey key() {
-            return null;
+        public double cooldown() {
+            return 0;
         }
     }
 }

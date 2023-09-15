@@ -17,7 +17,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.library.a_.A_Manager;
+import org.red.a_.A_Manager;
 import org.red.library.entity.a_.A_LivingEntity;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;

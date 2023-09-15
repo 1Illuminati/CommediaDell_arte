@@ -1,6 +1,6 @@
 name: CommediaDell_arte
 version: 2.0
-main: org.red.library.CommediaDell_arte
+main: org.red.CommediaDell_arte
 api-version: '1.16'
 authors: [Arlecchino, RedKiller]
 description: For Fun

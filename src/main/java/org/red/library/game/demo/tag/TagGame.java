@@ -5,14 +5,13 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.red.library.CommediaDell_arte;
+import org.red.CommediaDell_arte;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
 import org.red.library.game.GameTimer;
-import org.red.library.util.Timer;
+import org.red.util.s;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class TagGame extends Game implements GameTimer {
     private final List<A_OfflinePlayer> runnerPlayers = new ArrayList<>();
     private final List<A_OfflinePlayer> chaserPlayers = new ArrayList<>();
     private final List<A_OfflinePlayer> deadPlayers = new ArrayList<>();
-    private final Timer timer = new Timer(new NamespacedKey(this.getPlugin(), "술래잡기"), setting.getValue(TagGameSetting.GAME_TIME) * 20 + 80);
+    private final s timer = new s(new NamespacedKey(this.getPlugin(), "술래잡기"), setting.getValue(TagGameSetting.GAME_TIME) * 20 + 80);
     private final KeyedBossBar bossBar = Bukkit.createBossBar(new NamespacedKey(this.getPlugin(), "술래잡기"), "술래잡기", BarColor.RED, BarStyle.SOLID);
     @Override
     public String gameDisplayName() {
@@ -128,7 +127,7 @@ public class TagGame extends Game implements GameTimer {
     }
 
     @Override
-    public Timer getTimer() {
+    public s getTimer() {
         return this.timer;
     }
 

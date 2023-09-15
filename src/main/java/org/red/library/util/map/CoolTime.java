@@ -1,6 +1,7 @@
 package org.red.library.util.map;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +99,7 @@ public class CoolTime implements ConfigurationSerializable {
     }
 
     @Override
-    public Map<String, Object> serialize() {
+    public @NotNull Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
 
         for (Map.Entry<String, Long> entry : this.map.entrySet())

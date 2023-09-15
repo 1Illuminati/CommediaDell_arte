@@ -23,8 +23,8 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.library.a_.A_DataHolder;
-import org.red.library.a_.A_Manager;
+import org.red.a_.A_DataHolder;
+import org.red.a_.A_Manager;
 
 import java.util.List;
 import java.util.Set;

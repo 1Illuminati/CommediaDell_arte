@@ -7,7 +7,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.BoundingBox;
-import org.red.library.CommediaDell_arte;
+import org.red.CommediaDell_arte;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;

@@ -1,15 +1,12 @@
 package org.red.library.entity.a_.player.offline;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.library.a_.A_DataHolder;
-import org.red.library.a_.A_Manager;
+import org.red.a_.A_DataHolder;
+import org.red.a_.A_Manager;
 import org.red.library.entity.a_.player.A_Player;
 
 import java.util.UUID;
@@ -17,6 +14,14 @@ import java.util.UUID;
 public interface A_OfflinePlayer extends A_DataHolder {
     static A_OfflinePlayer getAOfflinePlayer(OfflinePlayer offlinePlayer) {
         return A_Manager.INSTANCE.getAOfflinePlayer(offlinePlayer);
+    }
+
+    static A_OfflinePlayer getAOfflinePlayer(@NotNull UUID uuid) {
+        return A_Manager.INSTANCE.getAOfflinePlayer(Bukkit.getOfflinePlayer(uuid));
+    }
+
+    static A_OfflinePlayer getAOfflinePlayer(@NotNull String name) {
+        return A_Manager.INSTANCE.getAOfflinePlayer(Bukkit.getOfflinePlayer(name));
     }
 
     void aDataSave();

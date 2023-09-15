@@ -10,10 +10,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
-import org.red.library.CommediaDell_arte;
+import org.red.CommediaDell_arte;
 import org.red.library.entity.a_.player.A_Player;
 import org.red.library.item.ItemBuilder;
-import org.red.library.util.map.persistent.NameSpaceKeyPersistentDataType;
+import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
