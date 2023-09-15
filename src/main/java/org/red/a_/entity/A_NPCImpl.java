@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.red.CommediaDell_arte;
 import org.red.a_.A_Data;
 import org.red.a_.A_Manager;
-import org.red.library.entity.a_.player.npc.A_NPC;
+import org.red.library.a_.entity.player.npc.A_NPC;
 
 import java.io.File;
 import java.io.FileNotFoundException;

@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.red.a_.entity.*;
 import org.red.CommediaDell_arte;
-import org.red.library.entity.a_.A_Entity;
-import org.red.library.entity.a_.A_LivingEntity;
-import org.red.library.entity.a_.player.A_Player;
-import org.red.library.entity.a_.player.npc.A_NPC;
-import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.a_.entity.A_Entity;
+import org.red.library.a_.entity.A_LivingEntity;
+import org.red.library.a_.entity.player.A_Player;
+import org.red.library.a_.entity.player.npc.A_NPC;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
 import java.io.File;
 import java.io.FileNotFoundException;

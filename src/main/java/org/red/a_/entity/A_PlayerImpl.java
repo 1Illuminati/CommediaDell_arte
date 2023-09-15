@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.a_.A_Manager;
-import org.red.library.entity.a_.player.A_Player;
-import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.a_.entity.player.A_Player;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;

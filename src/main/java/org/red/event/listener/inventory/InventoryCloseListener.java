@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.red.a_.entity.A_PlayerImpl;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.inventory.CustomGui;

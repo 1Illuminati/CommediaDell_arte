@@ -4,7 +4,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntityDamageEvent;
 import org.red.event.listener.AbstractListener;

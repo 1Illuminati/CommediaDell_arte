@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.red.a_.entity.A_PlayerImpl;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockBreakEvent;
 import org.red.event.listener.AbstractListener;

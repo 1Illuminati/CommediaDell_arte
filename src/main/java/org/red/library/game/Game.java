@@ -1,7 +1,7 @@
 package org.red.library.game;
 
 import org.bukkit.plugin.Plugin;
-import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.setting.Setting;
 
 import java.util.*;

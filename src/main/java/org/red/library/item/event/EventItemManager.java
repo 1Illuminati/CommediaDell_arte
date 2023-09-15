@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.item.ItemBuilder;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 

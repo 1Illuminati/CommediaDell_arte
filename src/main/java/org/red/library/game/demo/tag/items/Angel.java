@@ -1,7 +1,7 @@
 package org.red.library.game.demo.tag.items;
 
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.red.library.entity.a_.A_Entity;
+import org.red.library.a_.entity.A_Entity;
 import org.red.library.game.demo.tag.TagGame;
 import org.red.library.game.demo.tag.TagGameSkill;
 import org.red.library.item.event.EventItem;

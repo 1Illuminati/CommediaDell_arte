@@ -1,4 +1,4 @@
-package org.red.library.entity.a_;
+package org.red.library.a_.entity;
 
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;

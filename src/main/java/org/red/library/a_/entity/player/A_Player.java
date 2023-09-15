@@ -1,4 +1,4 @@
-package org.red.library.entity.a_.player;
+package org.red.library.a_.entity.player;
 
 import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
@@ -18,8 +18,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.a_.A_Manager;
-import org.red.library.entity.a_.A_LivingEntity;
-import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.a_.entity.A_LivingEntity;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;

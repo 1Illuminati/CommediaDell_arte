@@ -1,4 +1,4 @@
-package org.red.library.entity.a_.player.offline;
+package org.red.library.a_.entity.player.offline;
 
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.a_.A_DataHolder;
 import org.red.a_.A_Manager;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 
 import java.util.UUID;
 

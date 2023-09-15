@@ -2,12 +2,12 @@ package org.red.library.game.demo.tag;
 
 import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
-import org.red.library.entity.a_.A_Entity;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.A_Entity;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.game.Game;
-import org.red.library.skill.Skill;
+import org.red.library.skill.active.SkillActive;
 
-public abstract class TagGameSkill implements Skill {
+public abstract class TagGameSkill implements SkillActive {
     private final NamespacedKey key;
     private final TagGame tagGame;
     protected TagGameSkill(TagGame tagGame) {

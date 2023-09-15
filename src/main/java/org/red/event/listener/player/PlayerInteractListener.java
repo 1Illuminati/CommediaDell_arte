@@ -4,7 +4,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.red.library.entity.a_.player.A_Player;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.event.listener.AbstractListener;

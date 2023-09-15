@@ -1,4 +1,4 @@
-package org.red.library.vault;
+package org.red.a_.vault;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;

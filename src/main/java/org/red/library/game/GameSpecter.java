@@ -1,6 +1,6 @@
 package org.red.library.game;
 
-import org.red.library.entity.a_.player.offline.A_OfflinePlayer;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
 import java.util.List;
 
