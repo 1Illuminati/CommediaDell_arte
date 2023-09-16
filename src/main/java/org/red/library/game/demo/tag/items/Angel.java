@@ -20,6 +20,7 @@ public abstract class Angel implements EventItem {
     }
 
     public static class AngelSkill extends TagGameSkill {
+
         protected AngelSkill(TagGame tagGame) {
             super(tagGame);
         }
@@ -35,8 +36,8 @@ public abstract class Angel implements EventItem {
         }
 
         @Override
-        public double cooldown() {
-            return 0;
+        public void run(A_Entity caster, Object... args) {
+
         }
     }
 }
