@@ -10,19 +10,18 @@ import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
-import org.red.library.game.GameTimer;
-import org.red.util.s;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TagGame extends Game implements GameTimer {
+public class TagGame extends Game {
+
     private static final TagGameSetting setting = new TagGameSetting();
     private final List<A_OfflinePlayer> runnerPlayers = new ArrayList<>();
     private final List<A_OfflinePlayer> chaserPlayers = new ArrayList<>();
     private final List<A_OfflinePlayer> deadPlayers = new ArrayList<>();
-    private final s timer = new s(new NamespacedKey(this.getPlugin(), "술래잡기"), setting.getValue(TagGameSetting.GAME_TIME) * 20 + 80);
+    //private final Timer timer = new Ti(new NamespacedKey(this.getPlugin(), "술래잡기"), setting.getValue(TagGameSetting.GAME_TIME) * 20 + 80);
     private final KeyedBossBar bossBar = Bukkit.createBossBar(new NamespacedKey(this.getPlugin(), "술래잡기"), "술래잡기", BarColor.RED, BarStyle.SOLID);
     @Override
     public String gameDisplayName() {
@@ -126,12 +125,6 @@ public class TagGame extends Game implements GameTimer {
         return setting;
     }
 
-    @Override
-    public s getTimer() {
-        return this.timer;
-    }
-
-    @Override
     public KeyedBossBar getBossBar() {
         return this.bossBar;
     }

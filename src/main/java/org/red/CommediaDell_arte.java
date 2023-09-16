@@ -3,12 +3,12 @@ package org.red;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.red.a_.A_Manager;
 import org.red.event.listener.block.BlockBreakListener;
 import org.red.event.listener.block.BlockPlaceListener;
 import org.red.event.listener.entity.EntityDamageByEntityListener;
 import org.red.event.listener.entity.EntityDamageListener;
+import org.red.event.listener.entity.EntityMountListener;
 import org.red.event.listener.inventory.InventoryClickListener;
 import org.red.event.listener.inventory.InventoryCloseListener;
 import org.red.event.listener.inventory.InventoryOpenListener;
@@ -71,6 +71,7 @@ public final class CommediaDell_arte extends A_ {
 
         this.registerEvent(new EntityDamageByEntityListener());
         this.registerEvent(new EntityDamageListener());
+        this.registerEvent(new EntityMountListener());
 
         this.registerEvent(new PlayerCommandPreProcessListener());
         this.registerEvent(new PlayerDropItemListener());

@@ -5,7 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BossBar;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.red.CommediaDell_arte;
-import org.red.library.util.BossBarTimer;
+import org.red.library.util.timer.BossBarTimer;
 
 import java.util.ArrayList;
 import java.util.List;

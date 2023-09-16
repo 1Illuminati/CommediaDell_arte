@@ -23,6 +23,7 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.red.a_.A_Data;
 import org.red.a_.A_DataHolder;
 import org.red.a_.A_Manager;
 

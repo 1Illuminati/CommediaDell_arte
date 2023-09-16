@@ -1,4 +1,4 @@
-package org.red.library.util;
+package org.red.library.util.timer;
 
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.Nullable;

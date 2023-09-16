@@ -3,9 +3,17 @@ package org.red.a_.vault;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 볼트 플러그인과의 호환을 위해 만들어진 클래스
+ * 볼트 플러그인과 A_EconomyAccount를 연결해주는 역할을 합니다.
+ * 단 해당 플러그인은 월드를 구분하여 지갑을 제공하는 기능을 비활성화 합니다.
+ * 은행기능은 아직 미완성 추후에 추가할 예정
+ */
 public class A_Economy implements Economy {
     @Override
     public boolean isEnabled() {
@@ -64,82 +72,104 @@ public class A_Economy implements Economy {
 
     @Override
     public double getBalance(String s) {
-        return 0;
+        return this.getBalance(A_OfflinePlayer.getAOfflinePlayer(s));
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return 0;
+        return this.getBalance(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer));
     }
 
     @Override
     public double getBalance(String s, String s1) {
-        return 0;
+        return this.getBalance(s);
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer, String s) {
-        return 0;
+        return this.getBalance(offlinePlayer);
+    }
+
+    public double getBalance(A_OfflinePlayer aOfflinePlayer) {
+        return aOfflinePlayer.getEconomyAccount().getBalance();
     }
 
     @Override
     public boolean has(String s, double v) {
-        return false;
+        return this.has(A_OfflinePlayer.getAOfflinePlayer(s), v);
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return false;
+        return this.has(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override
     public boolean has(String s, String s1, double v) {
-        return false;
+        return this.has(s, v);
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        return false;
+        return this.has(offlinePlayer, v);
+    }
+
+    public boolean has(A_OfflinePlayer aOfflinePlayer, double v) {
+        return aOfflinePlayer.getEconomyAccount().hasBalance(v);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
-        return null;
+        return withdrawPlayer(A_OfflinePlayer.getAOfflinePlayer(s), v);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        return null;
+        return withdrawPlayer(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String s, String s1, double v) {
-        return null;
+        return withdrawPlayer(s, v);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        return null;
+        return withdrawPlayer(offlinePlayer, v);
+    }
+
+    public EconomyResponse withdrawPlayer(A_OfflinePlayer aOfflinePlayer, double v) {
+        if (this.has(aOfflinePlayer, v)) {
+            aOfflinePlayer.getEconomyAccount().addBalance(-v);
+            return new EconomyResponse(v, aOfflinePlayer.getEconomyAccount().getBalance(), EconomyResponse.ResponseType.SUCCESS, "test success");
+        }
+
+        return new EconomyResponse(v, aOfflinePlayer.getEconomyAccount().getBalance(), EconomyResponse.ResponseType.FAILURE, "test failure");
     }
 
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
-        return null;
+        return this.depositPlayer(A_OfflinePlayer.getAOfflinePlayer(s), v);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        return null;
+        return this.depositPlayer(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override
     public EconomyResponse depositPlayer(String s, String s1, double v) {
-        return null;
+        return this.depositPlayer(s, v);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        return null;
+        return this.depositPlayer(offlinePlayer, v);
+    }
+
+    public EconomyResponse depositPlayer(A_OfflinePlayer aOfflinePlayer, double v) {
+        aOfflinePlayer.getEconomyAccount().addBalance(v);
+        return new EconomyResponse(v, aOfflinePlayer.getEconomyAccount().getBalance(), EconomyResponse.ResponseType.SUCCESS, "test success");
     }
 
     @Override
@@ -199,7 +229,7 @@ public class A_Economy implements Economy {
 
     @Override
     public List<String> getBanks() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

@@ -1,8 +1,6 @@
 package org.red.library.game;
 
 import org.bukkit.Bukkit;
-import org.bukkit.boss.KeyedBossBar;
-import org.red.util.s;
 import org.red.library.world.WorldData;
 
 import java.util.HashMap;
@@ -38,19 +36,6 @@ public final class GameManager {
         }
 
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {
-            if (game instanceof GameTimer) {
-                GameTimer gameTimer = (GameTimer) game;
-                s timer = gameTimer.getTimer();
-                KeyedBossBar bossBar = gameTimer.getBossBar();
-                timer.addBossBar(bossBar);
-                timer.start();
-
-                game.getJoinPlayers().forEach(player -> {
-                    if (player.isOnline())
-                        bossBar.addPlayer(player.getAPlayer().getPlayer());
-                });
-            }
-
             game.start();
             game.setGameStatus(Game.GameStatus.RUNNING);
         });
@@ -72,15 +57,6 @@ public final class GameManager {
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {
             game.stop();
             game.setGameStatus(Game.GameStatus.STOPPED);
-
-            if (game instanceof GameTimer) {
-                GameTimer gameTimer = (GameTimer) game;
-                s timer = gameTimer.getTimer();
-                KeyedBossBar bossBar = gameTimer.getBossBar();
-                timer.getBossBars().clear();
-                timer.stop();
-                bossBar.removeAll();
-            }
         });
     }
 }
