@@ -78,6 +78,12 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
+    public void closeInventoryIgnoreEvent() {
+        this.setPlayerIgnoreCloseInvEvent(true);
+        this.closeInventory();
+    }
+
+    @Override
     public void sendUIActionBar(@NotNull String message) {
         this.uiActionBarRunning = true;
 

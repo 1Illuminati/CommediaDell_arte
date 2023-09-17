@@ -2,7 +2,10 @@ package org.red.a_.vault;
 
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
 import java.util.ArrayList;
@@ -15,6 +18,18 @@ import java.util.List;
  * 은행기능은 아직 미완성 추후에 추가할 예정
  */
 public class A_Economy implements Economy {
+    private static A_Economy aEconomy;
+    public static void setEconomy() {
+        CommediaDell_arte.sendLog("Vault Plugin Checked");
+        RegisteredServiceProvider<A_Economy> rsp = Bukkit.getServicesManager().getRegistration(A_Economy.class);
+        if (rsp == null) return;
+        aEconomy = rsp.getProvider();
+    }
+
+    public static A_Economy getEconomy() {
+        return aEconomy;
+    }
+
     @Override
     public boolean isEnabled() {
         return true;

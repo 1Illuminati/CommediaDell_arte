@@ -127,6 +127,10 @@ public final class A_Manager {
         return aPlayers.computeIfAbsent(player.getUniqueId(), uuid -> new A_PlayerImpl(player, getAOfflinePlayer(player), aVersion));
     }
 
+    public void deleteOldAPlayer(Player player) {
+        aPlayers.remove(player.getUniqueId());
+    }
+
     public static final class A_Version {
         private A_Version(CommediaDell_arte plugin) {}
 

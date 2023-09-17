@@ -1,9 +1,10 @@
 package org.red;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 import org.red.a_.A_Manager;
+import org.red.a_.vault.A_Economy;
 import org.red.event.listener.block.BlockBreakListener;
 import org.red.event.listener.block.BlockPlaceListener;
 import org.red.event.listener.entity.EntityDamageByEntityListener;
@@ -50,14 +51,16 @@ public final class CommediaDell_arte extends A_ {
         this.createFile();
         A_Manager.INSTANCE.allLoad();
 
-        Plugin dd = Bukkit.getPluginManager().getPlugin("dd");
-        if (dd == null) return;
-        Bukkit.getPluginManager().disablePlugin(dd);
+        if (checkSoftPlugin("Vault")) A_Economy.setEconomy();
     }
 
     @Override
     public void onDisable() {
         A_Manager.INSTANCE.allSave();
+    }
+
+    private boolean checkSoftPlugin(String pluginName) {
+        return Bukkit.getPluginManager().getPlugin(pluginName) != null;
     }
 
     private void registerEvent(Listener listener) {

@@ -2,6 +2,7 @@ package org.red.event.listener.player;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.red.a_.A_Manager;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerJoinEvent;
@@ -11,6 +12,7 @@ public class PlayerJoinListener extends AbstractListener<PlayerJoinEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerJoinEvent event) {
+        A_Manager.INSTANCE.deleteOldAPlayer(event.getPlayer());
         super.runAreaPlayerEvent(event);
         A_Player.getAPlayer(event.getPlayer()).sendMessage("§c§l[ CommediaDell_arte ] §fWelcome to the server!");
     }

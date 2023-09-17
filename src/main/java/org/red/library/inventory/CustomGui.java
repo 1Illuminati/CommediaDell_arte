@@ -47,6 +47,10 @@ public class CustomGui implements InventoryHolder {
         this.buttonMap.put(slot, button);
     }
 
+    public void removeButton(int slot) {
+        this.buttonMap.remove(slot);
+    }
+
     public void onClick(InventoryClickEvent event) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -75,8 +79,9 @@ public class CustomGui implements InventoryHolder {
         return inventory.getItem(i);
     }
 
-    public void setItem(int i, ItemStack itemStack) {
+    public ItemStack setItem(int i, ItemStack itemStack) {
         inventory.setItem(i, itemStack);
+        return this.getItem(i);
     }
 
     public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
