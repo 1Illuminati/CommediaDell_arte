@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
@@ -129,7 +130,10 @@ public final class EventItemManager {
     }
 
     private void setEventInItem(ItemStack itemStack) {
-        new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey());
+        //new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey()).build();
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.getPersistentDataContainer().set(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey());
+        itemStack.setItemMeta(itemMeta);
     }
 
     private static class EventMethod {

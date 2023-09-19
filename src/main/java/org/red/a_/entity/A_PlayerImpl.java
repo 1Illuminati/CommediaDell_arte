@@ -50,7 +50,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
         this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
         this.isLastDice = player.getUniqueId().equals(UUID.fromString("8b8d99d0-b102-4d5a-82eb-844dcf0ca7d4"));
-        Bukkit.getScheduler().runTaskTimer(CommediaDell_arte.getPlugin(), new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 if (!player.isOnline()) {
@@ -66,7 +66,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
                     }
                 });
             }
-        }, 0, 1);
+        }.runTaskTimer(CommediaDell_arte.getPlugin(), 0, 1);
     }
 
     public boolean isLastDice() {
