@@ -16,6 +16,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.inventory.*;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
@@ -27,13 +28,12 @@ import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
+    private final Map<NamespacedKey, PlayerRunnableData> playerRunnables = new HashMap<>();
     private final boolean isRedKiller;
     private final boolean isArlecchino;
     private final boolean isLastDice;
@@ -50,6 +50,23 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
         this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
         this.isLastDice = player.getUniqueId().equals(UUID.fromString("8b8d99d0-b102-4d5a-82eb-844dcf0ca7d4"));
+        Bukkit.getScheduler().runTaskTimer(CommediaDell_arte.getPlugin(), new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!player.isOnline()) {
+                    cancel();
+                }
+
+                playerRunnables.forEach((namespacedKey, playerRunnableData) -> {
+                    playerRunnableData.decreaseCoolDown();
+
+                    if (playerRunnableData.getDelay() <= 0) {
+                        playerRunnableData.getRunnable().run(A_PlayerImpl.this);
+                        playerRunnableData.setCoolDown(playerRunnableData.getDelay());
+                    }
+                });
+            }
+        }, 0, 1);
     }
 
     public boolean isLastDice() {
@@ -75,6 +92,21 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public Player getEntity() {
         return player;
+    }
+
+    @Override
+    public void addPlayerRunnable(NamespacedKey key, PlayerRunnable runnable, int delay) {
+
+    }
+
+    @Override
+    public void removePlayerRunnable(NamespacedKey key) {
+
+    }
+
+    @Override
+    public boolean hasPlayerRunnable(NamespacedKey key) {
+        return false;
     }
 
     @Override
@@ -1233,5 +1265,43 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public void setStarvationRate(int i) {
         player.setStarvationRate(i);
+    }
+
+    private static class PlayerRunnableData {
+        private final PlayerRunnable runnable;
+        private final NamespacedKey key;
+        private final int delay;
+        private int coolDown;
+
+        public PlayerRunnableData(PlayerRunnable runnable, NamespacedKey key, int delay) {
+            this.runnable = runnable;
+            this.key = key;
+            this.delay = delay;
+            this.coolDown = delay;
+        }
+
+        public PlayerRunnable getRunnable() {
+            return runnable;
+        }
+
+        public NamespacedKey getKey() {
+            return key;
+        }
+
+        public int getDelay() {
+            return delay;
+        }
+
+        public int getCoolDown() {
+            return coolDown;
+        }
+
+        public void setCoolDown(int nowDelay) {
+            this.coolDown = nowDelay;
+        }
+
+        public void decreaseCoolDown() {
+            this.coolDown--;
+        }
     }
 }

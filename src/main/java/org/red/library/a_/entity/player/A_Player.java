@@ -42,6 +42,12 @@ public interface A_Player extends A_LivingEntity {
         return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
     }
 
+    void addPlayerRunnable(NamespacedKey key, PlayerRunnable runnable, int delay);
+
+    void removePlayerRunnable(NamespacedKey key);
+
+    boolean hasPlayerRunnable(NamespacedKey key);
+
     void closeInventoryIgnoreEvent();
 
     /**
@@ -513,4 +519,8 @@ public interface A_Player extends A_LivingEntity {
 
     @NotNull
     Player.Spigot spigot();
+
+    interface PlayerRunnable {
+        void run(A_Player player);
+    }
 }
