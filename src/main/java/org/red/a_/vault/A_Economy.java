@@ -21,9 +21,9 @@ public class A_Economy implements Economy {
     private static A_Economy aEconomy;
     public static void setEconomy() {
         CommediaDell_arte.sendLog("Vault Plugin Checked");
-        RegisteredServiceProvider<A_Economy> rsp = Bukkit.getServicesManager().getRegistration(A_Economy.class);
-        if (rsp == null) return;
-        aEconomy = rsp.getProvider();
+        A_Economy aEconomy = new A_Economy();
+        Bukkit.getServicesManager().register(Economy.class, aEconomy, CommediaDell_arte.getPlugin(), org.bukkit.plugin.ServicePriority.Highest);
+        A_Economy.aEconomy = aEconomy;
     }
 
     public static A_Economy getEconomy() {
