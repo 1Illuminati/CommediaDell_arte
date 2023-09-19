@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.red.CommediaDell_arte;
 import org.red.library.item.event.EventItem;
 import org.red.library.item.event.EventItemManager;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 
 public class ItemBuilder {
     private final ItemStack itemStack;
-    private final ItemMeta itemMeta;
+    private ItemMeta itemMeta;
     private final PersistentDataContainer persistentDataContainer;
 
     public ItemBuilder(Material material) {
@@ -139,6 +140,7 @@ public class ItemBuilder {
 
     public ItemBuilder setEventItem(EventItem eventItem) {
         EventItemManager.setEventItemInItem(this.itemStack, eventItem);
+        this.itemMeta = this.itemStack.getItemMeta();
         return this;
     }
 

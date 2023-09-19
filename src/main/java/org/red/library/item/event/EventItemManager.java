@@ -100,7 +100,7 @@ public final class EventItemManager {
         EventItemAnnotation.Shift methodShift = method.getShift();
         if (methodShift == EventItemAnnotation.Shift.BOTH || methodShift == shift) {
             try {
-                method.getMethod().invoke(event);
+                method.getMethod().invoke(this.eventItem, event);
             } catch (Exception e) {
                 e.printStackTrace();
             }
