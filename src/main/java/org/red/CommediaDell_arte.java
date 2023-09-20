@@ -50,6 +50,7 @@ public final class CommediaDell_arte extends A_ {
         this.setEvent();
         this.createFile();
         A_Manager.INSTANCE.allLoad();
+        //A_Manager.INSTANCE.test();
 
         if (checkSoftPlugin("Vault")) A_Economy.setEconomy();
     }

@@ -34,6 +34,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
     private final Map<NamespacedKey, PlayerRunnableData> playerRunnables = new HashMap<>();
+    private final UUID uuid = UUID.randomUUID();
     private final boolean isRedKiller;
     private final boolean isArlecchino;
     private final boolean isLastDice;
@@ -50,23 +51,30 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
         this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
         this.isLastDice = player.getUniqueId().equals(UUID.fromString("8b8d99d0-b102-4d5a-82eb-844dcf0ca7d4"));
+        CommediaDell_arte.sendDebugLog("create" + uuid);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (!player.isOnline()) {
+                    A_Manager.INSTANCE.deleteOldAPlayer(A_PlayerImpl.this.getPlayer());
                     cancel();
+                    return;
                 }
 
                 playerRunnables.forEach((namespacedKey, playerRunnableData) -> {
                     playerRunnableData.decreaseCoolDown();
 
-                    if (playerRunnableData.getDelay() <= 0) {
+                    if (playerRunnableData.getCoolDown() <= 0) {
                         playerRunnableData.getRunnable().run(A_PlayerImpl.this);
                         playerRunnableData.setCoolDown(playerRunnableData.getDelay());
                     }
                 });
             }
         }.runTaskTimer(CommediaDell_arte.getPlugin(), 0, 1);
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public boolean isLastDice() {
@@ -96,17 +104,17 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
 
     @Override
     public void addPlayerRunnable(NamespacedKey key, PlayerRunnable runnable, int delay) {
-
+        this.playerRunnables.put(key, new PlayerRunnableData(runnable, key, delay));
     }
 
     @Override
     public void removePlayerRunnable(NamespacedKey key) {
-
+        this.playerRunnables.remove(key);
     }
 
     @Override
     public boolean hasPlayerRunnable(NamespacedKey key) {
-        return false;
+        return this.playerRunnables.containsKey(key);
     }
 
     @Override

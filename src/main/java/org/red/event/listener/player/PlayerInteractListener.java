@@ -23,6 +23,8 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         Action action = event.getAction();
 
         EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf(action.name());
+        CommediaDell_arte.sendDebugLog("PlayerInteractEvent1: " + act.name());
+        CommediaDell_arte.sendDebugLog("PlayerInteractEvent2: " + action.name());
         EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), act, event);
     }
 

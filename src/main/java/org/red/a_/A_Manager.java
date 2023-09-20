@@ -131,6 +131,15 @@ public final class A_Manager {
         aPlayers.remove(player.getUniqueId());
     }
 
+    public void test() {
+        Bukkit.getScheduler().runTaskTimer(CommediaDell_arte.getPlugin(), () -> {
+            aPlayers.forEach((uuid, aPlayer) -> {
+                CommediaDell_arte.sendDebugLog(uuid + " : " + ((A_PlayerImpl) aPlayer).getUuid());
+            });
+        }, 1, 1);
+    }
+
+
     public static final class A_Version {
         private A_Version(CommediaDell_arte plugin) {}
 
