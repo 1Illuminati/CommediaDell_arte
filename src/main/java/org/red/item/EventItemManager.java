@@ -1,4 +1,4 @@
-package org.red.library.item.event;
+package org.red.item;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Event;
@@ -9,11 +9,13 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.item.ItemBuilder;
+import org.red.library.item.event.EventItem;
+import org.red.library.item.event.EventItemAnnotation;
+import org.red.library.util.map.NameSpaceMap;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 
 import java.lang.reflect.Method;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class EventItemManager {
-    private static final Map<NamespacedKey, EventItemManager> map = new HashMap<>();
+    private static final NameSpaceMap<EventItemManager> map = new NameSpaceMap<>();
     private static final NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), "RedKillerLibrary_EventItem");
 
     public static void registerEventItem(EventItem eventItem) {
@@ -74,7 +76,7 @@ public final class EventItemManager {
 
         EventItem eventItem = getEventItemByItem(itemStack);
         EventItemManager manager = map.get(eventItem.getKey());
-        manager.runEvent(event, act, player.isSneaking() ? EventItemAnnotation.Shift.PRESSED : EventItemAnnotation.Shift.NOT_PRESSED);
+        manager.runEvent(event, act, player.isSneaking());
     }
 
     private final EventItem eventItem;
@@ -91,19 +93,16 @@ public final class EventItemManager {
         return eventItem;
     }
 
-    private void runEvent(Event event, EventItemAnnotation.Act act, EventItemAnnotation.Shift shift) {
+    private void runEvent(Event event, EventItemAnnotation.Act act, boolean shift) {
         EventMethod method = methods.getOrDefault(act, null);
 
         if (method == null)
             return;
 
-        EventItemAnnotation.Shift methodShift = method.getShift();
-        if (methodShift == EventItemAnnotation.Shift.BOTH || methodShift == shift) {
-            try {
-                method.getMethod().invoke(this.eventItem, event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            method.getMethod(shift).invoke(this.eventItem, event);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -112,7 +111,7 @@ public final class EventItemManager {
             return;
 
         EventItemAnnotation.Act act = method.getAnnotation(EventItemAnnotation.class).act();
-        EventItemAnnotation.Shift shift = method.getAnnotation(EventItemAnnotation.class).shift();
+        boolean shift = method.getAnnotation(EventItemAnnotation.class).shift();
         Class<?>[] classes = method.getParameterTypes();
 
         if (classes.length != 1)
@@ -125,38 +124,50 @@ public final class EventItemManager {
                 (clazz.isAssignableFrom(BlockBreakEvent.class) && act == EventItemAnnotation.Act.BREAK) ||
                 (clazz.isAssignableFrom(PlayerFishEvent.class) && act == EventItemAnnotation.Act.FISHING) ||
                 (clazz.isAssignableFrom(PlayerInteractEvent.class))) {
-            methods.put(act, new EventMethod(shift, act, method));
+
+            if (this.methods.containsKey(act)) {
+                EventMethod eventMethod = this.methods.get(act);
+
+                if (shift) {
+                    eventMethod.setPressedMethod(method);
+                } else {
+                    eventMethod.setUnPressedMethod(method);
+                }
+            } else {
+                this.methods.put(act, new EventMethod(act, shift ? method : null, shift ? null : method));
+            }
         }
     }
 
     private void setEventInItem(ItemStack itemStack) {
-        //new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey()).build();
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.getPersistentDataContainer().set(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey());
-        itemStack.setItemMeta(itemMeta);
+        new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey()).build();
     }
 
     private static class EventMethod {
-        private final EventItemAnnotation.Shift shift;
         private final EventItemAnnotation.Act act;
-        private final Method method;
+        private Method pressedMethod;
+        private Method unPressedMethod;
 
-        private EventMethod(EventItemAnnotation.Shift shift, EventItemAnnotation.Act act, Method method) {
-            this.shift = shift;
+        private EventMethod(EventItemAnnotation.Act act, Method pressedMethod, Method unPressedMethod) {
             this.act = act;
-            this.method = method;
+            this.pressedMethod = pressedMethod;
+            this.unPressedMethod = unPressedMethod;
         }
 
-        public EventItemAnnotation.Shift getShift() {
-            return shift;
+        public void setPressedMethod(Method pressedMethod) {
+            this.pressedMethod = pressedMethod;
+        }
+
+        public void setUnPressedMethod(Method unPressedMethod) {
+            this.unPressedMethod = unPressedMethod;
         }
 
         public EventItemAnnotation.Act getAct() {
             return act;
         }
 
-        public Method getMethod() {
-            return method;
+        public Method getMethod(boolean shift) {
+            return shift ? pressedMethod : unPressedMethod;
         }
     }
 }

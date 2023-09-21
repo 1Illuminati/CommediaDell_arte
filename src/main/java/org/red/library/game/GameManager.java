@@ -1,7 +1,7 @@
 package org.red.library.game;
 
 import org.bukkit.Bukkit;
-import org.red.library.world.WorldData;
+import org.red.library.A_;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +29,7 @@ public final class GameManager {
 
         if (game instanceof GameArea) {
             GameArea gameArea = (GameArea) game;
-            gameArea.getArea().forEach(area -> {
-                WorldData worldData = WorldData.getWorldData(area.getWorld());
-                worldData.putArea(area);
-            });
+            gameArea.getArea().forEach(area -> A_.getAWorld(area.getWorld()).putArea(area));
         }
 
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {
@@ -48,10 +45,7 @@ public final class GameManager {
 
         if (game instanceof GameArea) {
             GameArea gameArea = (GameArea) game;
-            gameArea.getArea().forEach(area -> {
-                WorldData worldData = WorldData.getWorldData(area.getWorld());
-                worldData.removeArea(area.getKey());
-            });
+            gameArea.getArea().forEach(area -> A_.getAWorld(area.getWorld()).removeArea(area.getKey()));
         }
 
         Bukkit.getScheduler().runTask(game.getPlugin(), () -> {

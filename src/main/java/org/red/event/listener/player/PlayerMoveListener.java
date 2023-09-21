@@ -2,11 +2,11 @@ package org.red.event.listener.player;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerMoveEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
 
 public class PlayerMoveListener extends AbstractListener<PlayerMoveEvent> {
@@ -15,10 +15,8 @@ public class PlayerMoveListener extends AbstractListener<PlayerMoveEvent> {
     public void onEvent(PlayerMoveEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = A_Player.getAPlayer(event.getPlayer());
-        WorldData worldData = WorldData.getWorldData(player.getWorld());
-
-        if (!worldData.getRuleValue(Rule.MOVE, player.getLocation())) event.setCancelled(true);
+        A_Player player = A_.getAPlayer(event.getPlayer());
+        if (!player.getAWorld().getRuleValue(Rule.MOVE, player.getLocation())) event.setCancelled(true);
     }
 
     @Override

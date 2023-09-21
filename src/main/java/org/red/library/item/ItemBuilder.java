@@ -11,9 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.red.CommediaDell_arte;
 import org.red.library.item.event.EventItem;
-import org.red.library.item.event.EventItemManager;
+import org.red.item.EventItemManager;
 
 import java.util.Arrays;
 import java.util.List;

@@ -5,8 +5,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.red.CommediaDell_arte;
-import org.red.a_.A_Data;
-import org.red.a_.A_Manager;
+import org.red.library.a_.A_Data;
+import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.player.npc.A_NPC;
 
 import java.io.File;
@@ -14,8 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
-    public A_NPCImpl(Player player, A_Data aData, A_Manager.A_Version aVersion) {
-        super(player, new A_OfflinePlayerImpl(player, aData, aVersion), aVersion);
+    public A_NPCImpl(Player player, A_ManagerImpl.A_Version aVersion) {
+        super(player, new A_OfflinePlayerImpl(player, aVersion), aVersion);
     }
 
     @Override

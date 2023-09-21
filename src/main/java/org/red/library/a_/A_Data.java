@@ -1,4 +1,4 @@
-package org.red.a_;
+package org.red.library.a_;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;

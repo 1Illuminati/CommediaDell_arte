@@ -5,14 +5,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.red.a_.entity.A_PlayerImpl;
+import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockPlaceEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
-
-import java.util.Arrays;
 
 public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     @Override
@@ -20,16 +18,14 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
     public void onEvent(BlockPlaceEvent event) {
         super.runAreaBlockEvent(event);
 
-        A_Player player = A_Player.getAPlayer(event.getPlayer());
+        A_Player player = A_.getAPlayer(event.getPlayer());
         Block block = event.getBlock();
-        WorldData worldData = WorldData.getWorldData(player.getWorld());
-
-        if (!worldData.getRuleValue(Rule.PLACE, Arrays.asList(block.getLocation(), player.getLocation()))) event.setCancelled(true);
+        if (!player.getAWorld().getRuleValue(Rule.PLACE, player.getLocation(), block.getLocation())) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void monitorEvent(BlockPlaceEvent event) {
-        A_PlayerImpl player = (A_PlayerImpl) A_Player.getAPlayer(event.getPlayer());
+        A_PlayerImpl player = (A_PlayerImpl) A_.getAPlayer(event.getPlayer());
         player.setLastBreakBlock(event.getBlock().getState());
     }
 

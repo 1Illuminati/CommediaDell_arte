@@ -10,13 +10,7 @@ import java.lang.annotation.Target;
 public @interface EventItemAnnotation {
     Act act();
 
-    Shift shift() default Shift.NOT_PRESSED;
-
-    enum Shift {
-        PRESSED,
-        NOT_PRESSED,
-        BOTH
-    }
+    boolean shift() default false;
 
     enum Act {
         LEFT_CLICK_AIR,

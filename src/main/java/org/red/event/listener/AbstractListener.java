@@ -10,11 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.event.player.PlayerEvent;
+import org.red.library.A_;
+import org.red.library.a_.world.A_World;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
-import org.red.library.world.WorldData;
 
-import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractListener<T extends Event> implements Listener {
     @EventHandler
@@ -27,8 +28,8 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
         PlayerEvent playerEvent = (PlayerEvent) event;
         Player player = playerEvent.getPlayer();
-        WorldData worldData = WorldData.getWorldData(player.getWorld());
-        runAreaEvent(event, worldData.getContainArea(player.getLocation()));
+        A_World world = A_.getAWorld(player.getWorld());
+        runAreaEvent(event, world.getContainAreas(player.getLocation()));
     }
 
     protected void runAreaEntityEvent(T event) {
@@ -36,8 +37,8 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
         EntityEvent entityEvent = (EntityEvent) event;
         Entity entity = entityEvent.getEntity();
-        WorldData worldData = WorldData.getWorldData(entity.getWorld());
-        runAreaEvent(event, worldData.getContainArea(entity.getLocation()));
+        A_World world = A_.getAWorld(entity.getWorld());
+        runAreaEvent(event, world.getContainAreas(entity.getLocation()));
     }
 
     protected void runAreaBlockEvent(T event) {
@@ -45,11 +46,11 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
         BlockEvent blockEvent = (BlockEvent) event;
         Block block = blockEvent.getBlock();
-        WorldData worldData = WorldData.getWorldData(block.getWorld());
-        runAreaEvent(event, worldData.getContainArea(block.getLocation()));
+        A_World world = A_.getAWorld(block.getWorld());
+        runAreaEvent(event, world.getContainAreas(block.getLocation()));
     }
 
-    protected void runAreaEvent(T event, List<Area> areas) {
+    protected void runAreaEvent(T event, Set<Area> areas) {
         for (Area area : areas) {
             AreaEvent<T> areaEvent;
 

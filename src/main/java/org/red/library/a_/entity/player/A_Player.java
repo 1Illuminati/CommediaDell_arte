@@ -17,7 +17,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.a_.A_Manager;
 import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
@@ -28,21 +27,8 @@ import java.util.Set;
 import java.util.UUID;
 
 public interface A_Player extends A_LivingEntity {
-    static A_Player getAPlayer(Player player) {
-        return A_Manager.INSTANCE.getAPlayer(player);
-    }
 
-    static A_Player getAPlayer(String name) {
-        Player player = Bukkit.getPlayer(name);
-        return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
-    }
-
-    static A_Player getAPlayer(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        return player == null ? null : A_Manager.INSTANCE.getAPlayer(player);
-    }
-
-    void addPlayerRunnable(NamespacedKey key, PlayerRunnable runnable, int delay);
+    void addPlayerRunnable(NamespacedKey key, Runnable runnable, int delay);
 
     void removePlayerRunnable(NamespacedKey key);
 
@@ -519,8 +505,4 @@ public interface A_Player extends A_LivingEntity {
 
     @NotNull
     Player.Spigot spigot();
-
-    interface PlayerRunnable {
-        void run(A_Player player);
-    }
 }

@@ -9,12 +9,12 @@ import org.red.library.item.event.EventItemAnnotation;
 
 public abstract class Angel implements EventItem {
 
-    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_AIR, shift = EventItemAnnotation.Shift.BOTH)
+    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_AIR)
     public void rightClickAir(PlayerInteractEvent event) {
         this.rightClickBlock(event);
     }
 
-    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_BLOCK, shift = EventItemAnnotation.Shift.BOTH)
+    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_BLOCK, shift = true)
     public void rightClickBlock(PlayerInteractEvent event) {
 
     }

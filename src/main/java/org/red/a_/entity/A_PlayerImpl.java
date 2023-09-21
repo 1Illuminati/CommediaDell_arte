@@ -22,7 +22,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
-import org.red.a_.A_Manager;
+import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
@@ -31,32 +31,30 @@ import java.net.InetSocketAddress;
 import java.util.*;
 
 public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
-    private final Player player;
     private final A_OfflinePlayer aOfflinePlayer;
     private final Map<NamespacedKey, PlayerRunnableData> playerRunnables = new HashMap<>();
     private final UUID uuid = UUID.randomUUID();
     private final boolean isRedKiller;
     private final boolean isArlecchino;
     private final boolean isLastDice;
+    private final Player player;
     private Game playingGame;
     private BlockState lastBreakBlock;
     private BlockState lastPlaceBlock;
     private boolean ignoreInvCloseEvent = false;
     private boolean uiActionBarRunning = false;
     private BukkitTask uiActionBarTask = null;
-    public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_Manager.A_Version aVersion) {
+    public A_PlayerImpl(Player player, A_OfflinePlayer aOfflinePlayer, A_ManagerImpl.A_Version aVersion) {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
         this.player = player;
         this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
         this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
         this.isLastDice = player.getUniqueId().equals(UUID.fromString("8b8d99d0-b102-4d5a-82eb-844dcf0ca7d4"));
-        CommediaDell_arte.sendDebugLog("create" + uuid);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (!player.isOnline()) {
-                    A_Manager.INSTANCE.deleteOldAPlayer(A_PlayerImpl.this.getPlayer());
                     cancel();
                     return;
                 }
@@ -65,7 +63,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
                     playerRunnableData.decreaseCoolDown();
 
                     if (playerRunnableData.getCoolDown() <= 0) {
-                        playerRunnableData.getRunnable().run(A_PlayerImpl.this);
+                        playerRunnableData.getRunnable().run();
                         playerRunnableData.setCoolDown(playerRunnableData.getDelay());
                     }
                 });
@@ -103,7 +101,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
-    public void addPlayerRunnable(NamespacedKey key, PlayerRunnable runnable, int delay) {
+    public void addPlayerRunnable(NamespacedKey key, Runnable runnable, int delay) {
         this.playerRunnables.put(key, new PlayerRunnableData(runnable, key, delay));
     }
 
@@ -968,7 +966,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
 
     @Override
     public Player getPlayer() {
-        return aOfflinePlayer.getPlayer();
+        return this.player;
     }
 
     @Override
@@ -1276,19 +1274,19 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     private static class PlayerRunnableData {
-        private final PlayerRunnable runnable;
+        private final Runnable runnable;
         private final NamespacedKey key;
         private final int delay;
         private int coolDown;
 
-        public PlayerRunnableData(PlayerRunnable runnable, NamespacedKey key, int delay) {
+        public PlayerRunnableData(Runnable runnable, NamespacedKey key, int delay) {
             this.runnable = runnable;
             this.key = key;
             this.delay = delay;
             this.coolDown = delay;
         }
 
-        public PlayerRunnable getRunnable() {
+        public Runnable getRunnable() {
             return runnable;
         }
 

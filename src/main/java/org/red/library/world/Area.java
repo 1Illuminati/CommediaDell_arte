@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.util.BoundingBox;
+import org.bukkit.util.Vector;
 import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 import org.red.library.world.rule.RuleMap;
@@ -30,13 +31,17 @@ public class Area implements HasRule {
         return key;
     }
 
+    public boolean contain(Vector vec) {
+        return boundingBox.contains(vec);
+    }
+
     /**
      * area안에 loc가 포함되어있는지 확인
      * @param loc 확인할 위치
      * @return 포함되어있으면 true, 아니면 false
      */
     public boolean contain(Location loc) {
-        return boundingBox.contains(loc.toVector());
+        return this.contain(loc.toVector());
     }
 
     /**
@@ -47,22 +52,31 @@ public class Area implements HasRule {
     public boolean contain(BoundingBox boundingBox) {
         return this.boundingBox.contains(boundingBox);
     }
+
     /**
      * area안에 interfaceArea가 포함되어있는지 확인
-     * @param interfaceArea 확인할 위치
+     * @param area 확인할 위치
      * @return 포함되어있으면 true, 아니면 false
      */
-    public boolean contain(Area interfaceArea) {
-        return boundingBox.contains(interfaceArea.boundingBox);
+    public boolean contain(Area area) {
+        return boundingBox.contains(area.boundingBox);
+    }
+
+    public boolean contain(Vector start, Vector end) {
+        return boundingBox.contains(start, end);
+    }
+
+    public boolean contain(Location start, Location end) {
+        return boundingBox.contains(start.toVector(), end.toVector());
     }
 
     /**
      * area안에 interfaceArea가 겹치는 구역이 있는지 확인
-     * @param interfaceArea 확인할 위치
+     * @param area 확인할 위치
      * @return 겹치는 공간이 존재하면 true, 아니면 false
      */
-    public boolean overlap(Area interfaceArea) {
-        return boundingBox.overlaps(interfaceArea.boundingBox);
+    public boolean overlap(Area area) {
+        return boundingBox.overlaps(area.boundingBox);
     }
 
     /**
@@ -72,6 +86,14 @@ public class Area implements HasRule {
      */
     public boolean overlap(BoundingBox boundingBox) {
         return this.boundingBox.overlaps(boundingBox);
+    }
+
+    public boolean overlap(Vector start, Vector end) {
+        return boundingBox.overlaps(start, end);
+    }
+
+    public boolean overlap(Location start, Location end) {
+        return boundingBox.overlaps(start.toVector(), end.toVector());
     }
 
     @Override

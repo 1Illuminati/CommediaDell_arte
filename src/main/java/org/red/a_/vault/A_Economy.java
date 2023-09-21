@@ -4,8 +4,8 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.red.CommediaDell_arte;
+import org.red.library.A_;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
 import java.util.ArrayList;
@@ -87,12 +87,12 @@ public class A_Economy implements Economy {
 
     @Override
     public double getBalance(String s) {
-        return this.getBalance(A_OfflinePlayer.getAOfflinePlayer(s));
+        return this.getBalance(A_.getAOfflinePlayer(s));
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return this.getBalance(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer));
+        return this.getBalance(A_.getAOfflinePlayer(offlinePlayer));
     }
 
     @Override
@@ -111,12 +111,12 @@ public class A_Economy implements Economy {
 
     @Override
     public boolean has(String s, double v) {
-        return this.has(A_OfflinePlayer.getAOfflinePlayer(s), v);
+        return this.has(A_.getAOfflinePlayer(s), v);
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return this.has(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
+        return this.has(A_.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override
@@ -135,12 +135,12 @@ public class A_Economy implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
-        return withdrawPlayer(A_OfflinePlayer.getAOfflinePlayer(s), v);
+        return withdrawPlayer(A_.getAOfflinePlayer(s), v);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        return withdrawPlayer(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
+        return withdrawPlayer(A_.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override
@@ -164,12 +164,12 @@ public class A_Economy implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
-        return this.depositPlayer(A_OfflinePlayer.getAOfflinePlayer(s), v);
+        return this.depositPlayer(A_.getAOfflinePlayer(s), v);
     }
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        return this.depositPlayer(A_OfflinePlayer.getAOfflinePlayer(offlinePlayer), v);
+        return this.depositPlayer(A_.getAOfflinePlayer(offlinePlayer), v);
     }
 
     @Override

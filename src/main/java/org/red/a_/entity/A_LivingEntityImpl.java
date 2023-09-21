@@ -13,8 +13,8 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.a_.A_Data;
-import org.red.a_.A_Manager;
+import org.red.library.a_.A_Data;
+import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.A_LivingEntity;
 
 import java.util.Collection;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class A_LivingEntityImpl extends A_EntityImpl implements A_LivingEntity {
     private final LivingEntity livingEntity;
-    public A_LivingEntityImpl(LivingEntity livingEntity, A_Data aData, A_Manager.A_Version version) {
+    public A_LivingEntityImpl(LivingEntity livingEntity, A_Data aData, A_ManagerImpl.A_Version version) {
         super(livingEntity, aData, version);
         this.livingEntity = livingEntity;
     }

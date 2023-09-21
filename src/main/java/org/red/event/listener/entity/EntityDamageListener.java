@@ -4,11 +4,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.red.library.a_.entity.player.A_Player;
+import org.red.library.A_;
+import org.red.library.a_.world.A_World;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntityDamageEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.world.WorldData;
 import org.red.library.world.rule.Rule;
 
 public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
@@ -19,14 +19,12 @@ public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
 
         Entity entity  = event.getEntity();
         EntityDamageEvent.DamageCause cause = event.getCause();
-        WorldData worldData = WorldData.getWorldData(entity.getWorld());
+        A_World world = A_.getAWorld(entity.getWorld());
 
         if (entity instanceof Player) {
-            A_Player player = A_Player.getAPlayer((Player) entity);
-
             if (cause != EntityDamageEvent.DamageCause.FALL) return;
 
-            if (!worldData.getRuleValue(Rule.FALL_DAMAGE)) event.setCancelled(true);
+            if (!world.getRuleValue(Rule.FALL_DAMAGE)) event.setCancelled(true);
         }
     }
 

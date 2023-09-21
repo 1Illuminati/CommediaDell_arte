@@ -11,7 +11,7 @@ public final class RedKillerDagger implements EventItem {
         return new NamespacedKey(CommediaDell_arte.getPlugin(), "RedKillerDagger");
     }
 
-    @EventItemAnnotation(act = EventItemAnnotation.Act.SWAP_HAND, shift = EventItemAnnotation.Shift.BOTH)
+    @EventItemAnnotation(act = EventItemAnnotation.Act.SWAP_HAND)
     public void swapHand() {
 
     }

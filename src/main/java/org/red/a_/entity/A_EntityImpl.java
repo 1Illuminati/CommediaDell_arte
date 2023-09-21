@@ -20,22 +20,28 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.red.a_.A_Data;
-import org.red.a_.A_Manager;
+import org.red.library.A_;
+import org.red.library.a_.A_Data;
+import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.a_.entity.A_LivingEntity;
+import org.red.library.a_.world.A_World;
 
 import java.util.*;
 
 public class A_EntityImpl implements A_Entity {
     private final Entity entity;
     private final A_Data aData;
-    private final A_Manager.A_Version version;
+    private final A_ManagerImpl.A_Version version;
 
-    public A_EntityImpl(Entity entity, A_Data aData, A_Manager.A_Version version) {
+    public A_EntityImpl(Entity entity, A_Data aData, A_ManagerImpl.A_Version version) {
         this.entity = entity;
         this.aData = aData;
         this.version = version;
+    }
+
+    public A_World getAWorld() {
+        return A_.getAWorld(entity.getWorld());
     }
 
     @Override

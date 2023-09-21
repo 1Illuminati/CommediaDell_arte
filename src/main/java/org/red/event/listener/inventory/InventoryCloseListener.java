@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.red.a_.entity.A_PlayerImpl;
+import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.event.listener.AbstractListener;
@@ -17,7 +18,7 @@ public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent
         if (inventory.getHolder() == null) return;
         if (!(inventory.getHolder() instanceof CustomGui)) return;
 
-        A_PlayerImpl player = (A_PlayerImpl) A_Player.getAPlayer((Player) event.getPlayer());
+        A_PlayerImpl player = (A_PlayerImpl) A_.getAPlayer((Player) event.getPlayer());
         if (player.isPlayerIgnoreCloseInvEvent()) {
             player.setPlayerIgnoreCloseInvEvent(false);
             return;

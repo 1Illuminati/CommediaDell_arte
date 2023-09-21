@@ -1,9 +1,6 @@
 package org.red.a_.entity;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,8 +9,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
-import org.red.a_.A_Data;
-import org.red.a_.A_Manager;
+import org.red.library.A_;
+import org.red.library.a_.A_Data;
+import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
@@ -23,15 +21,19 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class A_OfflinePlayerImpl implements A_OfflinePlayer {
-    private final OfflinePlayer offlinePlayer;
-    private final A_Data aData;
-    private final A_Manager.A_Version aVersion;
+    private OfflinePlayer offlinePlayer;
+    private final A_Data aData = A_Data.newAData();
+    private final A_ManagerImpl.A_Version aVersion;
 
-    public A_OfflinePlayerImpl(OfflinePlayer offlinePlayer, A_Data aData, A_Manager.A_Version aVersion) {
+    public A_OfflinePlayerImpl(OfflinePlayer offlinePlayer, A_ManagerImpl.A_Version aVersion) {
         this.offlinePlayer = offlinePlayer;
-        this.aData = aData;
         this.aVersion = aVersion;
         this.aDataLoad();
+    }
+
+    public A_OfflinePlayerImpl updateOfflinePlayer() {
+        this.offlinePlayer = Bukkit.getOfflinePlayer(this.getUniqueId());
+        return this;
     }
 
     @Override
@@ -79,7 +81,7 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
 
     @Override
     public @Nullable A_Player getAPlayer() {
-        return isOnline() ? A_Player.getAPlayer(this.getUniqueId()) : null;
+        return isOnline() ? A_.getAPlayer(this.getUniqueId()) : null;
     }
 
     @Override
