@@ -10,12 +10,6 @@ description: For Fun
 
 
 commands:
-  actionbar:
-    description: "Send a message to the actionbar"
-    usage: /<command> <message>
-    permission: actionbar.use
-
-permissions:
-    actionbar.use:
-        description: "Allows you to send a message to the actionbar"
-        default: op
+  a_:
+    description: "A_ Command"
+    permission: op

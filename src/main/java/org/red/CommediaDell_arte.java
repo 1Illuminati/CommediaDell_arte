@@ -1,9 +1,12 @@
 package org.red;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.red.a_.A_ManagerImpl;
+import org.red.a_.command.A_Command;
 import org.red.a_.vault.A_Economy;
 import org.red.event.listener.block.BlockBreakListener;
 import org.red.event.listener.block.BlockPlaceListener;
@@ -15,6 +18,7 @@ import org.red.event.listener.inventory.InventoryCloseListener;
 import org.red.event.listener.inventory.InventoryOpenListener;
 import org.red.event.listener.player.*;
 import org.red.library.A_;
+import org.red.library.command.AbstractCommand;
 
 import java.io.File;
 
@@ -47,12 +51,15 @@ public final class CommediaDell_arte extends JavaPlugin {
     @Override
     public void onEnable() {
         CommediaDell_arte.plugin = this;
+        this.setCommand();
         this.setEvent();
         this.createFile();
         A_ManagerImpl.INSTANCE.allLoad();
         A_.setA_Plugin(A_ManagerImpl.INSTANCE);
 
         if (checkSoftPlugin("Vault")) A_Economy.setEconomy();
+
+        Bukkit.getOnlinePlayers().forEach(player -> Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(player, null)));
     }
 
     @Override
@@ -62,6 +69,17 @@ public final class CommediaDell_arte extends JavaPlugin {
 
     private boolean checkSoftPlugin(String pluginName) {
         return Bukkit.getPluginManager().getPlugin(pluginName) != null;
+    }
+
+    private void registerCommand(AbstractCommand command) {
+        PluginCommand cmd = this.getCommand(command.getName());
+        if (cmd == null) throw new NullPointerException("Command is null");
+        cmd.setExecutor(command);
+        cmd.setTabCompleter(command);
+    }
+
+    private void setCommand() {
+        this.registerCommand(new A_Command());
     }
 
     private void registerEvent(Listener listener) {
