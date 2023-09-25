@@ -8,7 +8,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerSwapHandItemsEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
-import org.red.item.EventItemManager;
+import org.red.item.event.EventItemInfo;
 import org.red.library.world.rule.Rule;
 
 public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHandItemsEvent> {
@@ -18,7 +18,7 @@ public class PlayerSwapHandItemsListener extends AbstractListener<PlayerSwapHand
         super.runAreaPlayerEvent(event);
 
         A_Player player = A_.getAPlayer(event.getPlayer());
-        EventItemManager.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.SWAP_HAND, event);
+        EventItemInfo.runItemEvent(player, player.getInventory().getItemInMainHand(), EventItemAnnotation.Act.SWAP_HAND, event);
         if (!player.getAWorld().getRuleValue(Rule.SWAP_HAND, player.getLocation())) event.setCancelled(true);
     }
 

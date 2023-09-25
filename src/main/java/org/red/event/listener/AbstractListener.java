@@ -3,12 +3,14 @@ package org.red.event.listener;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.player.PlayerEvent;
 import org.red.library.A_;
 import org.red.library.a_.world.A_World;
@@ -48,6 +50,15 @@ public abstract class AbstractListener<T extends Event> implements Listener {
         Block block = blockEvent.getBlock();
         A_World world = A_.getAWorld(block.getWorld());
         runAreaEvent(event, world.getContainAreas(block.getLocation()));
+    }
+
+    protected void runAreaInventoryEvent(T event) {
+        if (!(event instanceof InventoryEvent)) throw new IllegalArgumentException("Event must be BlockEvent");
+
+        InventoryEvent inventoryEvent = (InventoryEvent) event;
+        HumanEntity humanEntity = inventoryEvent.getView().getPlayer();
+        A_World world = A_.getAWorld(humanEntity.getWorld());
+        runAreaEvent(event, world.getContainAreas(humanEntity.getLocation()));
     }
 
     protected void runAreaEvent(T event, Set<Area> areas) {

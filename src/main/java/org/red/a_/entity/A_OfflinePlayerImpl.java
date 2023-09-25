@@ -6,6 +6,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
@@ -193,6 +195,15 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
     @Override
     public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int i) {
         offlinePlayer.setStatistic(statistic, entityType, i);
+    }
+
+    @Override
+    public ItemStack getPlayerSkull() {
+        ItemStack itemStack = new ItemStack(org.bukkit.Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+        skullMeta.setOwningPlayer(this.offlinePlayer);
+        itemStack.setItemMeta(skullMeta);
+        return itemStack;
     }
 
     @Override

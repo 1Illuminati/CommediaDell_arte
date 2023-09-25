@@ -1,4 +1,4 @@
-package org.red.item;
+package org.red.item.event;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Event;
@@ -22,22 +22,22 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class EventItemManager {
-    private static final NameSpaceMap<EventItemManager> map = new NameSpaceMap<>();
+public final class EventItemInfo {
+    private static final NameSpaceMap<EventItemInfo> map = new NameSpaceMap<>();
     private static final NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), "RedKillerLibrary_EventItem");
 
     public static void registerEventItem(EventItem eventItem) {
         NamespacedKey key = eventItem.getKey();
         CommediaDell_arte.sendDebugLog("Register EventItem: " + key.getKey());
-        map.put(key, new EventItemManager(eventItem));
+        map.put(key, new EventItemInfo(eventItem));
     }
 
     public static void setEventItemInItem(ItemStack itemStack, EventItem eventItem) {
         NamespacedKey key = eventItem.getKey();
         if (!map.containsKey(key))
-            EventItemManager.registerEventItem(eventItem);
+            EventItemInfo.registerEventItem(eventItem);
 
-        EventItemManager manager = map.get(key);
+        EventItemInfo manager = map.get(key);
         manager.setEventInItem(itemStack);
     }
 
@@ -75,14 +75,14 @@ public final class EventItemManager {
             return;
 
         EventItem eventItem = getEventItemByItem(itemStack);
-        EventItemManager manager = map.get(eventItem.getKey());
+        EventItemInfo manager = map.get(eventItem.getKey());
         manager.runEvent(event, act, player.isSneaking());
     }
 
     private final EventItem eventItem;
     private final Map<EventItemAnnotation.Act, EventMethod> methods = new HashMap<>();
 
-    private EventItemManager(EventItem eventItem) {
+    private EventItemInfo(EventItem eventItem) {
         this.eventItem = eventItem;
 
         for (Method method : eventItem.getClass().getMethods())

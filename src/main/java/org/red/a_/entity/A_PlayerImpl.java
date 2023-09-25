@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.a_.A_ManagerImpl;
+import org.red.a_.admin.A_Admin;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
@@ -34,10 +35,8 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final A_OfflinePlayer aOfflinePlayer;
     private final Map<NamespacedKey, PlayerRunnableData> playerRunnables = new HashMap<>();
     private final UUID uuid = UUID.randomUUID();
-    private final boolean isRedKiller;
-    private final boolean isArlecchino;
-    private final boolean isLastDice;
     private final Player player;
+    private final A_Admin aAdmin;
     private Game playingGame;
     private BlockState lastBreakBlock;
     private BlockState lastPlaceBlock;
@@ -48,9 +47,7 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         super(player, aOfflinePlayer.getAData(), aVersion);
         this.aOfflinePlayer = aOfflinePlayer;
         this.player = player;
-        this.isRedKiller = player.getUniqueId().equals(UUID.fromString("a9f022ea-c7b0-4b13-8543-e6ed24e8396f"));
-        this.isArlecchino = player.getUniqueId().equals(UUID.fromString("5652f272-bced-4a09-8785-3e5bf260a3f9"));
-        this.isLastDice = player.getUniqueId().equals(UUID.fromString("8b8d99d0-b102-4d5a-82eb-844dcf0ca7d4"));
+        this.aAdmin = Arrays.stream(A_Admin.values()).filter(a_admin -> a_admin.getUuid().equals(player.getUniqueId())).findFirst().orElse(null);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -71,20 +68,13 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         }.runTaskTimer(CommediaDell_arte.getPlugin(), 0, 1);
     }
 
+    @Nullable
+    public A_Admin getAAdmin() {
+        return aAdmin;
+    }
+
     public UUID getUuid() {
         return uuid;
-    }
-
-    public boolean isLastDice() {
-        return isLastDice;
-    }
-
-    public boolean isRedKiller() {
-        return isRedKiller;
-    }
-
-    public boolean isArlecchino() {
-        return isArlecchino;
     }
 
     public boolean isPlayerIgnoreCloseInvEvent() {
@@ -98,6 +88,11 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public Player getEntity() {
         return player;
+    }
+
+    @Override
+    public ItemStack getPlayerSkull() {
+        return this.aOfflinePlayer.getPlayerSkull();
     }
 
     @Override
@@ -185,6 +180,28 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public Game getPlayingGame() {
         return playingGame;
+    }
+
+    @Override
+    public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) {
+        return this.getInventory().addItem(itemStacks);
+    }
+
+    @Override
+    public void addItemNature(ItemStack... itemStacks) {
+        Map<Integer, ItemStack> map = this.getInventory().addItem(itemStacks);
+        map.forEach((integer, itemStack) -> this.getWorld().dropItem(this.getLocation(), itemStack));
+    }
+
+    @Override
+    public void addItemNature(ItemStack itemStack, int amount) {
+        ItemStack clone = itemStack.clone();
+        int maxStackSize = itemStack.getMaxStackSize();
+
+        for (int i = 0; i < amount; i+=maxStackSize) {
+            clone.setAmount(i + maxStackSize > amount ? amount - i : maxStackSize);
+            this.addItemNature(clone);
+        }
     }
 
     public void setPlayingGame(Game game) {

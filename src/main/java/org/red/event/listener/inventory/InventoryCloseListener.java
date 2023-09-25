@@ -14,6 +14,7 @@ public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent
     @Override
     @EventHandler
     public void onEvent(InventoryCloseEvent event) {
+        super.runAreaInventoryEvent(event);
         org.bukkit.inventory.Inventory inventory = event.getInventory();
         if (inventory.getHolder() == null) return;
         if (!(inventory.getHolder() instanceof CustomGui)) return;

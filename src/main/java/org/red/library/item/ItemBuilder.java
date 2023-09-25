@@ -12,7 +12,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.red.library.item.event.EventItem;
-import org.red.item.EventItemManager;
+import org.red.item.event.EventItemInfo;
 
 import java.util.Arrays;
 import java.util.List;
@@ -134,11 +134,11 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setEventItem(NamespacedKey key) {
-        return this.setEventItem(EventItemManager.getEventItemByKey(key));
+        return this.setEventItem(EventItemInfo.getEventItemByKey(key));
     }
 
     public ItemBuilder setEventItem(EventItem eventItem) {
-        EventItemManager.setEventItemInItem(this.itemStack, eventItem);
+        EventItemInfo.setEventItemInItem(this.itemStack, eventItem);
         this.itemMeta = this.itemStack.getItemMeta();
         return this;
     }

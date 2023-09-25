@@ -1,4 +1,16 @@
 package org.red.library.event.area.inventory;
 
-public class AreaInventoryClickEvent {
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.red.library.event.area.AreaEvent;
+import org.red.library.world.Area;
+
+public class AreaInventoryClickEvent extends AreaEvent<InventoryClickEvent> {
+    public AreaInventoryClickEvent(Area area, InventoryClickEvent event) {
+        super(area, event);
+    }
+
+    public static HandlerList getHandlerList() {
+        return handler_map.computeIfAbsent(AreaInventoryClickEvent.class, k -> new HandlerList());
+    }
 }

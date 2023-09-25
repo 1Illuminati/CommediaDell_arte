@@ -11,6 +11,7 @@ public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> 
     @Override
     @EventHandler
     public void onEvent(InventoryOpenEvent event) {
+        super.runAreaInventoryEvent(event);
         Inventory inventory = event.getInventory();
         if (inventory.getHolder() == null) return;
         if (!(inventory.getHolder() instanceof CustomGui)) return;

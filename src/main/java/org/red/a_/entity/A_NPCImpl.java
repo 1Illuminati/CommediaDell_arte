@@ -19,21 +19,6 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
     }
 
     @Override
-    public boolean isLastDice() {
-        return false;
-    }
-
-    @Override
-    public boolean isRedKiller() {
-        return false;
-    }
-
-    @Override
-    public boolean isArlecchino() {
-        return false;
-    }
-
-    @Override
     public boolean isNPC() {
         return true;
     }

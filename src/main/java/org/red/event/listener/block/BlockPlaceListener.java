@@ -7,9 +7,11 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.red.a_.entity.A_PlayerImpl;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
+import org.red.library.a_.world.A_World;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockPlaceEvent;
 import org.red.event.listener.AbstractListener;
+import org.red.library.item.material.MaterialAct;
 import org.red.library.world.rule.Rule;
 
 public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
@@ -19,8 +21,11 @@ public class BlockPlaceListener extends AbstractListener<BlockPlaceEvent> {
         super.runAreaBlockEvent(event);
 
         A_Player player = A_.getAPlayer(event.getPlayer());
+        A_World world = player.getAWorld();
         Block block = event.getBlock();
-        if (!player.getAWorld().getRuleValue(Rule.PLACE, player.getLocation(), block.getLocation())) event.setCancelled(true);
+
+        if (!world.isActAllowed(block.getType(), MaterialAct.PLACE)) event.setCancelled(true);
+        if (!world.getRuleValue(Rule.PLACE, player.getLocation(), block.getLocation())) event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

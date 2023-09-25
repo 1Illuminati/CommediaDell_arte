@@ -14,6 +14,8 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
 import org.red.library.item.event.EventItem;
+import org.red.library.item.shop.ShopItem;
+import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
@@ -27,6 +29,18 @@ public final class A_ {
     }
 
     private A_() {
+    }
+
+    public static ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice) {
+        return plugin.createBuyShopItem(originItem, buyPrice);
+    }
+
+    public static ShopItem createSellShopItem(ItemStack originItem, Price sellPrice) {
+        return plugin.createSellShopItem(originItem, sellPrice);
+    }
+
+    public static ShopItem createBothShopItem(ItemStack originItem, Price buyPrice, Price sellPrice) {
+        return plugin.createBothShopItem(originItem, buyPrice, sellPrice);
     }
 
     public static void setItemInEvent(EventItem eventItem, ItemStack itemStack) {

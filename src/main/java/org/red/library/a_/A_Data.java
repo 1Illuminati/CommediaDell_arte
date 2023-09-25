@@ -34,6 +34,7 @@ public final class A_Data implements ConfigurationSerializable {
     public void copy(A_Data aData) {
         this.dataMap.copy(aData.getDataMap());
         this.coolTime.copy(aData.getCoolTime());
+        this.economyAccount.copy(aData.getEconomyAccount());
     }
 
     @NotNull

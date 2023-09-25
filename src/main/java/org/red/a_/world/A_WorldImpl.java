@@ -26,6 +26,8 @@ import org.red.CommediaDell_arte;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.world.A_World;
+import org.red.item.material.BanMaterial;
+import org.red.library.item.material.MaterialAct;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.Area;
 import org.red.library.world.rule.Rule;
@@ -42,6 +44,7 @@ public class A_WorldImpl implements A_World {
     private final A_Data aData = A_Data.newAData();
     private final RuleMap ruleMap = new RuleMap();
     private final NameSpaceMap<Area> areaMap = new NameSpaceMap<>();
+    private final BanMaterial banMaterial = new BanMaterial();
     private final A_ManagerImpl.A_Version version;
 
     public A_WorldImpl(World world, A_ManagerImpl.A_Version version) {
@@ -53,6 +56,20 @@ public class A_WorldImpl implements A_World {
     @Override
     public World getWorld() {
         return this.world;
+    }
+
+    @Override
+    public boolean isActAllowed(Material material, MaterialAct act) {
+        return this.getBanMaterial().isActAllowed(material, act);
+    }
+
+    @Override
+    public void setActAllowed(Material material, MaterialAct act, boolean allowed) {
+        this.getBanMaterial().setActAllowed(material, act, allowed);
+    }
+
+    public BanMaterial getBanMaterial() {
+        return banMaterial;
     }
 
     @Override
@@ -177,6 +194,8 @@ public class A_WorldImpl implements A_World {
     public void aDataSave() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
         fileConfiguration.set("aData", this.aData);
+        fileConfiguration.set("banMaterial", this.banMaterial);
+        fileConfiguration.set("ruleMap", this.ruleMap);
 
 
         File file = new File("plugins/Dell_arte/worldData/" + this.world.getName() + ".yml");
@@ -206,6 +225,11 @@ public class A_WorldImpl implements A_World {
 
         A_Data aData = (A_Data) fileConfiguration.get("aData");
         if (aData != null) this.aData.copy(aData);
+        BanMaterial banMaterial = (BanMaterial) fileConfiguration.get("banMaterial");
+        if (banMaterial != null) this.banMaterial.copy(banMaterial);
+        RuleMap ruleMap = (RuleMap) fileConfiguration.get("ruleMap");
+        if (ruleMap != null) this.ruleMap.copy(ruleMap);
+
         CommediaDell_arte.sendLog("§aLoad WorldData: " + this.world.getName());
     }
 

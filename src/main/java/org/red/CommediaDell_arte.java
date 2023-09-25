@@ -13,10 +13,12 @@ import org.red.event.listener.block.BlockPlaceListener;
 import org.red.event.listener.entity.EntityDamageByEntityListener;
 import org.red.event.listener.entity.EntityDamageListener;
 import org.red.event.listener.entity.EntityMountListener;
+import org.red.event.listener.inventory.CraftItemListener;
 import org.red.event.listener.inventory.InventoryClickListener;
 import org.red.event.listener.inventory.InventoryCloseListener;
 import org.red.event.listener.inventory.InventoryOpenListener;
 import org.red.event.listener.player.*;
+import org.red.item.material.command.BanMaterialCommand;
 import org.red.library.A_;
 import org.red.library.command.AbstractCommand;
 
@@ -80,6 +82,7 @@ public final class CommediaDell_arte extends JavaPlugin {
 
     private void setCommand() {
         this.registerCommand(new A_Command());
+        this.registerCommand(new BanMaterialCommand());
     }
 
     private void registerEvent(Listener listener) {
@@ -91,6 +94,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.registerEvent(new InventoryCloseListener());
         this.registerEvent(new InventoryOpenListener());
 
+        this.registerEvent(new CraftItemListener());
         this.registerEvent(new EntityDamageByEntityListener());
         this.registerEvent(new EntityDamageListener());
         this.registerEvent(new EntityMountListener());

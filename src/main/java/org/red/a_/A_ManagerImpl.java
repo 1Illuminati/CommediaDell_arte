@@ -18,16 +18,16 @@ import org.red.CommediaDell_arte;
 import org.red.a_.util.A_BossBarTimer;
 import org.red.a_.util.A_Timer;
 import org.red.a_.world.A_WorldImpl;
-import org.red.item.EventItemManager;
+import org.red.item.event.EventItemInfo;
+import org.red.item.shop.ShopItemImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
-import org.red.library.a_.entity.A_Entity;
-import org.red.library.a_.entity.A_LivingEntity;
-import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.npc.A_NPC;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
 import org.red.library.item.event.EventItem;
+import org.red.library.item.shop.ShopItem;
+import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
@@ -119,7 +119,7 @@ public final class A_ManagerImpl implements A_Manager {
 
     @Override
 
-    public A_Entity getAEntity(Entity entity) {
+    public A_EntityImpl getAEntity(Entity entity) {
         if (entity instanceof Player) return getAPlayer((Player) entity);
         return aEntities.computeIfAbsent(entity.getUniqueId(), uuid -> {
             if (entity instanceof LivingEntity) {
@@ -131,29 +131,29 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public A_Entity getAEntity(UUID uuid) {
+    public A_EntityImpl getAEntity(UUID uuid) {
         return this.getAEntity(Bukkit.getEntity(uuid));
     }
 
     @Override
-    public A_World getAWorld(String worldName) {
+    public A_WorldImpl getAWorld(String worldName) {
         World world = Bukkit.getWorld(worldName);
         return world == null ? null : getAWorld(world);
     }
 
     @Override
-    public A_World getAWorld(World world) {
+    public A_WorldImpl getAWorld(World world) {
         return this.aWorlds.computeIfAbsent(world.getName(), name -> new A_WorldImpl(world, aVersion));
     }
 
     @Override
-    public A_OfflinePlayer getAOfflinePlayer(OfflinePlayer offlinePlayer) {
+    public A_OfflinePlayerImpl getAOfflinePlayer(OfflinePlayer offlinePlayer) {
         return aOfflinePlayers.computeIfAbsent(offlinePlayer.getUniqueId(), uuid -> new A_OfflinePlayerImpl(offlinePlayer, aVersion)).updateOfflinePlayer();
     }
 
     @Override
-    public A_LivingEntity getALivingEntity(LivingEntity livingEntity) {
-        return getAEntity(livingEntity).getALivingEntity();
+    public A_LivingEntityImpl getALivingEntity(LivingEntity livingEntity) {
+        return (A_LivingEntityImpl) getAEntity(livingEntity).getALivingEntity();
     }
 
     public void deleteOldAPlayer(Player player) {
@@ -161,25 +161,30 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
+    public void registerEventItem(EventItem eventItem) {
+        EventItemInfo.registerEventItem(eventItem);
+    }
+
+    @Override
     public void setItemInEvent(EventItem eventItem, ItemStack itemStack) {
-        EventItemManager.setEventItemInItem(itemStack, eventItem);
+        EventItemInfo.setEventItemInItem(itemStack, eventItem);
     }
 
     @Override
     public void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack) {
-        EventItem eventItem = EventItemManager.getEventItemByKey(eventItemKey);
+        EventItem eventItem = EventItemInfo.getEventItemByKey(eventItemKey);
         if (eventItem == null) throw new NullPointerException("Not Found EventItem: " + eventItemKey);
-        EventItemManager.setEventItemInItem(itemStack, eventItem);
+        EventItemInfo.setEventItemInItem(itemStack, eventItem);
     }
 
     @Override
     public boolean isItemInEvent(ItemStack itemStack) {
-        return EventItemManager.hasEventItem(itemStack);
+        return EventItemInfo.hasEventItem(itemStack);
     }
 
     @Override
     public EventItem getEventInItem(ItemStack itemStack) {
-        return EventItemManager.getEventItemByItem(itemStack);
+        return EventItemInfo.getEventItemByItem(itemStack);
     }
 
     @Override
@@ -195,7 +200,22 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public A_Player getAPlayer(Player player) {
+    public ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice) {
+        return new ShopItemImpl(originItem, true, buyPrice, false, null);
+    }
+
+    @Override
+    public ShopItem createSellShopItem(ItemStack originItem, Price sellPrice) {
+        return new ShopItemImpl(originItem, false, null, true, sellPrice);
+    }
+
+    @Override
+    public ShopItem createBothShopItem(ItemStack originItem, Price buyPrice, Price sellPrice) {
+        return null;
+    }
+
+    @Override
+    public A_PlayerImpl getAPlayer(Player player) {
         if (player.hasMetadata("NPC")) {
             return aNPCs.computeIfAbsent(player.getUniqueId(), uuid -> new A_NPCImpl(player, aVersion));
         }
@@ -204,24 +224,24 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public A_Player getAPlayer(String playerName) {
+    public A_PlayerImpl getAPlayer(String playerName) {
         Player player = Bukkit.getPlayer(playerName);
         return player == null ? null : getAPlayer(player);
     }
 
     @Override
-    public A_Player getAPlayer(UUID uuid) {
+    public A_PlayerImpl getAPlayer(UUID uuid) {
         Player player = Bukkit.getPlayer(uuid);
         return player == null ? null : getAPlayer(player);
     }
 
     @Override
-    public A_OfflinePlayer getAOfflinePlayer(String playerName) {
+    public A_OfflinePlayerImpl getAOfflinePlayer(String playerName) {
         return this.getAOfflinePlayer(Bukkit.getOfflinePlayer(playerName));
     }
 
     @Override
-    public A_OfflinePlayer getAOfflinePlayer(UUID uuid) {
+    public A_OfflinePlayerImpl getAOfflinePlayer(UUID uuid) {
         return this.getAOfflinePlayer(Bukkit.getOfflinePlayer(uuid));
     }
 

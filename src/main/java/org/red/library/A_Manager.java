@@ -14,12 +14,16 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
 import org.red.library.item.event.EventItem;
+import org.red.library.item.shop.ShopItem;
+import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
 import java.util.UUID;
 
 public interface A_Manager {
+    void registerEventItem(EventItem eventItem);
+
     void setItemInEvent(EventItem eventItem, ItemStack itemStack);
 
     void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack);
@@ -31,6 +35,12 @@ public interface A_Manager {
     Timer createTimer(NamespacedKey key, int maxTime);
 
     BossBarTimer createBossBarTimer(NamespacedKey key, int maxTime, BossBar... bossBars);
+
+    ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice);
+
+    ShopItem createSellShopItem(ItemStack originItem, Price sellPrice);
+
+    ShopItem createBothShopItem(ItemStack originItem, Price buyPrice, Price sellPrice);
 
     A_Player getAPlayer(Player player);
 

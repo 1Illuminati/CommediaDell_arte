@@ -13,3 +13,6 @@ commands:
   a_:
     description: "A_ Command"
     permission: op
+  banItem:
+    description: "Ban Item Command"
+    permission: op

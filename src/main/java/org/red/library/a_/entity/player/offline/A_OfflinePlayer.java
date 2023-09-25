@@ -3,6 +3,7 @@ package org.red.library.a_.entity.player.offline;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_DataHolder;
@@ -11,6 +12,9 @@ import org.red.library.a_.entity.player.A_Player;
 import java.util.UUID;
 
 public interface A_OfflinePlayer extends A_DataHolder {
+
+    ItemStack getPlayerSkull();
+
     void aDataSave();
 
     void aDataLoad();

@@ -2,6 +2,7 @@ package org.red.a_.vault;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.red.CommediaDell_arte;
 import org.red.library.vault.EconomyAccount;
 
 import java.util.HashMap;
@@ -72,6 +73,11 @@ public class A_EconomyAccount implements EconomyAccount {
         this.bank += balance;
     }
 
+    public void copy(A_EconomyAccount account) {
+        this.balance = account.getBalance();
+        this.bank = account.getBank();
+    }
+
     @NotNull
     @Override
     public Map<String, Object> serialize() {
@@ -83,8 +89,10 @@ public class A_EconomyAccount implements EconomyAccount {
 
     public static A_EconomyAccount deserialize(Map<String, Object> map) {
         A_EconomyAccount account = new A_EconomyAccount();
-        account.setBalance((double) map.get("balance"));
-        account.setBank((double) map.get("bank"));
+        account.setBalance(Double.parseDouble(map.get("balance").toString()));
+        account.setBank(Double.parseDouble(map.get("bank").toString()));
+        CommediaDell_arte.sendLog(map.get("balance"));
+        CommediaDell_arte.sendLog(map.get("bank"));
         return account;
     }
 }

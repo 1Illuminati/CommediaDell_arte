@@ -23,10 +23,12 @@ import org.red.library.game.Game;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
 public interface A_Player extends A_LivingEntity {
+    ItemStack getPlayerSkull();
 
     void addPlayerRunnable(NamespacedKey key, Runnable runnable, int delay);
 
@@ -62,6 +64,12 @@ public interface A_Player extends A_LivingEntity {
 
     @Nullable
     Game getPlayingGame();
+
+    HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks);
+
+    void addItemNature(ItemStack... itemStacks);
+
+    void addItemNature(ItemStack itemStack, int amount);
 
     void aDataSave();
 

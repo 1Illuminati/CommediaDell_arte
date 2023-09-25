@@ -13,10 +13,9 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.block.AreaBlockBreakEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
-import org.red.item.EventItemManager;
+import org.red.item.event.EventItemInfo;
+import org.red.library.item.material.MaterialAct;
 import org.red.library.world.rule.Rule;
-
-import java.util.Arrays;
 
 public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
     @Override
@@ -27,9 +26,10 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
         A_Player player = A_.getAPlayer(event.getPlayer());
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         Block block = event.getBlock();
-        EventItemManager.runItemEvent(player, mainHand, EventItemAnnotation.Act.BREAK, event);
+        EventItemInfo.runItemEvent(player, mainHand, EventItemAnnotation.Act.BREAK, event);
         A_World world = player.getAWorld();
 
+        if (!world.isActAllowed(block.getType(), MaterialAct.BREAK)) event.setCancelled(true);
         if (!world.getRuleValue(Rule.BREAK, block.getLocation(), player.getLocation())) event.setCancelled(true);
     }
 

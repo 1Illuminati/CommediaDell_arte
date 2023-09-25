@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_DataHolder;
+import org.red.library.item.material.HasMaterialBan;
 import org.red.library.world.Area;
 import org.red.library.world.rule.Rule;
 
@@ -27,7 +28,7 @@ import java.io.File;
 import java.util.*;
 import java.util.function.Predicate;
 
-public interface A_World extends A_DataHolder {
+public interface A_World extends A_DataHolder, HasMaterialBan {
     World getWorld();
 
     Area getArea(NamespacedKey key);

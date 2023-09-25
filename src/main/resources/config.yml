@@ -1,0 +1,5 @@
+config version: 1
+
+# This is the main configuration file for CommediaDell_arte.
+
+debug: false
