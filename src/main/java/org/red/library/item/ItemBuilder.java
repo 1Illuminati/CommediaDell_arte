@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.red.library.item.event.EventItem;
+import org.red.library.interactive.item.InteractiveItem;
 import org.red.item.event.EventItemInfo;
 
 import java.util.Arrays;
@@ -137,8 +137,8 @@ public class ItemBuilder {
         return this.setEventItem(EventItemInfo.getEventItemByKey(key));
     }
 
-    public ItemBuilder setEventItem(EventItem eventItem) {
-        EventItemInfo.setEventItemInItem(this.itemStack, eventItem);
+    public ItemBuilder setEventItem(InteractiveItem interactiveItem) {
+        EventItemInfo.setEventItemInItem(this.itemStack, interactiveItem);
         this.itemMeta = this.itemStack.getItemMeta();
         return this;
     }

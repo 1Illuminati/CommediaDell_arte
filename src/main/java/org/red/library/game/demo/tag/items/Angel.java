@@ -4,10 +4,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.game.demo.tag.TagGame;
 import org.red.library.game.demo.tag.TagGameSkill;
-import org.red.library.item.event.EventItem;
-import org.red.library.item.event.EventItemAnnotation;
+import org.red.library.interactive.item.InteractiveItem;
+import org.red.library.interactive.item.EventItemAnnotation;
 
-public abstract class Angel implements EventItem {
+public abstract class Angel implements InteractiveItem {
 
     @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_AIR)
     public void rightClickAir(PlayerInteractEvent event) {

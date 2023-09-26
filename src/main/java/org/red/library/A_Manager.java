@@ -13,7 +13,7 @@ import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
-import org.red.library.item.event.EventItem;
+import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
@@ -22,15 +22,15 @@ import org.red.library.util.timer.Timer;
 import java.util.UUID;
 
 public interface A_Manager {
-    void registerEventItem(EventItem eventItem);
+    void registerEventItem(InteractiveItem interactiveItem);
 
-    void setItemInEvent(EventItem eventItem, ItemStack itemStack);
+    void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack);
 
     void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack);
 
     boolean isItemInEvent(ItemStack itemStack);
 
-    EventItem getEventInItem(ItemStack itemStack);
+    InteractiveItem getEventInItem(ItemStack itemStack);
 
     Timer createTimer(NamespacedKey key, int maxTime);
 

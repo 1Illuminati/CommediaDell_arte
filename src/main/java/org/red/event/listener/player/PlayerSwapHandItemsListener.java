@@ -7,7 +7,7 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerSwapHandItemsEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.item.event.EventItemAnnotation;
+import org.red.library.interactive.item.EventItemAnnotation;
 import org.red.item.event.EventItemInfo;
 import org.red.library.world.rule.Rule;
 

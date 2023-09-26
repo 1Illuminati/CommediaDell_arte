@@ -25,7 +25,7 @@ import org.red.library.a_.A_Data;
 import org.red.library.a_.entity.player.npc.A_NPC;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
-import org.red.library.item.event.EventItem;
+import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
@@ -161,20 +161,20 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public void registerEventItem(EventItem eventItem) {
-        EventItemInfo.registerEventItem(eventItem);
+    public void registerEventItem(InteractiveItem interactiveItem) {
+        EventItemInfo.registerEventItem(interactiveItem);
     }
 
     @Override
-    public void setItemInEvent(EventItem eventItem, ItemStack itemStack) {
-        EventItemInfo.setEventItemInItem(itemStack, eventItem);
+    public void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack) {
+        EventItemInfo.setEventItemInItem(itemStack, interactiveItem);
     }
 
     @Override
     public void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack) {
-        EventItem eventItem = EventItemInfo.getEventItemByKey(eventItemKey);
-        if (eventItem == null) throw new NullPointerException("Not Found EventItem: " + eventItemKey);
-        EventItemInfo.setEventItemInItem(itemStack, eventItem);
+        InteractiveItem interactiveItem = EventItemInfo.getEventItemByKey(eventItemKey);
+        if (interactiveItem == null) throw new NullPointerException("Not Found InteractiveItem: " + eventItemKey);
+        EventItemInfo.setEventItemInItem(itemStack, interactiveItem);
     }
 
     @Override
@@ -183,7 +183,7 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public EventItem getEventInItem(ItemStack itemStack) {
+    public InteractiveItem getEventInItem(ItemStack itemStack) {
         return EventItemInfo.getEventItemByItem(itemStack);
     }
 

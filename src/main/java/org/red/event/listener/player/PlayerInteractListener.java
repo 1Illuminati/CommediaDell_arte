@@ -9,7 +9,7 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.item.event.EventItemAnnotation;
+import org.red.library.interactive.item.EventItemAnnotation;
 import org.red.item.event.EventItemInfo;
 
 public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent> {

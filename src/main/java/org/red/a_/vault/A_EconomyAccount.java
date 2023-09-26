@@ -91,8 +91,6 @@ public class A_EconomyAccount implements EconomyAccount {
         A_EconomyAccount account = new A_EconomyAccount();
         account.setBalance(Double.parseDouble(map.get("balance").toString()));
         account.setBank(Double.parseDouble(map.get("bank").toString()));
-        CommediaDell_arte.sendLog(map.get("balance"));
-        CommediaDell_arte.sendLog(map.get("bank"));
         return account;
     }
 }

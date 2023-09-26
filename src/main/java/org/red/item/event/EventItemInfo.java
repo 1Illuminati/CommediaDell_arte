@@ -12,9 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
+import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.item.ItemBuilder;
-import org.red.library.item.event.EventItem;
-import org.red.library.item.event.EventItemAnnotation;
+import org.red.library.interactive.item.EventItemAnnotation;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 
@@ -26,23 +26,23 @@ public final class EventItemInfo {
     private static final NameSpaceMap<EventItemInfo> map = new NameSpaceMap<>();
     private static final NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), "RedKillerLibrary_EventItem");
 
-    public static void registerEventItem(EventItem eventItem) {
-        NamespacedKey key = eventItem.getKey();
-        CommediaDell_arte.sendDebugLog("Register EventItem: " + key.getKey());
-        map.put(key, new EventItemInfo(eventItem));
+    public static void registerEventItem(InteractiveItem interactiveItem) {
+        NamespacedKey key = interactiveItem.getKey();
+        CommediaDell_arte.sendDebugLog("Register InteractiveItem: " + key.getKey());
+        map.put(key, new EventItemInfo(interactiveItem));
     }
 
-    public static void setEventItemInItem(ItemStack itemStack, EventItem eventItem) {
-        NamespacedKey key = eventItem.getKey();
+    public static void setEventItemInItem(ItemStack itemStack, InteractiveItem interactiveItem) {
+        NamespacedKey key = interactiveItem.getKey();
         if (!map.containsKey(key))
-            EventItemInfo.registerEventItem(eventItem);
+            EventItemInfo.registerEventItem(interactiveItem);
 
         EventItemInfo manager = map.get(key);
         manager.setEventInItem(itemStack);
     }
 
     @Nullable
-    public static EventItem getEventItemByKey(NamespacedKey key) {
+    public static InteractiveItem getEventItemByKey(NamespacedKey key) {
         if (!map.containsKey(key))
             return null;
 
@@ -62,7 +62,7 @@ public final class EventItemInfo {
     }
 
     @Nullable
-    public static EventItem getEventItemByItem(ItemStack itemStack) {
+    public static InteractiveItem getEventItemByItem(ItemStack itemStack) {
         NamespacedKey key = getKeyByItem(itemStack);
         if (key == null)
             return null;
@@ -74,23 +74,23 @@ public final class EventItemInfo {
         if (!hasEventItem(itemStack))
             return;
 
-        EventItem eventItem = getEventItemByItem(itemStack);
-        EventItemInfo manager = map.get(eventItem.getKey());
+        InteractiveItem interactiveItem = getEventItemByItem(itemStack);
+        EventItemInfo manager = map.get(interactiveItem.getKey());
         manager.runEvent(event, act, player.isSneaking());
     }
 
-    private final EventItem eventItem;
+    private final InteractiveItem interactiveItem;
     private final Map<EventItemAnnotation.Act, EventMethod> methods = new HashMap<>();
 
-    private EventItemInfo(EventItem eventItem) {
-        this.eventItem = eventItem;
+    private EventItemInfo(InteractiveItem interactiveItem) {
+        this.interactiveItem = interactiveItem;
 
-        for (Method method : eventItem.getClass().getMethods())
+        for (Method method : interactiveItem.getClass().getMethods())
             putMethod(method);
     }
 
-    private EventItem getEventItem() {
-        return eventItem;
+    private InteractiveItem getEventItem() {
+        return interactiveItem;
     }
 
     private void runEvent(Event event, EventItemAnnotation.Act act, boolean shift) {
@@ -100,7 +100,7 @@ public final class EventItemInfo {
             return;
 
         try {
-            method.getMethod(shift).invoke(this.eventItem, event);
+            method.getMethod(shift).invoke(this.interactiveItem, event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,7 +140,7 @@ public final class EventItemInfo {
     }
 
     private void setEventInItem(ItemStack itemStack) {
-        new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, eventItem.getKey()).build();
+        new ItemBuilder(itemStack).setPersistentDataContainer(key, NameSpaceKeyPersistentDataType.INSTANCE, interactiveItem.getKey()).build();
     }
 
     private static class EventMethod {

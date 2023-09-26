@@ -1,4 +1,4 @@
-package org.red.library.item.event;
+package org.red.library.interactive.block;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,21 +7,16 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface EventItemAnnotation {
+public @interface EventBlockAnnotation {
+
     Act act();
 
     boolean shift() default false;
 
     enum Act {
-        LEFT_CLICK_AIR,
-        RIGHT_CLICK_AIR,
-        LEFT_CLICK_BLOCK,
-        RIGHT_CLICK_BLOCK,
+        LEFT_CLICK,
+        RIGHT_CLICK,
         PHYSICAL,
-        DROP,
-        SWAP_HAND,
-        HIT,
         BREAK,
-        FISHING,
     }
 }

@@ -6,29 +6,29 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.red.CommediaDell_arte;
-import org.red.library.block.event.EventBlock;
-import org.red.library.block.event.EventBlockAnnotation;
+import org.red.library.interactive.block.InteractiveBlock;
+import org.red.library.interactive.block.EventBlockAnnotation;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EventBlockManager {
-    private final EventBlock eventBlock;
+    private final InteractiveBlock interactiveBlock;
     private final Map<EventBlockAnnotation.Act, BlockEventMethod> methods = new HashMap<>();
 
-    public static void registerEventBlock(EventBlock eventBlock) {
+    public static void registerEventBlock(InteractiveBlock interactiveBlock) {
     }
 
-    private EventBlockManager(EventBlock eventBlock) {
-        this.eventBlock = eventBlock;
+    private EventBlockManager(InteractiveBlock interactiveBlock) {
+        this.interactiveBlock = interactiveBlock;
 
-        for (Method method : eventBlock.getClass().getMethods())
+        for (Method method : interactiveBlock.getClass().getMethods())
             putMethod(method);
     }
 
-    private EventBlock getEventBlock() {
-        return eventBlock;
+    private InteractiveBlock getEventBlock() {
+        return interactiveBlock;
     }
 
     private void runEvent(Event event, EventBlockAnnotation.Act act, boolean shift) {
@@ -38,7 +38,7 @@ public class EventBlockManager {
             return;
 
         try {
-            method.getMethod(shift).invoke(this.eventBlock, event);
+            method.getMethod(shift).invoke(this.interactiveBlock, event);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class EventBlockManager {
     }
 
     private void setEventInBlock(BlockState blockState) {
-        blockState.setMetadata("a_block_event", new FixedMetadataValue(CommediaDell_arte.getPlugin(), this.eventBlock.getKey().toString()));
+        blockState.setMetadata("a_block_event", new FixedMetadataValue(CommediaDell_arte.getPlugin(), this.interactiveBlock.getKey().toString()));
     }
 
 

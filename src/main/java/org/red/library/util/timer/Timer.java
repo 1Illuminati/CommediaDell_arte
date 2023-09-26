@@ -1,10 +1,10 @@
 package org.red.library.util.timer;
 
+import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.jetbrains.annotations.Nullable;
 
-public interface Timer {
-    NamespacedKey getKey();
+public interface Timer extends Keyed {
     void start();
     void stop();
 

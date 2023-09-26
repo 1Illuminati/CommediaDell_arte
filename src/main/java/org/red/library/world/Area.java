@@ -1,15 +1,17 @@
 package org.red.library.world;
 
+import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 import org.red.library.world.rule.RuleMap;
 
-public class Area implements HasRule {
+public class Area implements HasRule, Keyed {
     private final World world;
     private final BoundingBox boundingBox;
     private final NamespacedKey key;
@@ -27,6 +29,7 @@ public class Area implements HasRule {
     public World getWorld() {
         return world;
     }
+    @NotNull
     public NamespacedKey getKey() {
         return key;
     }
