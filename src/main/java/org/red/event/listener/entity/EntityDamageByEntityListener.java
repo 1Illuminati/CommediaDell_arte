@@ -11,8 +11,7 @@ import org.red.library.a_.world.A_World;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntityDamageByEntityEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.interactive.item.InteractiveItemAnnotation;
-import org.red.interactive.item.EventItemInfo;
+import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.world.rule.Rule;
 
 public class EntityDamageByEntityListener extends AbstractListener<EntityDamageByEntityEvent> {
@@ -26,7 +25,7 @@ public class EntityDamageByEntityListener extends AbstractListener<EntityDamageB
 
         if (entity instanceof Player) {
             A_Player player = A_.getAPlayer((Player) entity);
-            EventItemInfo.runItemEvent(player, player.getInventory().getItemInMainHand(), InteractiveItemAnnotation.Act.HIT, event);
+            A_.canRunInteractiveItemEvent(player.getInventory().getItemInMainHand(), InteractiveItemAct.HIT.class, player, event);
             A_World world = A_.getAWorld(entity.getWorld());
             Location[] locs = {entity.getLocation(), damager.getLocation()};
 

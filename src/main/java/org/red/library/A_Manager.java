@@ -3,6 +3,7 @@ package org.red.library;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
@@ -15,10 +16,12 @@ import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
+import org.red.library.interactive.InteractiveAct;
 import org.red.library.interactive.InteractiveObj;
+import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
-import org.red.library.interactive.item.InteractiveItemAnnotation;
+import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
@@ -45,7 +48,11 @@ public interface A_Manager {
 
     InteractiveObj<?> getInteractiveObj(NamespacedKey key);
 
-    void runInteractiveEvent(InteractiveItemAnnotation.Act act, Event event);
+    void runInteractiveEvent(InteractiveObj<?> obj, Class<? extends InteractiveAct> act, A_Player player, Event event);
+
+    void canRunInteractiveTileEvent(BlockState blockState, Class<? extends InteractiveTileAct> act, A_Player player, Event event);
+
+    void canRunInteractiveItemEvent(ItemStack itemStack, Class<? extends InteractiveItemAct> act, A_Player player, Event event);
 
     Timer createTimer(NamespacedKey key, int maxTime);
 

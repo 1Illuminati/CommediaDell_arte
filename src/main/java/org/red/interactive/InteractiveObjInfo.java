@@ -1,16 +1,21 @@
 package org.red.interactive;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.red.CommediaDell_arte;
+import org.red.library.a_.entity.player.A_Player;
+import org.red.library.event.InteractiveRunEvent;
 import org.red.library.interactive.InteractiveAct;
 import org.red.library.interactive.InteractiveActAnnotation;
 import org.red.library.interactive.InteractiveAnnotation;
 import org.red.library.interactive.InteractiveObj;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,14 +31,39 @@ public abstract class InteractiveObjInfo<T> implements Keyed {
 
     public abstract void setEventInObj(T obj);
 
-    public abstract void runMethod(T obj, Event event);
+    public void runMethod(Class<? extends InteractiveAct> act, A_Player player, Event event) {
+        if (!act.isAnnotationPresent(InteractiveActAnnotation.class))
+            throw new IllegalArgumentException("The act class must be annotated with InteractiveActAnnotation");
+
+        InteractiveActAnnotation actAnnotation = act.getAnnotation(InteractiveActAnnotation.class);
+        Class<? extends Event> eventClass = actAnnotation.event();
+
+        if (eventClass != event.getClass())
+            throw new IllegalArgumentException("The event class must be the same as the event class in the act annotation");
+
+        MethodInfo methodInfo = methodInfos.getOrDefault(act, null);
+        if (methodInfo == null) return;
+
+        Method method = methodInfo.getMethod(player.isSneaking());
+        if (method == null) return;
+
+        InteractiveRunEvent interactiveRunEvent = new InteractiveRunEvent(obj, player, act);
+        Bukkit.getPluginManager().callEvent(interactiveRunEvent);
+        if (interactiveRunEvent.isCancelled()) return;
+
+        try {
+            method.invoke(obj, event);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public InteractiveObj<T> getObj() {
         return obj;
     }
 
     public void settingInteractiveObj() {
-
+        Arrays.stream(this.getObj().getClass().getMethods()).forEach(this::setMethod);
     }
 
     protected void setMethod(Method method) {

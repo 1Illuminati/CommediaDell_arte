@@ -1,12 +1,12 @@
 package org.red.library.event.area.player;
 
 import org.bukkit.event.HandlerList;
-import org.red.library.event.RunEventItemEvent;
+import org.red.library.event.InteractiveRunEvent;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 
-public class AreaRunEventItemEvent extends AreaEvent<RunEventItemEvent> {
-    protected AreaRunEventItemEvent(Area area, RunEventItemEvent event) {
+public class AreaRunEventItemEvent extends AreaEvent<InteractiveRunEvent> {
+    protected AreaRunEventItemEvent(Area area, InteractiveRunEvent event) {
         super(area, event);
     }
 

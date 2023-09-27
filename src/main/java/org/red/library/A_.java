@@ -3,17 +3,25 @@ package org.red.library;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
+import org.red.library.interactive.InteractiveAct;
+import org.red.library.interactive.InteractiveObj;
+import org.red.library.interactive.block.InteractiveTile;
+import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItem;
+import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
@@ -43,20 +51,52 @@ public final class A_ {
         return plugin.createBothShopItem(originItem, buyPrice, sellPrice);
     }
 
-    public static void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack) {
-        plugin.setInteractiveInObj(interactiveItem, itemStack);
+    public static void registerInteractiveObj(InteractiveObj<?> interactiveObj) {
+        plugin.registerInteractiveObj(interactiveObj);
     }
 
-    public static void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack) {
-        plugin.setInteractiveInObj(eventItemKey, itemStack);
+    public static <T> void setInteractiveInObj(InteractiveObj<T> interactiveObj, T obj) {
+        plugin.setInteractiveInObj(interactiveObj, obj);
     }
 
-    public static boolean isItemInEvent(ItemStack itemStack) {
-        return plugin.isItemInEvent(itemStack);
+    public static <T> void setInteractiveInObj(NamespacedKey key, T obj) {
+        plugin.setInteractiveInObj(key, obj);
     }
 
-    public static InteractiveItem getEventInItem(ItemStack itemStack) {
-        return plugin.getEventInItem(itemStack);
+    public static boolean isItemInInteractive(ItemStack itemStack) {
+        return plugin.isItemInInteractive(itemStack);
+    }
+
+    public static boolean isItemInTile(TileState tileState) {
+        return plugin.isItemInTile(tileState);
+    }
+
+    public static boolean isRegisteredInteractiveObj(NamespacedKey key) {
+        return plugin.isRegisteredInteractiveObj(key);
+    }
+
+    public static InteractiveItem getInteractiveInItem(ItemStack itemStack) {
+        return plugin.getInteractiveInItem(itemStack);
+    }
+
+    public static InteractiveTile getInteractiveInBlock(TileState tileState) {
+        return plugin.getInteractiveInBlock(tileState);
+    }
+
+    public static InteractiveObj<?> getInteractiveObj(NamespacedKey key) {
+        return plugin.getInteractiveObj(key);
+    }
+
+    public static void runInteractiveEvent(InteractiveObj<?> obj, Class<? extends InteractiveAct> act, A_Player player, Event event) {
+        plugin.runInteractiveEvent(obj, act, player, event);
+    }
+
+    public static void canRunInteractiveTileEvent(BlockState blockState, Class<? extends InteractiveTileAct> act, A_Player player, Event event) {
+        plugin.canRunInteractiveTileEvent(blockState, act, player, event);
+    }
+
+    public static void canRunInteractiveItemEvent(ItemStack itemStack, Class<? extends InteractiveItemAct> act, A_Player player, Event event) {
+        plugin.canRunInteractiveItemEvent(itemStack, act, player, event);
     }
 
     public static Timer createTimer(NamespacedKey key, int maxTime) {

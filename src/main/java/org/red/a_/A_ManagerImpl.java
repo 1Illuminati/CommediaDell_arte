@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -12,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -27,12 +29,16 @@ import org.red.interactive.item.InteractiveItemInfo;
 import org.red.item.shop.ShopItemImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.npc.A_NPC;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
+import org.red.library.interactive.InteractiveAct;
 import org.red.library.interactive.InteractiveObj;
 import org.red.library.interactive.block.InteractiveTile;
+import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItem;
+import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.map.NameSpaceMap;
@@ -194,7 +200,7 @@ public final class A_ManagerImpl implements A_Manager {
         try {
             interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(interactiveObj.getKey());
         } catch (ClassCastException exception) {
-            throw new IllegalArgumentException("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+            throw new IllegalArgumentException("Class Type Not Same InteractiveObj: " + interactiveObj.getClass().getSimpleName());
         }
 
         interactiveObjInfo.setEventInObj(obj);
@@ -210,7 +216,7 @@ public final class A_ManagerImpl implements A_Manager {
         try {
             interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(key);
         } catch (ClassCastException exception) {
-            throw new IllegalArgumentException("Not Supported InteractiveObj: " + key);
+            throw new IllegalArgumentException("Class Type Not Same InteractiveObj: " + key);
         }
 
         interactiveObjInfo.setEventInObj(obj);
@@ -250,6 +256,39 @@ public final class A_ManagerImpl implements A_Manager {
     public InteractiveObj<?> getInteractiveObj(NamespacedKey key) {
         InteractiveObjInfo<?> interactiveObjInfo = this.interactiveObjs.getOrDefault(key, null);
         return interactiveObjInfo == null ? null : interactiveObjInfo.getObj();
+    }
+
+    @Override
+    public void runInteractiveEvent(InteractiveObj<?> obj, Class<? extends InteractiveAct> act, A_Player player, Event event) {
+        if (!this.interactiveObjs.containsKey(obj.getKey()))
+            this.registerInteractiveObj(obj);
+
+        InteractiveObjInfo<?> interactiveObjInfo = this.interactiveObjs.get(obj.getKey());
+        interactiveObjInfo.runMethod(act, player, event);
+    }
+
+    @Override
+    public void canRunInteractiveTileEvent(BlockState blockState, Class<? extends InteractiveTileAct> act, A_Player player, Event event) {
+        if (!(blockState instanceof TileState)) return;
+
+        TileState tileState = (TileState) blockState;
+
+        if (!isItemInTile(tileState)) return;
+
+        InteractiveTile interactiveTile = getInteractiveInBlock(tileState);
+        if (interactiveTile == null) return;
+
+        runInteractiveEvent(interactiveTile, act, player, event);
+    }
+
+    @Override
+    public void canRunInteractiveItemEvent(ItemStack itemStack, Class<? extends InteractiveItemAct> act, A_Player player, Event event) {
+        if (!isItemInInteractive(itemStack)) return;
+
+        InteractiveItem interactiveItem = getInteractiveInItem(itemStack);
+        if (interactiveItem == null) return;
+
+        runInteractiveEvent(interactiveItem, act, player, event);
     }
 
     @Override
