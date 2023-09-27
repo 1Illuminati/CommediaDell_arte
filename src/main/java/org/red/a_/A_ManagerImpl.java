@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,21 +14,29 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.red.a_.entity.*;
 import org.red.CommediaDell_arte;
 import org.red.a_.util.A_BossBarTimer;
 import org.red.a_.util.A_Timer;
 import org.red.a_.world.A_WorldImpl;
-import org.red.item.event.EventItemInfo;
+import org.red.interactive.InteractiveObjInfo;
+import org.red.interactive.block.InteractiveTileInfo;
+import org.red.interactive.item.InteractiveItemInfo;
 import org.red.item.shop.ShopItemImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
 import org.red.library.a_.entity.player.npc.A_NPC;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
+import org.red.library.interactive.InteractiveObj;
+import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
+import org.red.library.util.map.NameSpaceMap;
+import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
@@ -45,6 +54,7 @@ public final class A_ManagerImpl implements A_Manager {
     private final Map<UUID, A_NPCImpl> aNPCs = new HashMap<>();
     private final Map<UUID, A_OfflinePlayerImpl> aOfflinePlayers = new HashMap<>();
     private final Map<String, A_WorldImpl> aWorlds = new HashMap<>();
+    private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
     private final CommediaDell_arte plugin;
     private final A_Version aVersion;
     private A_ManagerImpl(CommediaDell_arte plugin) {
@@ -161,30 +171,85 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public void registerEventItem(InteractiveItem interactiveItem) {
-        EventItemInfo.registerEventItem(interactiveItem);
+    public void registerInteractiveObj(InteractiveObj<?> interactiveObj) {
+        InteractiveObjInfo<?> interactiveObjInfo;
+
+        if (interactiveObj instanceof InteractiveItem) {
+            interactiveObjInfo = new InteractiveItemInfo((InteractiveItem) interactiveObj);
+        } else if(interactiveObj instanceof InteractiveTile) {
+            interactiveObjInfo = new InteractiveTileInfo((InteractiveTile) interactiveObj);
+        } else {
+            throw new IllegalArgumentException("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+        }
+        this.interactiveObjs.put(interactiveObj.getKey(), interactiveObjInfo);
     }
 
     @Override
-    public void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack) {
-        EventItemInfo.setEventItemInItem(itemStack, interactiveItem);
+    public <T> void setInteractiveInObj(InteractiveObj<T> interactiveObj, T obj) {
+        if (!isRegisteredInteractiveObj(interactiveObj.getKey())) {
+            this.registerInteractiveObj(interactiveObj);
+        }
+
+        InteractiveObjInfo<T> interactiveObjInfo;
+        try {
+            interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(interactiveObj.getKey());
+        } catch (ClassCastException exception) {
+            throw new IllegalArgumentException("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+        }
+
+        interactiveObjInfo.setEventInObj(obj);
     }
 
     @Override
-    public void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack) {
-        InteractiveItem interactiveItem = EventItemInfo.getEventItemByKey(eventItemKey);
-        if (interactiveItem == null) throw new NullPointerException("Not Found InteractiveItem: " + eventItemKey);
-        EventItemInfo.setEventItemInItem(itemStack, interactiveItem);
+    public <T> void setInteractiveInObj(NamespacedKey key, T obj) {
+        if (!isRegisteredInteractiveObj(key)) {
+            throw new IllegalArgumentException("Not Registered InteractiveObj: " + key);
+        }
+
+        InteractiveObjInfo<T> interactiveObjInfo;
+        try {
+            interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(key);
+        } catch (ClassCastException exception) {
+            throw new IllegalArgumentException("Not Supported InteractiveObj: " + key);
+        }
+
+        interactiveObjInfo.setEventInObj(obj);
     }
 
     @Override
-    public boolean isItemInEvent(ItemStack itemStack) {
-        return EventItemInfo.hasEventItem(itemStack);
+    public boolean isRegisteredInteractiveObj(NamespacedKey key) {
+        return this.interactiveObjs.containsKey(key);
     }
 
     @Override
-    public InteractiveItem getEventInItem(ItemStack itemStack) {
-        return EventItemInfo.getEventItemByItem(itemStack);
+    public boolean isItemInInteractive(@Nullable ItemStack itemStack) {
+        if (itemStack == null || itemStack.getItemMeta() == null) return false;
+        return itemStack.getItemMeta().getPersistentDataContainer().has(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
+    }
+
+    @Override
+    public boolean isItemInTile(@NotNull TileState tileState) {
+        return tileState.getPersistentDataContainer().has(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
+    }
+
+    @Override
+    public InteractiveItem getInteractiveInItem(ItemStack itemStack) {
+        if (!isItemInInteractive(itemStack)) return null;
+        NamespacedKey key = itemStack.getItemMeta().getPersistentDataContainer().get(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
+        return this.isRegisteredInteractiveObj(key) ? (InteractiveItem) this.interactiveObjs.get(key).getObj() : null;
+    }
+
+    @Override
+    public InteractiveTile getInteractiveInBlock(TileState tileState) {
+        if (!isItemInTile(tileState)) return null;
+        NamespacedKey key = tileState.getPersistentDataContainer().get(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
+        return this.isRegisteredInteractiveObj(key) ? (InteractiveTile) this.interactiveObjs.get(key).getObj() : null;
+    }
+
+    @Override
+    public InteractiveObj<?> getInteractiveObj(NamespacedKey key) {
+        InteractiveObjInfo<?> interactiveObjInfo = this.interactiveObjs.getOrDefault(key, null);
+        return interactiveObjInfo == null ? null : interactiveObjInfo.getObj();
     }
 
     @Override

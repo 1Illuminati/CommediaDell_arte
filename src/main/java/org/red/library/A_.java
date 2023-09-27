@@ -44,11 +44,11 @@ public final class A_ {
     }
 
     public static void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack) {
-        plugin.setItemInEvent(interactiveItem, itemStack);
+        plugin.setInteractiveInObj(interactiveItem, itemStack);
     }
 
     public static void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack) {
-        plugin.setItemInEvent(eventItemKey, itemStack);
+        plugin.setInteractiveInObj(eventItemKey, itemStack);
     }
 
     public static boolean isItemInEvent(ItemStack itemStack) {

@@ -3,17 +3,22 @@ package org.red.library;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
+import org.red.library.interactive.InteractiveObj;
+import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
+import org.red.library.interactive.item.InteractiveItemAnnotation;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
@@ -22,15 +27,25 @@ import org.red.library.util.timer.Timer;
 import java.util.UUID;
 
 public interface A_Manager {
-    void registerEventItem(InteractiveItem interactiveItem);
+    void registerInteractiveObj(InteractiveObj<?> interactiveObj);
 
-    void setItemInEvent(InteractiveItem interactiveItem, ItemStack itemStack);
+    <T> void setInteractiveInObj(InteractiveObj<T> interactiveObj, T obj);
 
-    void setItemInEvent(NamespacedKey eventItemKey, ItemStack itemStack);
+    <T> void setInteractiveInObj(NamespacedKey key, T obj);
 
-    boolean isItemInEvent(ItemStack itemStack);
+    boolean isItemInInteractive(ItemStack itemStack);
 
-    InteractiveItem getEventInItem(ItemStack itemStack);
+    boolean isItemInTile(TileState tileState);
+
+    boolean isRegisteredInteractiveObj(NamespacedKey key);
+
+    InteractiveItem getInteractiveInItem(ItemStack itemStack);
+
+    InteractiveTile getInteractiveInBlock(TileState tileState);
+
+    InteractiveObj<?> getInteractiveObj(NamespacedKey key);
+
+    void runInteractiveEvent(InteractiveItemAnnotation.Act act, Event event);
 
     Timer createTimer(NamespacedKey key, int maxTime);
 

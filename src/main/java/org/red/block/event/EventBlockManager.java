@@ -6,57 +6,57 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.red.CommediaDell_arte;
-import org.red.library.interactive.block.InteractiveBlock;
-import org.red.library.interactive.block.EventBlockAnnotation;
+import org.red.library.interactive.block.InteractiveTile;
+import org.red.library.interactive.block.InteractiveTileAnnotation;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 public class EventBlockManager {
-    private final InteractiveBlock interactiveBlock;
-    private final Map<EventBlockAnnotation.Act, BlockEventMethod> methods = new HashMap<>();
+    private final InteractiveTile interactiveTile;
+    private final Map<InteractiveTileAnnotation.Act, BlockEventMethod> methods = new HashMap<>();
 
-    public static void registerEventBlock(InteractiveBlock interactiveBlock) {
+    public static void registerEventBlock(InteractiveTile interactiveTile) {
     }
 
-    private EventBlockManager(InteractiveBlock interactiveBlock) {
-        this.interactiveBlock = interactiveBlock;
+    private EventBlockManager(InteractiveTile interactiveTile) {
+        this.interactiveTile = interactiveTile;
 
-        for (Method method : interactiveBlock.getClass().getMethods())
+        for (Method method : interactiveTile.getClass().getMethods())
             putMethod(method);
     }
 
-    private InteractiveBlock getEventBlock() {
-        return interactiveBlock;
+    private InteractiveTile getEventBlock() {
+        return interactiveTile;
     }
 
-    private void runEvent(Event event, EventBlockAnnotation.Act act, boolean shift) {
+    private void runEvent(Event event, InteractiveTileAnnotation.Act act, boolean shift) {
         EventBlockManager.BlockEventMethod method = methods.getOrDefault(act, null);
 
         if (method == null)
             return;
 
         try {
-            method.getMethod(shift).invoke(this.interactiveBlock, event);
+            method.getMethod(shift).invoke(this.interactiveTile, event);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void putMethod(Method method) {
-        if (!method.isAnnotationPresent(EventBlockAnnotation.class))
+        if (!method.isAnnotationPresent(InteractiveTileAnnotation.class))
             return;
 
-        EventBlockAnnotation.Act act = method.getAnnotation(EventBlockAnnotation.class).act();
-        boolean shift = method.getAnnotation(EventBlockAnnotation.class).shift();
+        InteractiveTileAnnotation.Act act = method.getAnnotation(InteractiveTileAnnotation.class).act();
+        boolean shift = method.getAnnotation(InteractiveTileAnnotation.class).shift();
         Class<?>[] classes = method.getParameterTypes();
 
         if (classes.length != 1)
             return;
 
         Class<?> clazz = classes[0];
-        if ((clazz.isAssignableFrom(BlockBreakEvent.class) && act == EventBlockAnnotation.Act.BREAK) ||
+        if ((clazz.isAssignableFrom(BlockBreakEvent.class) && act == InteractiveTileAnnotation.Act.BREAK) ||
                 (clazz.isAssignableFrom(PlayerInteractEvent.class))) {
 
             if (this.methods.containsKey(act)) {
@@ -74,16 +74,16 @@ public class EventBlockManager {
     }
 
     private void setEventInBlock(BlockState blockState) {
-        blockState.setMetadata("a_block_event", new FixedMetadataValue(CommediaDell_arte.getPlugin(), this.interactiveBlock.getKey().toString()));
+        blockState.setMetadata("a_block_event", new FixedMetadataValue(CommediaDell_arte.getPlugin(), this.interactiveTile.getKey().toString()));
     }
 
 
     private static class BlockEventMethod {
-        private final EventBlockAnnotation.Act act;
+        private final InteractiveTileAnnotation.Act act;
         private Method pressedMethod;
         private Method unPressedMethod;
 
-        private BlockEventMethod(EventBlockAnnotation.Act act, Method pressedMethod, Method unPressedMethod) {
+        private BlockEventMethod(InteractiveTileAnnotation.Act act, Method pressedMethod, Method unPressedMethod) {
             this.act = act;
             this.pressedMethod = pressedMethod;
             this.unPressedMethod = unPressedMethod;
@@ -97,7 +97,7 @@ public class EventBlockManager {
             this.unPressedMethod = unPressedMethod;
         }
 
-        public EventBlockAnnotation.Act getAct() {
+        public InteractiveTileAnnotation.Act getAct() {
             return act;
         }
 

@@ -15,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Consumer;
 import org.bukkit.util.RayTraceResult;
@@ -51,6 +53,21 @@ public class A_WorldImpl implements A_World {
         this.world = world;
         this.version = version;
         this.aDataLoad();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Area area : areaMap.values()) {
+                    Map<PotionEffectType, Integer> potionEffectMap = area.getPotionEffectMap();
+
+                    area.getEntities().forEach(entity -> {
+                        if (entity instanceof LivingEntity) {
+                            potionEffectMap.forEach((type, level) -> ((LivingEntity) entity).addPotionEffect(type.createEffect(70, level)));
+                        }
+                    });
+                }
+            }
+        }.runTaskTimer(CommediaDell_arte.getPlugin(), 0, 60);
     }
 
     @Override

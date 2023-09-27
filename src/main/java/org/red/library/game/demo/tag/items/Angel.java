@@ -5,16 +5,16 @@ import org.red.library.a_.entity.A_Entity;
 import org.red.library.game.demo.tag.TagGame;
 import org.red.library.game.demo.tag.TagGameSkill;
 import org.red.library.interactive.item.InteractiveItem;
-import org.red.library.interactive.item.EventItemAnnotation;
+import org.red.library.interactive.item.InteractiveItemAnnotation;
 
 public abstract class Angel implements InteractiveItem {
 
-    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_AIR)
+    @InteractiveItemAnnotation(act = InteractiveItemAnnotation.Act.RIGHT_CLICK_AIR)
     public void rightClickAir(PlayerInteractEvent event) {
         this.rightClickBlock(event);
     }
 
-    @EventItemAnnotation(act = EventItemAnnotation.Act.RIGHT_CLICK_BLOCK, shift = true)
+    @InteractiveItemAnnotation(act = InteractiveItemAnnotation.Act.RIGHT_CLICK_BLOCK, shift = true)
     public void rightClickBlock(PlayerInteractEvent event) {
 
     }

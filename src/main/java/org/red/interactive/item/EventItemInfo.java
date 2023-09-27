@@ -1,4 +1,4 @@
-package org.red.item.event;
+package org.red.interactive.item;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.Event;
@@ -14,7 +14,7 @@ import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.item.ItemBuilder;
-import org.red.library.interactive.item.EventItemAnnotation;
+import org.red.library.interactive.item.InteractiveItemAnnotation;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 
@@ -70,7 +70,7 @@ public final class EventItemInfo {
         return getEventItemByKey(key);
     }
 
-    public static void runItemEvent(A_Player player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
+    public static void runItemEvent(A_Player player, ItemStack itemStack, InteractiveItemAnnotation.Act act, Event event) {
         if (!hasEventItem(itemStack))
             return;
 
@@ -80,7 +80,7 @@ public final class EventItemInfo {
     }
 
     private final InteractiveItem interactiveItem;
-    private final Map<EventItemAnnotation.Act, EventMethod> methods = new HashMap<>();
+    private final Map<InteractiveItemAnnotation.Act, EventMethod> methods = new HashMap<>();
 
     private EventItemInfo(InteractiveItem interactiveItem) {
         this.interactiveItem = interactiveItem;
@@ -93,7 +93,7 @@ public final class EventItemInfo {
         return interactiveItem;
     }
 
-    private void runEvent(Event event, EventItemAnnotation.Act act, boolean shift) {
+    private void runEvent(Event event, InteractiveItemAnnotation.Act act, boolean shift) {
         EventMethod method = methods.getOrDefault(act, null);
 
         if (method == null)
@@ -107,22 +107,22 @@ public final class EventItemInfo {
     }
 
     private void putMethod(Method method) {
-        if (!method.isAnnotationPresent(EventItemAnnotation.class))
+        if (!method.isAnnotationPresent(InteractiveItemAnnotation.class))
             return;
 
-        EventItemAnnotation.Act act = method.getAnnotation(EventItemAnnotation.class).act();
-        boolean shift = method.getAnnotation(EventItemAnnotation.class).shift();
+        InteractiveItemAnnotation.Act act = method.getAnnotation(InteractiveItemAnnotation.class).act();
+        boolean shift = method.getAnnotation(InteractiveItemAnnotation.class).shift();
         Class<?>[] classes = method.getParameterTypes();
 
         if (classes.length != 1)
             return;
 
         Class<?> clazz = classes[0];
-        if ((clazz.isAssignableFrom(PlayerSwapHandItemsEvent.class) && act == EventItemAnnotation.Act.SWAP_HAND) ||
-                (clazz.isAssignableFrom(PlayerDropItemEvent.class) && act == EventItemAnnotation.Act.DROP) ||
-                (clazz.isAssignableFrom(EntityDamageByEntityEvent.class) && act == EventItemAnnotation.Act.HIT) ||
-                (clazz.isAssignableFrom(BlockBreakEvent.class) && act == EventItemAnnotation.Act.BREAK) ||
-                (clazz.isAssignableFrom(PlayerFishEvent.class) && act == EventItemAnnotation.Act.FISHING) ||
+        if ((clazz.isAssignableFrom(PlayerSwapHandItemsEvent.class) && act == InteractiveItemAnnotation.Act.SWAP_HAND) ||
+                (clazz.isAssignableFrom(PlayerDropItemEvent.class) && act == InteractiveItemAnnotation.Act.DROP) ||
+                (clazz.isAssignableFrom(EntityDamageByEntityEvent.class) && act == InteractiveItemAnnotation.Act.HIT) ||
+                (clazz.isAssignableFrom(BlockBreakEvent.class) && act == InteractiveItemAnnotation.Act.BREAK) ||
+                (clazz.isAssignableFrom(PlayerFishEvent.class) && act == InteractiveItemAnnotation.Act.FISHING) ||
                 (clazz.isAssignableFrom(PlayerInteractEvent.class))) {
 
             if (this.methods.containsKey(act)) {
@@ -144,11 +144,11 @@ public final class EventItemInfo {
     }
 
     private static class EventMethod {
-        private final EventItemAnnotation.Act act;
+        private final InteractiveItemAnnotation.Act act;
         private Method pressedMethod;
         private Method unPressedMethod;
 
-        private EventMethod(EventItemAnnotation.Act act, Method pressedMethod, Method unPressedMethod) {
+        private EventMethod(InteractiveItemAnnotation.Act act, Method pressedMethod, Method unPressedMethod) {
             this.act = act;
             this.pressedMethod = pressedMethod;
             this.unPressedMethod = unPressedMethod;
@@ -162,7 +162,7 @@ public final class EventItemInfo {
             this.unPressedMethod = unPressedMethod;
         }
 
-        public EventItemAnnotation.Act getAct() {
+        public InteractiveItemAnnotation.Act getAct() {
             return act;
         }
 

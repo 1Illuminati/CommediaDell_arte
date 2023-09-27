@@ -4,6 +4,8 @@ import org.bukkit.Keyed;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -11,11 +13,14 @@ import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 import org.red.library.world.rule.RuleMap;
 
+import java.util.*;
+
 public class Area implements HasRule, Keyed {
     private final World world;
     private final BoundingBox boundingBox;
     private final NamespacedKey key;
     private final RuleMap ruleMap = new RuleMap();
+    private final Map<PotionEffectType, Integer> potionEffectMap = new HashMap<>();
     private RulePriority priority = RulePriority.NORMAL;
 
     public Area(World world, BoundingBox boundingBox, NamespacedKey key) {
@@ -97,6 +102,22 @@ public class Area implements HasRule, Keyed {
 
     public boolean overlap(Location start, Location end) {
         return boundingBox.overlaps(start.toVector(), end.toVector());
+    }
+
+    public void setPotionEffectInArea(PotionEffectType type, int level) {
+        potionEffectMap.put(type, level);
+    }
+
+    public void removePotionEffectInArea(PotionEffectType type) {
+        potionEffectMap.remove(type);
+    }
+
+    public Map<PotionEffectType, Integer> getPotionEffectMap() {
+        return potionEffectMap;
+    }
+
+    public Collection<Entity> getEntities() {
+        return world.getNearbyEntities(this.boundingBox);
     }
 
     @Override

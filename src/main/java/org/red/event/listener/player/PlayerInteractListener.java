@@ -9,8 +9,8 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.event.listener.AbstractListener;
-import org.red.library.interactive.item.EventItemAnnotation;
-import org.red.item.event.EventItemInfo;
+import org.red.library.interactive.item.InteractiveItemAnnotation;
+import org.red.interactive.item.EventItemInfo;
 
 public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent> {
     @Override
@@ -22,7 +22,7 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         A_Player player = A_.getAPlayer(event.getPlayer());
         Action action = event.getAction();
 
-        EventItemAnnotation.Act act = EventItemAnnotation.Act.valueOf(action.name());
+        InteractiveItemAnnotation.Act act = InteractiveItemAnnotation.Act.valueOf(action.name());
         EventItemInfo.runItemEvent(player, player.getInventory().getItemInMainHand(), act, event);
     }
 

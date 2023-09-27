@@ -6,7 +6,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.interactive.item.InteractiveItem;
-import org.red.library.interactive.item.EventItemAnnotation;
+import org.red.library.interactive.item.InteractiveItemAnnotation;
 
 public class RunEventItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
@@ -14,9 +14,9 @@ public class RunEventItemEvent extends PlayerEvent implements Cancellable {
     private final InteractiveItem interactiveItem;
     private final A_Player player;
     private final ItemStack mainHand;
-    private final EventItemAnnotation.Act act;
+    private final InteractiveItemAnnotation.Act act;
 
-    public RunEventItemEvent(InteractiveItem interactiveItem, A_Player player, ItemStack mainHand, EventItemAnnotation.Act act) {
+    public RunEventItemEvent(InteractiveItem interactiveItem, A_Player player, ItemStack mainHand, InteractiveItemAnnotation.Act act) {
         super(player.getPlayer());
         this.interactiveItem = interactiveItem;
         this.player = player;
@@ -24,7 +24,7 @@ public class RunEventItemEvent extends PlayerEvent implements Cancellable {
         this.act = act;
     }
 
-    public EventItemAnnotation.Act getAct() {
+    public InteractiveItemAnnotation.Act getAct() {
         return act;
     }
 

@@ -12,7 +12,7 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.red.library.interactive.item.InteractiveItem;
-import org.red.item.event.EventItemInfo;
+import org.red.interactive.item.EventItemInfo;
 
 import java.util.Arrays;
 import java.util.List;
