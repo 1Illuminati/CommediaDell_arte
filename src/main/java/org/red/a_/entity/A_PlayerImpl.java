@@ -27,6 +27,7 @@ import org.red.a_.admin.A_Admin;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
+import org.red.library.inventory.CustomGui;
 
 import java.net.InetSocketAddress;
 import java.util.*;
@@ -144,6 +145,16 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public void delayOpenInventory(Inventory inv, int delay) {
         Bukkit.getScheduler().runTaskLater(CommediaDell_arte.getPlugin(), () -> this.openInventory(inv), delay);
+    }
+
+    @Override
+    public void delayOpenInventory(CustomGui inv) {
+        this.delayOpenInventory(inv, 1);
+    }
+
+    @Override
+    public void delayOpenInventory(CustomGui inv, int delay) {
+        this.delayOpenInventory(inv.getInventory(), delay);
     }
 
     @Override
@@ -1046,6 +1057,16 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     public InventoryView openInventory(@NotNull Inventory inventory, boolean ignoreInvCloseEvent) {
         this.ignoreInvCloseEvent = ignoreInvCloseEvent;
         return this.openInventory(inventory);
+    }
+
+    @Override
+    public @Nullable InventoryView openInventory(@NotNull CustomGui var1) {
+        return this.openInventory(var1.getInventory());
+    }
+
+    @Override
+    public @Nullable InventoryView openInventory(@NotNull CustomGui var1, boolean ignoreEvent) {
+        return this.openInventory(var1.getInventory(), ignoreEvent);
     }
 
     @Override

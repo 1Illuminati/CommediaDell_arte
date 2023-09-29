@@ -1,11 +1,9 @@
-package org.red.item.material.gui;
+package org.red.item.material;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
-import org.red.CommediaDell_arte;
-import org.red.item.material.BanMaterial;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.inventory.CustomGui;
@@ -17,7 +15,7 @@ public class BanMaterialInfoGui extends CustomGui {
     private final BanMaterial.BanMaterialInfo info;
 
     public BanMaterialInfoGui(BanMaterialGui banMaterialGui, BanMaterial.BanMaterialInfo info) {
-        super(9);
+        super("BanMaterialInfo - " + info.getMaterial().name(), 9);
         this.banMaterialGui = banMaterialGui;
         this.info = info;
         this.setInfoButton(1, MaterialAct.CRAFT, Material.CRAFTING_TABLE);

@@ -15,6 +15,8 @@ public final class Rule<T> {
     public static final Rule<Boolean> FISHING = new Rule<>("fishing", true);
     public static final Rule<Boolean> CHAT = new Rule<>("chat", true);
     public static final Rule<Boolean> FALL_DAMAGE = new Rule<>("fall_damage", true);
+    public static final Rule<Boolean> SPAWN_MOB = new Rule<>("spawn_mob", true);
+    public static final Rule<Boolean> SPAWN_ENTITY = new Rule<>("spawn_entity", true);
     public static final Rule<?>[] RULES = {
             SWAP_HAND,
             BREED,
@@ -29,6 +31,8 @@ public final class Rule<T> {
             ATTACK,
             FISHING,
             CHAT,
+            SPAWN_MOB,
+            SPAWN_ENTITY,
             FALL_DAMAGE
     };
 

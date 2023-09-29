@@ -67,7 +67,7 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
             try {
                 areaEvent = getAreaEventClass().getConstructor(Area.class, event.getClass()).newInstance(area, event);
-                Bukkit.getPluginManager().callEvent(areaEvent);
+                if (!area.inAreaEvent(areaEvent)) Bukkit.getPluginManager().callEvent(areaEvent);
             } catch (Exception e) {
                 e.printStackTrace();
             }

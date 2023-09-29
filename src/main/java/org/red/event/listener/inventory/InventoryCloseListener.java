@@ -8,6 +8,7 @@ import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
 import org.red.event.listener.AbstractListener;
+import org.red.library.event.area.inventory.AreaInventoryCloseEvent;
 import org.red.library.inventory.CustomGui;
 
 public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent> {
@@ -34,6 +35,6 @@ public class InventoryCloseListener extends AbstractListener<InventoryCloseEvent
 
     @Override
     protected Class<? extends AreaEvent<InventoryCloseEvent>> getAreaEventClass() {
-        return null;
+        return AreaInventoryCloseEvent.class;
     }
 }

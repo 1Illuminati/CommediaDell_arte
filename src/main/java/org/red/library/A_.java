@@ -36,6 +36,18 @@ public final class A_ {
         A_.plugin = plugin;
     }
 
+    public static boolean isTileInInteractive(TileState tileState) {
+        return plugin.isTileInInteractive(tileState);
+    }
+
+    public static void disableInteractiveObj(NamespacedKey key) {
+        plugin.disableInteractiveObj(key);
+    }
+
+    public static void disableInteractiveObj(InteractiveObj<?> interactiveObj) {
+        plugin.disableInteractiveObj(interactiveObj);
+    }
+
     private A_() {
     }
 
@@ -68,7 +80,7 @@ public final class A_ {
     }
 
     public static boolean isItemInTile(TileState tileState) {
-        return plugin.isItemInTile(tileState);
+        return plugin.isTileInInteractive(tileState);
     }
 
     public static boolean isRegisteredInteractiveObj(NamespacedKey key) {

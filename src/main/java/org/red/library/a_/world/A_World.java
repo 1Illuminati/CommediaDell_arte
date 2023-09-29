@@ -20,15 +20,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.A_DataHolder;
+import org.red.library.block.loot.LootChest;
 import org.red.library.item.material.HasMaterialBan;
 import org.red.library.world.Area;
+import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 
 import java.io.File;
 import java.util.*;
 import java.util.function.Predicate;
 
-public interface A_World extends A_DataHolder, HasMaterialBan {
+public interface A_World extends A_DataHolder, HasMaterialBan, HasRule {
     World getWorld();
 
     Area getArea(NamespacedKey key);
@@ -39,6 +41,13 @@ public interface A_World extends A_DataHolder, HasMaterialBan {
 
     void removeArea(NamespacedKey key);
 
+    Collection<LootChest> getLootChests();
+    void registeredLootChest(LootChest lootChest);
+    boolean isLootChest(Location location);
+    LootChest getLootChest(Location location);
+    LootChest getLootChest(String name);
+    void removeLootChest(LootChest lootChest);
+    void removeLootChest(String name);
     Collection<Area> getAreas();
     Set<Area> getContainAreas(Vector... vectors);
     Set<Area> getContainAreas(Location... locs);
@@ -50,10 +59,6 @@ public interface A_World extends A_DataHolder, HasMaterialBan {
     Set<Area> getOverlapAreas(Location start, Location end);
     Set<Area> getOverlapAreas(BoundingBox boundingBox);
     Set<Area> getOverlapAreas(Area area);
-
-    <T> T getWorldRuleValue(Rule<T> rule);
-
-    <T> void setWorldRuleValue(Rule<T> rule, T value);
 
     <T> T getRuleValue(Rule<T> rule, Location... locs);
 

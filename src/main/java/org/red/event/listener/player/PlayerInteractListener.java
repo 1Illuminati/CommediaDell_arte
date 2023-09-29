@@ -1,10 +1,12 @@
 package org.red.event.listener.player;
 
 import org.bukkit.block.Block;
+import org.bukkit.block.TileState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.red.CommediaDell_arte;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -47,8 +49,10 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
         A_.canRunInteractiveItemEvent(player.getItemInHand(), itemActClass, player, event);
 
         Block clickedBlock = event.getClickedBlock();
-        if (tileActClass != null && clickedBlock != null)
+        if (tileActClass != null && clickedBlock != null){
             A_.canRunInteractiveTileEvent(clickedBlock.getState(), tileActClass, player, event);
+        }
+
     }
 
     @Override

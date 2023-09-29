@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
+import org.red.library.inventory.CustomGui;
 
 import java.net.InetSocketAddress;
 import java.util.Collection;
@@ -53,6 +54,10 @@ public interface A_Player extends A_LivingEntity {
     void delayOpenInventory(Inventory inv);
 
     void delayOpenInventory(Inventory inv, int delay);
+
+    void delayOpenInventory(CustomGui inv);
+
+    void delayOpenInventory(CustomGui inv, int delay);
 
     BlockState lastBreakBlock();
 
@@ -157,6 +162,12 @@ public interface A_Player extends A_LivingEntity {
 
     @Nullable
     InventoryView openInventory(@NotNull Inventory var1, boolean ignoreEvent);
+
+    @Nullable
+    InventoryView openInventory(@NotNull CustomGui var1);
+
+    @Nullable
+    InventoryView openInventory(@NotNull CustomGui var1, boolean ignoreEvent);
 
     @Nullable
     InventoryView openWorkbench(@Nullable Location var1, boolean var2);

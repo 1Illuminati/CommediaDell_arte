@@ -1,8 +1,7 @@
 package org.red.a_.world;
 
 import org.bukkit.*;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
+import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.DragonBattle;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -25,10 +24,13 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
+import org.red.block.loot.InteractiveLootChest;
+import org.red.library.A_;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.world.A_World;
 import org.red.item.material.BanMaterial;
+import org.red.library.block.loot.LootChest;
 import org.red.library.item.material.MaterialAct;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.Area;
@@ -46,6 +48,7 @@ public class A_WorldImpl implements A_World {
     private final A_Data aData = A_Data.newAData();
     private final RuleMap ruleMap = new RuleMap();
     private final NameSpaceMap<Area> areaMap = new NameSpaceMap<>();
+    private final NameSpaceMap<LootChest> lootChestMap = new NameSpaceMap<>();
     private final BanMaterial banMaterial = new BanMaterial();
     private final A_ManagerImpl.A_Version version;
 
@@ -107,6 +110,47 @@ public class A_WorldImpl implements A_World {
     @Override
     public void removeArea(NamespacedKey key) {
         areaMap.remove(key);
+    }
+
+    @Override
+    public Collection<LootChest> getLootChests() {
+        return this.lootChestMap.values();
+    }
+
+    @Override
+    public void registeredLootChest(LootChest lootChest) {
+        A_.registerInteractiveObj(new InteractiveLootChest(lootChest));
+        A_.setInteractiveInObj(lootChest.getKey(), lootChest.getChest());
+        this.lootChestMap.put(lootChest.getKey(), lootChest);
+    }
+
+    @Override
+    public boolean isLootChest(Location location) {
+        Block block = location.getBlock();
+        BlockState blockState = block.getState();
+        return blockState instanceof Chest && A_.isItemInTile((Chest) blockState) && A_.getInteractiveInBlock((TileState) blockState) instanceof InteractiveLootChest;
+    }
+
+    @Override
+    public LootChest getLootChest(Location location) {
+        return isLootChest(location) ? ((InteractiveLootChest) A_.getInteractiveInBlock((TileState) location.getBlock().getState())).getLootChest() : null;
+    }
+
+    @Override
+    public LootChest getLootChest(String name) {
+        return this.lootChestMap.getOrDefault(new NamespacedKey(CommediaDell_arte.getPlugin(), name), null);
+    }
+
+    @Override
+    public void removeLootChest(LootChest lootChest) {
+        this.lootChestMap.remove(lootChest.getKey());
+    }
+
+    @Override
+    public void removeLootChest(String name) {
+        NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), name);
+        A_.disableInteractiveObj(key);
+        this.lootChestMap.remove(key);
     }
 
     @Override
@@ -181,16 +225,6 @@ public class A_WorldImpl implements A_World {
     }
 
     @Override
-    public <T> T getWorldRuleValue(Rule<T> rule) {
-        return this.ruleMap.get(rule);
-    }
-
-    @Override
-    public <T> void setWorldRuleValue(Rule<T> rule, T value) {
-        this.ruleMap.set(rule, value);
-    }
-
-    @Override
     public <T> T getRuleValue(Rule<T> rule, Location... locs) {
         T result = ruleMap.get(rule);
         int num = 6;
@@ -213,9 +247,9 @@ public class A_WorldImpl implements A_World {
         fileConfiguration.set("aData", this.aData);
         fileConfiguration.set("banMaterial", this.banMaterial);
         fileConfiguration.set("ruleMap", this.ruleMap);
+        fileConfiguration.set("lootChestMap", this.lootChestMap);
 
-
-        File file = new File("plugins/Dell_arte/worldData/" + this.world.getName() + ".yml");
+        File file = new File( this.world.getName() + "/worldData.yml");
 
         try {
             fileConfiguration.save(file);
@@ -229,14 +263,13 @@ public class A_WorldImpl implements A_World {
     @Override
     public void aDataLoad() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
-        File file = new File("plugins/Dell_arte/worldData/" + this.world.getName() + ".yml");
+        File file = new File( this.world.getName() + "/worldData.yml");
 
         try {
             fileConfiguration.load(file);
         }  catch (IOException | InvalidConfigurationException e) {
             if (e instanceof FileNotFoundException) CommediaDell_arte.sendLog("§cNot Found WorldData: " + this.world.getName());
             else e.printStackTrace();
-
             return;
         }
 
@@ -246,6 +279,11 @@ public class A_WorldImpl implements A_World {
         if (banMaterial != null) this.banMaterial.copy(banMaterial);
         RuleMap ruleMap = (RuleMap) fileConfiguration.get("ruleMap");
         if (ruleMap != null) this.ruleMap.copy(ruleMap);
+        NameSpaceMap<LootChest> lootChestMap = (NameSpaceMap<LootChest>) fileConfiguration.get("lootChestMap");
+        if (lootChestMap != null) {
+            lootChestMap.forEach((key, lootChest) -> this.registeredLootChest(lootChest));
+        }
+
 
         CommediaDell_arte.sendLog("§aLoad WorldData: " + this.world.getName());
     }
@@ -1297,5 +1335,15 @@ public class A_WorldImpl implements A_World {
     @Override
     public void removeMetadata(@NotNull String s, @NotNull Plugin plugin) {
         world.removeMetadata(s, plugin);
+    }
+
+    @Override
+    public <T> T getRuleValue(Rule<T> rule) {
+        return this.ruleMap.get(rule);
+    }
+
+    @Override
+    public <T> void setRuleValue(Rule<T> rule, T value) {
+        this.ruleMap.set(rule, value);
     }
 }

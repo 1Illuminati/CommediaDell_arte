@@ -84,6 +84,12 @@ public class CustomGui implements InventoryHolder {
         return this.getItem(i);
     }
 
+    public ItemStack setItem(int i, ItemStack itemStack, Button button) {
+        inventory.setItem(i, itemStack);
+        this.setButton(i, button);
+        return this.getItem(i);
+    }
+
     public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
         return inventory.addItem(itemStacks);
     }

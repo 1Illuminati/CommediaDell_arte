@@ -21,7 +21,7 @@ import java.util.Map;
 public class ItemBuilder {
     private final ItemStack itemStack;
     private ItemMeta itemMeta;
-    private final PersistentDataContainer persistentDataContainer;
+    private PersistentDataContainer persistentDataContainer;
 
     public ItemBuilder(Material material) {
         this(new ItemStack(material));
@@ -133,15 +133,19 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setEventItem(NamespacedKey key) {
+    public ItemBuilder setInteractiveItem(NamespacedKey key) {
+        itemStack.setItemMeta(itemMeta);
         A_.setInteractiveInObj(key, itemStack);
         this.itemMeta = this.itemStack.getItemMeta();
+        this.persistentDataContainer = this.itemMeta.getPersistentDataContainer();
         return this;
     }
 
-    public ItemBuilder setEventItem(InteractiveItem interactiveItem) {
+    public ItemBuilder setInteractiveItem(InteractiveItem interactiveItem) {
+        itemStack.setItemMeta(itemMeta);
         A_.setInteractiveInObj(interactiveItem, itemStack);
         this.itemMeta = this.itemStack.getItemMeta();
+        this.persistentDataContainer = this.itemMeta.getPersistentDataContainer();
         return this;
     }
 

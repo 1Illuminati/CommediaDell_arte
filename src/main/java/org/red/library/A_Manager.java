@@ -38,7 +38,7 @@ public interface A_Manager {
 
     boolean isItemInInteractive(ItemStack itemStack);
 
-    boolean isItemInTile(TileState tileState);
+    boolean isTileInInteractive(TileState tileState);
 
     boolean isRegisteredInteractiveObj(NamespacedKey key);
 
@@ -53,6 +53,8 @@ public interface A_Manager {
     void canRunInteractiveTileEvent(BlockState blockState, Class<? extends InteractiveTileAct> act, A_Player player, Event event);
 
     void canRunInteractiveItemEvent(ItemStack itemStack, Class<? extends InteractiveItemAct> act, A_Player player, Event event);
+    void disableInteractiveObj(NamespacedKey key);
+    void disableInteractiveObj(InteractiveObj<?> interactiveObj);
 
     Timer createTimer(NamespacedKey key, int maxTime);
 

@@ -2,6 +2,7 @@ package org.red.event.listener.player;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.red.a_.entity.A_PlayerImpl;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.event.area.AreaEvent;
@@ -15,7 +16,9 @@ public class PlayerCommandPreProcessListener extends AbstractListener<PlayerComm
     public void onEvent(PlayerCommandPreprocessEvent event) {
         super.runAreaPlayerEvent(event);
 
-        A_Player player = A_.getAPlayer(event.getPlayer());
+        A_PlayerImpl player = (A_PlayerImpl) A_.getAPlayer(event.getPlayer());
+
+        if (player.getAAdmin() != null) return;
         if (!player.getAWorld().getRuleValue(Rule.COMMAND, player.getLocation())) event.setCancelled(true);
     }
 

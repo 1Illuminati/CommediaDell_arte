@@ -16,3 +16,9 @@ commands:
   banItem:
     description: "Ban Item Command"
     permission: op
+  lootChest:
+    description: "Loot Chest Command"
+    permission: op
+  ruleSetting:
+    description: "Rule Setting Command"
+    permission: op

@@ -19,11 +19,11 @@ public class CoolTime implements ConfigurationSerializable {
         return coolTime;
     }
 
-    public void setCoolTime(String name, int time) {
+    public void setCoolTime(String name, double time) {
         this.setCoolTime(name, time, TimeType.SECOND);
     }
 
-    public void setCoolTime(String name, int time, TimeType type) {
+    public void setCoolTime(String name, double time, TimeType type) {
         this.map.put(name, timeToType(time, type) + System.currentTimeMillis());
     }
 
@@ -31,11 +31,11 @@ public class CoolTime implements ConfigurationSerializable {
         this.map.remove(name);
     }
 
-    public void reduceCoolTime(String name, int reduceSecond) {
+    public void reduceCoolTime(String name, double reduceSecond) {
         this.reduceCoolTime(name, reduceSecond, TimeType.SECOND);
     }
 
-    public void reduceCoolTime(String name, int reduceSecond, TimeType type) {
+    public void reduceCoolTime(String name, double reduceSecond, TimeType type) {
         this.map.put(name, this.getCoolTime(name) - timeToType(reduceSecond, type));
     }
 
@@ -77,7 +77,7 @@ public class CoolTime implements ConfigurationSerializable {
         this.map.clear();
     }
 
-    private int timeToType(int time, TimeType type) {
+    private int timeToType(double time, TimeType type) {
         switch (type) {
             case YEAR:
                 time *= 365;
@@ -95,7 +95,7 @@ public class CoolTime implements ConfigurationSerializable {
                 break;
         }
 
-        return time;
+        return (int) time;
     }
 
     @Override

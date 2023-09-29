@@ -34,23 +34,18 @@ public abstract class InteractiveObjInfo<T> implements Keyed {
     public void runMethod(Class<? extends InteractiveAct> act, A_Player player, Event event) {
         if (!act.isAnnotationPresent(InteractiveActAnnotation.class))
             throw new IllegalArgumentException("The act class must be annotated with InteractiveActAnnotation");
-
         InteractiveActAnnotation actAnnotation = act.getAnnotation(InteractiveActAnnotation.class);
         Class<? extends Event> eventClass = actAnnotation.event();
 
         if (eventClass != event.getClass())
             throw new IllegalArgumentException("The event class must be the same as the event class in the act annotation");
-
         MethodInfo methodInfo = methodInfos.getOrDefault(act, null);
         if (methodInfo == null) return;
-
         Method method = methodInfo.getMethod(player.isSneaking());
         if (method == null) return;
-
         InteractiveRunEvent interactiveRunEvent = new InteractiveRunEvent(obj, player, act);
         Bukkit.getPluginManager().callEvent(interactiveRunEvent);
         if (interactiveRunEvent.isCancelled()) return;
-
         try {
             method.invoke(obj, event);
         } catch (IllegalAccessException | InvocationTargetException e) {

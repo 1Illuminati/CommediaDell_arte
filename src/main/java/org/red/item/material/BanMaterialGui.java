@@ -1,4 +1,4 @@
-package org.red.item.material.gui;
+package org.red.item.material;
 
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -6,11 +6,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-import org.red.CommediaDell_arte;
 import org.red.a_.A_ManagerImpl;
 import org.red.a_.world.A_WorldImpl;
-import org.red.item.material.BanMaterial;
 import org.red.library.inventory.CustomGui;
 import org.red.library.item.ItemBuilder;
 import org.red.library.item.material.MaterialAct;
@@ -35,7 +32,7 @@ public class BanMaterialGui extends CustomGui {
     }
 
     public BanMaterialGui(BanMaterial banMaterial, int page) {
-        super(54);
+        super("BanMaterial", 54);
         this.banMaterial = banMaterial;
         this.page = page;
 

@@ -188,6 +188,7 @@ public final class A_ManagerImpl implements A_Manager {
             throw new IllegalArgumentException("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
         }
         this.interactiveObjs.put(interactiveObj.getKey(), interactiveObjInfo);
+        CommediaDell_arte.sendLog("Register InteractiveObj: " + interactiveObj.getKey());
     }
 
     @Override
@@ -234,7 +235,7 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-    public boolean isItemInTile(@NotNull TileState tileState) {
+    public boolean isTileInInteractive(@NotNull TileState tileState) {
         return tileState.getPersistentDataContainer().has(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
     }
 
@@ -247,7 +248,7 @@ public final class A_ManagerImpl implements A_Manager {
 
     @Override
     public InteractiveTile getInteractiveInBlock(TileState tileState) {
-        if (!isItemInTile(tileState)) return null;
+        if (!isTileInInteractive(tileState)) return null;
         NamespacedKey key = tileState.getPersistentDataContainer().get(InteractiveObjInfo.INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE);
         return this.isRegisteredInteractiveObj(key) ? (InteractiveTile) this.interactiveObjs.get(key).getObj() : null;
     }
@@ -262,7 +263,6 @@ public final class A_ManagerImpl implements A_Manager {
     public void runInteractiveEvent(InteractiveObj<?> obj, Class<? extends InteractiveAct> act, A_Player player, Event event) {
         if (!this.interactiveObjs.containsKey(obj.getKey()))
             this.registerInteractiveObj(obj);
-
         InteractiveObjInfo<?> interactiveObjInfo = this.interactiveObjs.get(obj.getKey());
         interactiveObjInfo.runMethod(act, player, event);
     }
@@ -272,12 +272,9 @@ public final class A_ManagerImpl implements A_Manager {
         if (!(blockState instanceof TileState)) return;
 
         TileState tileState = (TileState) blockState;
-
-        if (!isItemInTile(tileState)) return;
-
+        if (!isTileInInteractive(tileState)) return;
         InteractiveTile interactiveTile = getInteractiveInBlock(tileState);
         if (interactiveTile == null) return;
-
         runInteractiveEvent(interactiveTile, act, player, event);
     }
 
@@ -289,6 +286,16 @@ public final class A_ManagerImpl implements A_Manager {
         if (interactiveItem == null) return;
 
         runInteractiveEvent(interactiveItem, act, player, event);
+    }
+
+    @Override
+    public void disableInteractiveObj(NamespacedKey key) {
+        this.interactiveObjs.remove(key);
+    }
+
+    @Override
+    public void disableInteractiveObj(InteractiveObj<?> interactiveObj) {
+        this.interactiveObjs.remove(interactiveObj.getKey());
     }
 
     @Override

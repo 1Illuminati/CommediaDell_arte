@@ -9,6 +9,9 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
+import org.red.library.A_;
+import org.red.library.a_.world.A_World;
+import org.red.library.event.area.AreaEvent;
 import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 import org.red.library.world.rule.RuleMap;
@@ -16,12 +19,12 @@ import org.red.library.world.rule.RuleMap;
 import java.util.*;
 
 public class Area implements HasRule, Keyed {
-    private final World world;
-    private final BoundingBox boundingBox;
-    private final NamespacedKey key;
-    private final RuleMap ruleMap = new RuleMap();
-    private final Map<PotionEffectType, Integer> potionEffectMap = new HashMap<>();
-    private RulePriority priority = RulePriority.NORMAL;
+    protected final World world;
+    protected final BoundingBox boundingBox;
+    protected final NamespacedKey key;
+    protected final RuleMap ruleMap = new RuleMap();
+    protected final Map<PotionEffectType, Integer> potionEffectMap = new HashMap<>();
+    protected RulePriority priority = RulePriority.NORMAL;
 
     public Area(World world, BoundingBox boundingBox, NamespacedKey key) {
         this.world = world;
@@ -33,6 +36,9 @@ public class Area implements HasRule, Keyed {
     }
     public World getWorld() {
         return world;
+    }
+    public A_World getAWorld() {
+        return A_.getAWorld(world);
     }
     @NotNull
     public NamespacedKey getKey() {
@@ -136,6 +142,10 @@ public class Area implements HasRule, Keyed {
 
     public RulePriority getRulePriority() {
         return this.priority;
+    }
+
+    public boolean inAreaEvent(AreaEvent<?> areaEvent) {
+        return true;
     }
 
     public enum RulePriority {

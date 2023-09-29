@@ -5,6 +5,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.red.library.event.area.AreaEvent;
 import org.red.event.listener.AbstractListener;
+import org.red.library.event.area.inventory.AreaInventoryOpenEvent;
 import org.red.library.inventory.CustomGui;
 
 public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> {
@@ -24,6 +25,6 @@ public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> 
 
     @Override
     protected Class<? extends AreaEvent<InventoryOpenEvent>> getAreaEventClass() {
-        return null;
+        return AreaInventoryOpenEvent.class;
     }
 }

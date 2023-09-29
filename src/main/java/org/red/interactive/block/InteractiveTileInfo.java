@@ -15,7 +15,7 @@ public final class InteractiveTileInfo extends InteractiveObjInfo<TileState> {
     public void setEventInObj(TileState obj) {
         PersistentDataContainer container = obj.getPersistentDataContainer();
         container.set(INTERACTIVE_KEY, NameSpaceKeyPersistentDataType.INSTANCE, getKey());
-        obj.update();
+        obj.update(true);
     }
 
     @Override

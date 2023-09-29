@@ -102,6 +102,17 @@ public class DataMap implements ConfigurationSerializable {
         return map.get(key);
     }
 
+    public <T> T getClass(String key, Class<T> clazz) {
+        return this.getClass(key, clazz, null);
+    }
+
+    public <T> T getClass(String key, Class<T> clazz, Object nullValue) {
+        if (!map.containsKey(key))
+            put(key, nullValue);
+
+        return clazz.cast(map.get(key));
+    }
+
     public <T> List<T> getList(String key) {
         return this.getList(key, new ArrayList<>());
     }

@@ -1,11 +1,10 @@
-package org.red.item.material.command;
+package org.red.item.material;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.red.item.material.gui.BanMaterialGui;
 import org.red.library.command.AbstractPlayerCommand;
 
 import java.util.Collections;

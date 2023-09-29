@@ -8,17 +8,15 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.interactive.InteractiveAct;
 import org.red.library.interactive.InteractiveObj;
 
-public class InteractiveRunEvent extends PlayerEvent implements Cancellable {
+public class InteractiveRunEvent extends A_PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled = false;
     private final InteractiveObj<?> interactiveObj;
-    private final A_Player player;
     private final Class<? extends InteractiveAct> act;
 
     public <T> InteractiveRunEvent(InteractiveObj<T> interactiveObj, A_Player player, Class<? extends InteractiveAct> act) {
-        super(player.getPlayer());
+        super(player);
         this.interactiveObj = interactiveObj;
-        this.player = player;
         this.act = act;
     }
 
@@ -28,10 +26,6 @@ public class InteractiveRunEvent extends PlayerEvent implements Cancellable {
 
     public InteractiveObj<?> getInteractiveObj() {
         return interactiveObj;
-    }
-
-    public A_Player getAPlayer() {
-        return this.player;
     }
 
     @Override

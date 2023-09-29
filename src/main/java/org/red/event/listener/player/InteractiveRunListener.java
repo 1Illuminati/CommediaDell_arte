@@ -3,10 +3,10 @@ package org.red.event.listener.player;
 import org.bukkit.event.EventHandler;
 import org.red.library.event.InteractiveRunEvent;
 import org.red.library.event.area.AreaEvent;
-import org.red.library.event.area.player.AreaRunEventItemEvent;
+import org.red.library.event.area.player.AreaInteractRunEvent;
 import org.red.event.listener.AbstractListener;
 
-public class RunEventItemListener extends AbstractListener<InteractiveRunEvent> {
+public class InteractiveRunListener extends AbstractListener<InteractiveRunEvent> {
     @Override
     @EventHandler
     public void onEvent(InteractiveRunEvent event) {
@@ -15,6 +15,6 @@ public class RunEventItemListener extends AbstractListener<InteractiveRunEvent> 
 
     @Override
     public Class<? extends AreaEvent<InteractiveRunEvent>> getAreaEventClass() {
-        return AreaRunEventItemEvent.class;
+        return AreaInteractRunEvent.class;
     }
 }
