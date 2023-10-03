@@ -2,10 +2,9 @@ package org.red.library.event.area.player;
 
 import org.bukkit.event.HandlerList;
 import org.red.library.event.LootChestOpenEvent;
-import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 
-public class AreaLootChestOpenEvent extends AreaEvent<LootChestOpenEvent> {
+public class AreaLootChestOpenEvent extends AreaPlayerEvent<LootChestOpenEvent> {
     public AreaLootChestOpenEvent(Area area, LootChestOpenEvent event) {
         super(area, event);
     }

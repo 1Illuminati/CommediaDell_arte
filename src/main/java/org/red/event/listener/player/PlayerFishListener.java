@@ -10,7 +10,7 @@ import org.red.event.listener.AbstractListener;
 import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.world.rule.Rule;
 
-public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
+public class PlayerFishListener extends AbstractPlayerListener<PlayerFishEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerFishEvent event) {
@@ -24,5 +24,10 @@ public class PlayerFishListener extends AbstractListener<PlayerFishEvent> {
     @Override
     protected Class<? extends AreaEvent<PlayerFishEvent>> getAreaEventClass() {
         return AreaPlayerFishEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerFishEvent> getEventClass() {
+        return PlayerFishEvent.class;
     }
 }

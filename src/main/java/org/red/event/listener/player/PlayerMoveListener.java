@@ -9,7 +9,7 @@ import org.red.library.event.area.player.AreaPlayerMoveEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.world.rule.Rule;
 
-public class PlayerMoveListener extends AbstractListener<PlayerMoveEvent> {
+public class PlayerMoveListener extends AbstractPlayerListener<PlayerMoveEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerMoveEvent event) {
@@ -22,5 +22,10 @@ public class PlayerMoveListener extends AbstractListener<PlayerMoveEvent> {
     @Override
     protected Class<? extends AreaEvent<PlayerMoveEvent>> getAreaEventClass() {
         return AreaPlayerMoveEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerMoveEvent> getEventClass() {
+        return PlayerMoveEvent.class;
     }
 }

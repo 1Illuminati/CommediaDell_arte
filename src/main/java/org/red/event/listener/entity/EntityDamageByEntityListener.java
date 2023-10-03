@@ -14,7 +14,7 @@ import org.red.event.listener.AbstractListener;
 import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.world.rule.Rule;
 
-public class EntityDamageByEntityListener extends AbstractListener<EntityDamageByEntityEvent> {
+public class EntityDamageByEntityListener extends AbstractEntityListener<EntityDamageByEntityEvent> {
     @Override
     @EventHandler
     public void onEvent(EntityDamageByEntityEvent event) {
@@ -40,5 +40,10 @@ public class EntityDamageByEntityListener extends AbstractListener<EntityDamageB
     @Override
     protected Class<? extends AreaEvent<EntityDamageByEntityEvent>> getAreaEventClass() {
         return AreaEntityDamageByEntityEvent.class;
+    }
+
+    @Override
+    protected Class<? extends EntityDamageByEntityEvent> getEventClass() {
+        return EntityDamageByEntityEvent.class;
     }
 }

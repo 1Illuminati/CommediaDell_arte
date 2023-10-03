@@ -40,7 +40,7 @@ public class CoolTime implements ConfigurationSerializable {
     }
 
     public long getCoolTime(String name) {
-        return this.map.computeIfAbsent(name, k -> 0L);
+        return this.map.getOrDefault(name, 0L);
     }
 
     public double getLessCoolTime(String name) {

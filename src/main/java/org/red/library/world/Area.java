@@ -123,7 +123,14 @@ public class Area implements HasRule, Keyed {
     }
 
     public Collection<Entity> getEntities() {
-        return world.getNearbyEntities(this.boundingBox);
+        List<Entity> result = new ArrayList<>();
+        for (Entity entity : world.getEntities()) {
+            if (contain(entity.getLocation())) {
+                result.add(entity);
+            }
+        }
+
+        return result;
     }
 
     @Override

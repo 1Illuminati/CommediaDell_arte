@@ -2,10 +2,9 @@ package org.red.library.event.area.player;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 
-public class AreaPlayerInteractEvent extends AreaEvent<PlayerInteractEvent> {
+public class AreaPlayerInteractEvent extends AreaPlayerEvent<PlayerInteractEvent> {
     public AreaPlayerInteractEvent(Area area, PlayerInteractEvent event) {
         super(area, event);
     }

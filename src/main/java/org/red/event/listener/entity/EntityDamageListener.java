@@ -11,7 +11,7 @@ import org.red.library.event.area.entity.AreaEntityDamageEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.world.rule.Rule;
 
-public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
+public class EntityDamageListener extends AbstractEntityListener<EntityDamageEvent> {
     @Override
     @EventHandler
     public void onEvent(EntityDamageEvent event) {
@@ -31,5 +31,10 @@ public class EntityDamageListener extends AbstractListener<EntityDamageEvent> {
     @Override
     protected Class<? extends AreaEvent<EntityDamageEvent>> getAreaEventClass() {
         return AreaEntityDamageEvent.class;
+    }
+
+    @Override
+    protected Class<? extends EntityDamageEvent> getEventClass() {
+        return EntityDamageEvent.class;
     }
 }

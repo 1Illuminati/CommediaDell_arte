@@ -1,10 +1,12 @@
 package org.red.library.util.map;
 
+import com.sun.istack.internal.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
@@ -189,5 +191,82 @@ public class DataMap implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         return map;
+    }
+
+    @Nullable
+    public Object getObjByStr(String str) {
+        String[] split = str.split("\\.");
+
+        Object obj = this;
+
+        for (String s : split) {
+            if (obj instanceof DataMap) {
+                obj = ((DataMap) obj).get(s);
+            } else if (obj instanceof Map) {
+                obj = ((Map) obj).getOrDefault(s, null);
+            } else if (obj instanceof List) {
+                try {
+                    obj = ((List) obj).get(Integer.parseInt(s));
+                } catch (Exception e) {
+                    obj = null;
+                }
+            } else if (obj instanceof Location) {
+                Location location = (Location) obj;
+                switch (s) {
+                    case "x":
+                        obj = location.getX();
+                    break;
+                    case "y":
+                        obj = location.getY();
+                    break;
+                    case "z":
+                        obj = location.getZ();
+                    break;
+                    case "yaw":
+                        obj = location.getYaw();
+                    break;
+                    case "pitch":
+                        obj = location.getPitch();
+                    break;
+                    case "world":
+                        obj = location.getWorld().getName();
+                    break;
+                    default:
+                        obj = null;
+                }
+            } else if (obj instanceof Vector) {
+                Vector vec = (Vector) obj;
+                switch (s) {
+                    case "x":
+                        obj = vec.getX();
+                        break;
+                    case "y":
+                        obj = vec.getY();
+                        break;
+                    case "z":
+                        obj = vec.getZ();
+                        break;
+                    default:
+                        obj = null;
+                }
+            } else if (obj instanceof ItemStack) {
+                ItemStack itemStack = (ItemStack) obj;
+                if (itemStack.getType() == Material.AIR) return null;
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                switch (s) {
+                    case "display":
+                        obj = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : null;
+                    break;
+                    case "amount":
+                        obj = itemStack.getAmount();
+                    break;
+                    case "type":
+                        obj = itemStack.getType().name();
+                    break;
+                }
+            }
+        }
+
+        return obj;
     }
 }

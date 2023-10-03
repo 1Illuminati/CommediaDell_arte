@@ -137,6 +137,7 @@ public interface A_Player extends A_LivingEntity {
     void decrementStatistic(@NotNull Statistic var1, @NotNull EntityType var2, int var3);
 
     void setStatistic(@NotNull Statistic var1, @NotNull EntityType var2, int var3);
+    ItemStack getPlayerHead();
 
     Player getEntity();
 

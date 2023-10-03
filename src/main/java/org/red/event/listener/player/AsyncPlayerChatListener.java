@@ -9,7 +9,7 @@ import org.red.library.event.area.player.AreaAsyncPlayerChatEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.world.rule.Rule;
 
-public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEvent> {
+public class AsyncPlayerChatListener extends AbstractPlayerListener<AsyncPlayerChatEvent> {
     @Override
     @EventHandler
     public void onEvent(AsyncPlayerChatEvent event) {
@@ -22,5 +22,10 @@ public class AsyncPlayerChatListener extends AbstractListener<AsyncPlayerChatEve
     @Override
     protected Class<? extends AreaEvent<AsyncPlayerChatEvent>> getAreaEventClass() {
         return AreaAsyncPlayerChatEvent.class;
+    }
+
+    @Override
+    protected Class<? extends AsyncPlayerChatEvent> getEventClass() {
+        return AsyncPlayerChatEvent.class;
     }
 }

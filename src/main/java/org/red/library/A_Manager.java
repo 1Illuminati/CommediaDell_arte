@@ -22,14 +22,18 @@ import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
+import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface A_Manager {
+    RandomBox createRandomBox(String name, List<ItemStack> items);
+    RandomBox createRandomBox(String name, ItemStack... items);
     void registerInteractiveObj(InteractiveObj<?> interactiveObj);
 
     <T> void setInteractiveInObj(InteractiveObj<T> interactiveObj, T obj);

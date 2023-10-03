@@ -6,7 +6,7 @@ import org.red.library.event.LootChestOpenEvent;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaLootChestOpenEvent;
 
-public class LootChestOpenListener extends AbstractListener<LootChestOpenEvent> {
+public class LootChestOpenListener extends AbstractPlayerListener<LootChestOpenEvent> {
     @Override
     @EventHandler
     public void onEvent(LootChestOpenEvent event) {
@@ -16,5 +16,10 @@ public class LootChestOpenListener extends AbstractListener<LootChestOpenEvent> 
     @Override
     protected Class<? extends AreaEvent<LootChestOpenEvent>> getAreaEventClass() {
         return AreaLootChestOpenEvent.class;
+    }
+
+    @Override
+    protected Class<? extends LootChestOpenEvent> getEventClass() {
+        return LootChestOpenEvent.class;
     }
 }

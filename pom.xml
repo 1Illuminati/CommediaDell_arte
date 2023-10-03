@@ -70,6 +70,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -91,29 +95,10 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>nms</groupId>
-            <artifactId>1.16.5</artifactId>
-            <version>794</version>
-        </dependency>
-        <dependency>
-            <groupId>nms</groupId>
-            <artifactId>1.17.1</artifactId>
-            <version>411</version>
-        </dependency>
-        <dependency>
-            <groupId>nms</groupId>
-            <artifactId>1.18.2</artifactId>
-            <version>388</version>
-        </dependency>
-        <dependency>
-            <groupId>nms</groupId>
-            <artifactId>1.19.4</artifactId>
-            <version>550</version>
-        </dependency>
-        <dependency>
-            <groupId>nms</groupId>
-            <artifactId>1.20.1</artifactId>
-            <version>59</version>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.3</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

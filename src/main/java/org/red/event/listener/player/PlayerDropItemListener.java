@@ -10,7 +10,7 @@ import org.red.event.listener.AbstractListener;
 import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.world.rule.Rule;
 
-public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent> {
+public class PlayerDropItemListener extends AbstractPlayerListener<PlayerDropItemEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerDropItemEvent event) {
@@ -24,5 +24,10 @@ public class PlayerDropItemListener extends AbstractListener<PlayerDropItemEvent
     @Override
     protected Class<? extends AreaEvent<PlayerDropItemEvent>> getAreaEventClass() {
         return AreaPlayerDropItemEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerDropItemEvent> getEventClass() {
+        return PlayerDropItemEvent.class;
     }
 }

@@ -17,7 +17,7 @@ import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.material.MaterialAct;
 import org.red.library.world.rule.Rule;
 
-public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
+public class BlockBreakListener extends AbstractBlockListener<BlockBreakEvent> {
     @Override
     @EventHandler
     public void onEvent(BlockBreakEvent event) {
@@ -43,5 +43,10 @@ public class BlockBreakListener extends AbstractListener<BlockBreakEvent> {
     @Override
     protected Class<? extends AreaEvent<BlockBreakEvent>> getAreaEventClass() {
         return AreaBlockBreakEvent.class;
+    }
+
+    @Override
+    protected Class<? extends BlockBreakEvent> getEventClass() {
+        return BlockBreakEvent.class;
     }
 }

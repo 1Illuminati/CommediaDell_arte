@@ -31,14 +31,15 @@ public final class InteractiveLootChest implements InteractiveTile {
     @InteractiveAnnotation(act = InteractiveTileAct.RIGHT_CLICK_BLOCK.class)
     public void rightClickBlock(PlayerInteractEvent event) {
         A_Player player = A_.getAPlayer(event.getPlayer());
-        if (!player.isOp() || player.getInventory().getItemInMainHand().getType() != Material.COMMAND_BLOCK) {
+        Material material = player.getInventory().getItemInMainHand().getType();
+        if (!player.isOp() || (material != Material.COMMAND_BLOCK && material != Material.DEBUG_STICK)) {
             event.setCancelled(true);
 
             if (lootChest.canOpen(player)) {
                 this.lootChest.setCoolTime(player, this.lootChest.getCoolTime());
                 player.openInventory(new LootChestGUI(lootChest));
             } else {
-                player.sendMessage("열지 못합니다!");
+                player.sendMessage("아직 열지 못합니다! (남은시간: " + this.getLootChest().getLessCoolTime(player) + "초)");
             }
         }
     }

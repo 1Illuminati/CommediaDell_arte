@@ -9,7 +9,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.inventory.AreaCraftItemEvent;
 import org.red.library.item.material.MaterialAct;
 
-public class CraftItemListener extends AbstractListener<CraftItemEvent> {
+public class CraftItemListener extends AbstractInventoryListener<CraftItemEvent> {
     @Override
     @EventHandler
     public void onEvent(CraftItemEvent event) {
@@ -22,5 +22,10 @@ public class CraftItemListener extends AbstractListener<CraftItemEvent> {
     @Override
     protected Class<? extends AreaEvent<CraftItemEvent>> getAreaEventClass() {
         return AreaCraftItemEvent.class;
+    }
+
+    @Override
+    protected Class<? extends CraftItemEvent> getEventClass() {
+        return CraftItemEvent.class;
     }
 }

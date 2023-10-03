@@ -15,7 +15,7 @@ import org.red.event.listener.AbstractListener;
 import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItemAct;
 
-public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent> {
+public class PlayerInteractListener extends AbstractPlayerListener<PlayerInteractEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerInteractEvent event) {
@@ -58,5 +58,10 @@ public class PlayerInteractListener extends AbstractListener<PlayerInteractEvent
     @Override
     protected Class<? extends AreaEvent<PlayerInteractEvent>> getAreaEventClass() {
         return AreaPlayerInteractEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerInteractEvent> getEventClass() {
+        return PlayerInteractEvent.class;
     }
 }

@@ -26,6 +26,7 @@ import org.red.a_.world.A_WorldImpl;
 import org.red.interactive.InteractiveObjInfo;
 import org.red.interactive.block.InteractiveTileInfo;
 import org.red.interactive.item.InteractiveItemInfo;
+import org.red.item.randombox.RandomBoxImpl;
 import org.red.item.shop.ShopItemImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
@@ -39,6 +40,7 @@ import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
+import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.map.NameSpaceMap;
@@ -50,6 +52,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -60,6 +63,7 @@ public final class A_ManagerImpl implements A_Manager {
     private final Map<UUID, A_NPCImpl> aNPCs = new HashMap<>();
     private final Map<UUID, A_OfflinePlayerImpl> aOfflinePlayers = new HashMap<>();
     private final Map<String, A_WorldImpl> aWorlds = new HashMap<>();
+    private final NameSpaceMap<RandomBoxImpl> randomBoxes = new NameSpaceMap<>();
     private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
     private final CommediaDell_arte plugin;
     private final A_Version aVersion;
@@ -174,6 +178,16 @@ public final class A_ManagerImpl implements A_Manager {
 
     public void deleteOldAPlayer(Player player) {
         this.aPlayers.remove(player.getUniqueId());
+    }
+
+    @Override
+    public RandomBox createRandomBox(String name, List<ItemStack> items) {
+        return null;
+    }
+
+    @Override
+    public RandomBox createRandomBox(String name, ItemStack... items) {
+        return null;
     }
 
     @Override
@@ -331,6 +345,10 @@ public final class A_ManagerImpl implements A_Manager {
             return aNPCs.computeIfAbsent(player.getUniqueId(), uuid -> new A_NPCImpl(player, aVersion));
         }
 
+        if(aPlayers.containsKey(player.getUniqueId()) && !aPlayers.get(player.getUniqueId()).getPlayer().equals(player)) {
+            this.deleteOldAPlayer(player);
+            CommediaDell_arte.sendLog("test");
+        }
         return aPlayers.computeIfAbsent(player.getUniqueId(), uuid -> new A_PlayerImpl(player, getAOfflinePlayer(player), aVersion));
     }
 

@@ -2,10 +2,9 @@ package org.red.library.event.area.player;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 
-public class AreaPlayerDropItemEvent extends AreaEvent<PlayerDropItemEvent> {
+public class AreaPlayerDropItemEvent extends AreaPlayerEvent<PlayerDropItemEvent> {
     public AreaPlayerDropItemEvent(Area area, PlayerDropItemEvent event) {
         super(area, event);
     }

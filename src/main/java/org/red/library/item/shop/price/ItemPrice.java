@@ -5,6 +5,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.red.library.a_.entity.player.A_Player;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItemPrice implements Price {
@@ -45,6 +46,7 @@ public class ItemPrice implements Price {
     public void sellPricePut(A_Player player, int amount) {
         for (int i = 0; i < amount; i++)  {
             for (ItemStack itemStack : this.itemStacks) {
+                player.addItemNature(itemStack);
             }
         }
     }

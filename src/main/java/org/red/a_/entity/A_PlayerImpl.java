@@ -14,6 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.*;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.map.MapView;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -507,6 +508,16 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     @Override
     public void setStatistic(@NotNull Statistic statistic, @NotNull EntityType entityType, int i) {
         aOfflinePlayer.setStatistic(statistic, entityType, i);
+    }
+
+    @Override
+    public ItemStack getPlayerHead() {
+        ItemStack itemStack = new ItemStack(org.bukkit.Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+        skullMeta.setOwningPlayer(player.getPlayer());
+        itemStack.setItemMeta(skullMeta);
+
+        return itemStack;
     }
 
     @Override

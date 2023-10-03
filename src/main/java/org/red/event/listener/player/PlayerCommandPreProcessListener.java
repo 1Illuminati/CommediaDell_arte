@@ -10,7 +10,7 @@ import org.red.library.event.area.player.AreaPlayerCommandPreprocessEvent;
 import org.red.event.listener.AbstractListener;
 import org.red.library.world.rule.Rule;
 
-public class PlayerCommandPreProcessListener extends AbstractListener<PlayerCommandPreprocessEvent> {
+public class PlayerCommandPreProcessListener extends AbstractPlayerListener<PlayerCommandPreprocessEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerCommandPreprocessEvent event) {
@@ -25,5 +25,10 @@ public class PlayerCommandPreProcessListener extends AbstractListener<PlayerComm
     @Override
     protected Class<? extends AreaEvent<PlayerCommandPreprocessEvent>> getAreaEventClass() {
         return AreaPlayerCommandPreprocessEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerCommandPreprocessEvent> getEventClass() {
+        return PlayerCommandPreprocessEvent.class;
     }
 }

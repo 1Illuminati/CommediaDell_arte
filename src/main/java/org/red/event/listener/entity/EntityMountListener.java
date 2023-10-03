@@ -9,7 +9,7 @@ import org.red.library.event.area.entity.AreaEntityMountEvent;
 import org.red.library.world.rule.Rule;
 import org.spigotmc.event.entity.EntityMountEvent;
 
-public class EntityMountListener extends AbstractListener<EntityMountEvent> {
+public class EntityMountListener extends AbstractEntityListener<EntityMountEvent> {
     @Override
     public void onEvent(EntityMountEvent event) {
         super.runAreaEntityEvent(event);
@@ -24,5 +24,10 @@ public class EntityMountListener extends AbstractListener<EntityMountEvent> {
     @Override
     protected Class<? extends AreaEvent<EntityMountEvent>> getAreaEventClass() {
         return AreaEntityMountEvent.class;
+    }
+
+    @Override
+    protected Class<? extends EntityMountEvent> getEventClass() {
+        return EntityMountEvent.class;
     }
 }

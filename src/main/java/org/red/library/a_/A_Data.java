@@ -1,5 +1,6 @@
 package org.red.library.a_;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.red.a_.vault.A_EconomyAccount;
@@ -45,6 +46,30 @@ public final class A_Data implements ConfigurationSerializable {
         map.put("coolTime", coolTime);
         map.put("economyAccount", economyAccount);
         return map;
+    }
+
+    public Object strToData(String str) {
+        if (str.startsWith("data.")) {
+            String[] split = str.split("\\.");
+            DataMap dataMap = this.dataMap;
+            for (int i = 1; i < split.length; i++) {
+                if (!dataMap.containsKey(split[i]))
+                    return null;
+                Object obj = dataMap.get(split[i]);
+                if (obj instanceof DataMap) {
+                    dataMap = (DataMap) obj;
+                } else {
+                    return obj;
+                }
+            }
+            return dataMap;
+        } else if (str.startsWith("cooltime.")) {
+            String[] split = str.split("\\.");
+            return this.coolTime.getCoolTime(split[1]);
+        } else if (str.startsWith("economy.")) {
+            return this.economyAccount.getBalance();
+        }
+        return null;
     }
 
     @NotNull

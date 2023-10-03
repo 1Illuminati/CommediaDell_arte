@@ -8,7 +8,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerJoinEvent;
 import org.red.event.listener.AbstractListener;
 
-public class PlayerJoinListener extends AbstractListener<PlayerJoinEvent> {
+public class PlayerJoinListener extends AbstractPlayerListener<PlayerJoinEvent> {
     @Override
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEvent(PlayerJoinEvent event) {
@@ -19,5 +19,10 @@ public class PlayerJoinListener extends AbstractListener<PlayerJoinEvent> {
     @Override
     protected Class<? extends AreaEvent<PlayerJoinEvent>> getAreaEventClass() {
         return AreaPlayerJoinEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerJoinEvent> getEventClass() {
+        return PlayerJoinEvent.class;
     }
 }

@@ -2,6 +2,8 @@ package org.red.item.shop;
 
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.permissions.Permission;
+import org.red.library.a_.entity.player.A_Player;
 import org.red.library.item.ItemBuilder;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
@@ -30,27 +32,37 @@ public class ShopItemImpl implements ShopItem {
     }
 
     @Override
+    public boolean isBuyShopItem() {
+        return canBuy;
+    }
+
+    @Override
     public ItemStack guiItem() {
         return this.guiItem;
     }
 
     @Override
-    public boolean canBuy() {
+    public boolean canBuy(A_Player player) {
         return this.canBuy;
     }
 
     @Override
-    public Price buyPrice() {
+    public Price buyPrice(A_Player player) {
         return this.buyPrice;
     }
 
     @Override
-    public boolean canSell() {
+    public boolean isSellShopItem() {
+        return canSell;
+    }
+
+    @Override
+    public boolean canSell(A_Player player) {
         return this.canSell;
     }
 
     @Override
-    public Price sellPrice() {
+    public Price sellPrice(A_Player player) {
         return this.sellPrice;
     }
 

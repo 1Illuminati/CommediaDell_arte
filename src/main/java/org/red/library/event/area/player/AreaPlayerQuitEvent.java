@@ -2,10 +2,9 @@ package org.red.library.event.area.player;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.red.library.event.area.AreaEvent;
 import org.red.library.world.Area;
 
-public class AreaPlayerQuitEvent extends AreaEvent<PlayerQuitEvent> {
+public class AreaPlayerQuitEvent extends AreaPlayerEvent<PlayerQuitEvent> {
     protected AreaPlayerQuitEvent(Area area, PlayerQuitEvent event) {
         super(area, event);
     }

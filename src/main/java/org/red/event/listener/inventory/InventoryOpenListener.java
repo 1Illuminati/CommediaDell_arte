@@ -8,7 +8,7 @@ import org.red.event.listener.AbstractListener;
 import org.red.library.event.area.inventory.AreaInventoryOpenEvent;
 import org.red.library.inventory.CustomGui;
 
-public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> {
+public class InventoryOpenListener extends AbstractInventoryListener<InventoryOpenEvent> {
     @Override
     @EventHandler
     public void onEvent(InventoryOpenEvent event) {
@@ -26,5 +26,10 @@ public class InventoryOpenListener extends AbstractListener<InventoryOpenEvent> 
     @Override
     protected Class<? extends AreaEvent<InventoryOpenEvent>> getAreaEventClass() {
         return AreaInventoryOpenEvent.class;
+    }
+
+    @Override
+    protected Class<? extends InventoryOpenEvent> getEventClass() {
+        return InventoryOpenEvent.class;
     }
 }

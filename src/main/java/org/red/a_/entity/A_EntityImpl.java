@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Pose;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -396,6 +397,13 @@ public class A_EntityImpl implements A_Entity {
     @Override
     public void setMetadata(@NotNull String s, @NotNull MetadataValue metadataValue) {
         entity.setMetadata(s, metadataValue);
+    }
+
+    @Override
+    public void dropNaturally(ItemStack... itemStacks) {
+        for (ItemStack drop : itemStacks) {
+            this.getWorld().dropItemNaturally(entity.getLocation(), drop);
+        }
     }
 
     @Override

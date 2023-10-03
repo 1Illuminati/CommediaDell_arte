@@ -7,7 +7,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.player.AreaPlayerQuitEvent;
 import org.red.event.listener.AbstractListener;
 
-public class PlayerQuitListener extends AbstractListener<PlayerQuitEvent> {
+public class PlayerQuitListener extends AbstractPlayerListener<PlayerQuitEvent> {
     @Override
     @EventHandler
     public void onEvent(PlayerQuitEvent event) {
@@ -18,5 +18,10 @@ public class PlayerQuitListener extends AbstractListener<PlayerQuitEvent> {
     @Override
     protected Class<? extends AreaEvent<PlayerQuitEvent>> getAreaEventClass() {
         return AreaPlayerQuitEvent.class;
+    }
+
+    @Override
+    protected Class<? extends PlayerQuitEvent> getEventClass() {
+        return PlayerQuitEvent.class;
     }
 }

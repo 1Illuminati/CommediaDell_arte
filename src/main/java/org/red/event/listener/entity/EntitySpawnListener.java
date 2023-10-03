@@ -12,7 +12,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.event.area.entity.AreaEntitySpawnEvent;
 import org.red.library.world.rule.Rule;
 
-public class EntitySpawnListener extends AbstractListener<EntitySpawnEvent> {
+public class EntitySpawnListener extends AbstractEntityListener<EntitySpawnEvent> {
     @Override
     @EventHandler
     public void onEvent(EntitySpawnEvent event) {
@@ -26,5 +26,10 @@ public class EntitySpawnListener extends AbstractListener<EntitySpawnEvent> {
     @Override
     protected Class<? extends AreaEvent<EntitySpawnEvent>> getAreaEventClass() {
         return AreaEntitySpawnEvent.class;
+    }
+
+    @Override
+    protected Class<? extends EntitySpawnEvent> getEventClass() {
+        return EntitySpawnEvent.class;
     }
 }

@@ -5,9 +5,11 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.red.a_.A_ManagerImpl;
 import org.red.a_.admin.AdminAxe;
 import org.red.a_.command.A_Command;
+import org.red.a_.placeholder.A_PlaceHolderPlayer;
 import org.red.a_.vault.A_Economy;
 import org.red.a_.vault.A_EconomyAccount;
 import org.red.a_.world.A_Area;
@@ -75,10 +77,9 @@ public final class CommediaDell_arte extends JavaPlugin {
         A_.setA_Plugin(A_ManagerImpl.INSTANCE);
         A_Area.loadArea();
         AdminAxe.load();
-
-        if (checkSoftPlugin("Vault")) A_Economy.setEconomy();
-
         Bukkit.getOnlinePlayers().forEach(player -> Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(player, null)));
+        setSoftPlugin();
+        intermediateStorage();
     }
 
     @Override
@@ -87,8 +88,23 @@ public final class CommediaDell_arte extends JavaPlugin {
         A_ManagerImpl.INSTANCE.allSave();
     }
 
-    private boolean checkSoftPlugin(String pluginName) {
-        return Bukkit.getPluginManager().getPlugin(pluginName) != null;
+    private void setSoftPlugin() {
+        if(softPluginCheck("Vault")) A_Economy.setEconomy();
+        if(softPluginCheck("PlaceholderAPI")) A_PlaceHolderPlayer.setPlaceHolder();
+    }
+
+    private boolean softPluginCheck(String plName) {
+        return Bukkit.getPluginManager().getPlugin(plName) != null;
+    }
+
+    private void intermediateStorage() {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                A_ManagerImpl.INSTANCE.allSave();
+                CommediaDell_arte.sendLog("§aAll Data Intermediate Save");
+            }
+        }.runTaskTimer(this, 6000, 6000);
     }
 
     private void registerCommand(AbstractCommand command) {
