@@ -5,9 +5,8 @@ import org.bukkit.NamespacedKey;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.game.Game;
-import org.red.library.skill.active.SkillActive;
 
-public abstract class TagGameSkill implements SkillActive {
+public abstract class TagGameSkill {
     private final NamespacedKey key;
     private final TagGame tagGame;
     protected TagGameSkill(TagGame tagGame) {

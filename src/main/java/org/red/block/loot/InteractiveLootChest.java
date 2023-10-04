@@ -39,7 +39,7 @@ public final class InteractiveLootChest implements InteractiveTile {
                 this.lootChest.setCoolTime(player, this.lootChest.getCoolTime());
                 player.openInventory(new LootChestGUI(lootChest));
             } else {
-                player.sendMessage("아직 열지 못합니다! (남은시간: " + this.getLootChest().getLessCoolTime(player) + "초)");
+                player.sendMessage("아직 열지 못합니다! 남은시간: " + this.getLootChest().getLessCoolTime(player) + "초");
             }
         }
     }

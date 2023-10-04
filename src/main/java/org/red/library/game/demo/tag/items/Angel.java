@@ -32,7 +32,6 @@ public abstract class Angel implements InteractiveItem {
             return null;
         }
 
-        @Override
         public void run(A_Entity caster, Object... args) {
 
         }

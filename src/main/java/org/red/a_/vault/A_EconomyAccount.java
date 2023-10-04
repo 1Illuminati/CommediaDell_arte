@@ -1,8 +1,6 @@
 package org.red.a_.vault;
 
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
-import org.red.CommediaDell_arte;
 import org.red.library.vault.EconomyAccount;
 
 import java.util.HashMap;

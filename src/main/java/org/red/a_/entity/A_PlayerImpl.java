@@ -13,6 +13,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.event.Event;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.map.MapView;
@@ -29,13 +30,14 @@ import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
 import org.red.library.inventory.CustomGui;
+import org.red.library.util.map.NameSpaceMap;
 
 import java.net.InetSocketAddress;
 import java.util.*;
 
 public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     private final A_OfflinePlayer aOfflinePlayer;
-    private final Map<NamespacedKey, PlayerRunnableData> playerRunnables = new HashMap<>();
+    private final NameSpaceMap<PlayerRunnableData> playerRunnables = new NameSpaceMap<>();
     private final UUID uuid = UUID.randomUUID();
     private final Player player;
     private final A_Admin aAdmin;

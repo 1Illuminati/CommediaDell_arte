@@ -1,6 +1,5 @@
 package org.red.library.a_;
 
-import org.bukkit.Location;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
 import org.red.a_.vault.A_EconomyAccount;
