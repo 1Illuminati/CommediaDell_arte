@@ -44,6 +44,9 @@ public class A_Command extends AbstractPlayerCommand {
                         target.getEconomyAccount().addBalance(Integer.parseInt(args[3]));
                         sender.sendMessage("설정 완료");
                     break;
+                    case "baltop":
+                        // TODO:
+                    break;
                     default: return false;
                 }
             return true;
