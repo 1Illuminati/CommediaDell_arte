@@ -3,7 +3,7 @@ package org.red;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.red.a_.A_ManagerImpl;
@@ -41,43 +41,37 @@ import org.red.world.rule.RuleSettingCommand;
 import java.io.File;
 
 public final class CommediaDell_arte extends JavaPlugin {
-    private static CommediaDell_arte plugin;
+    private static A_ManagerImpl PLUGIN_MANAGER;
 
-    public static CommediaDell_arte getPlugin() {
-        return CommediaDell_arte.plugin;
+    public static Plugin getPlugin() {
+        return PLUGIN_MANAGER.getPlugin();
     }
 
-    private static boolean debug = true;
-
     public static void sendLog(Object message) {
-        Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte ] §f" + message);
+        Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Log ] §f" + message);
     }
 
     public static void sendDebugLog(Object message) {
-        if (debug)
+        if (Setting.DEBUG.asBooleanValue())
             Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Debug ] §f" + message);
     }
 
-    public static boolean isDebug() {
-        return debug;
-    }
-
-    public static void setDebug(boolean debug) {
-        CommediaDell_arte.debug = debug;
+    public static void sendErrorLog(Object message) {
+        Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Error ] §f" + message);
     }
 
     @Override
     public void onEnable() {
-        CommediaDell_arte.plugin = this;
-        this.yamlSetting();
+        this.settingConfig();
+        this.configurationSerializationSetting();
+        this.checkedFile();
+        PLUGIN_MANAGER = new A_ManagerImpl(this);
         this.setCommand();
         this.setEvent();
-        this.createFile();
-        A_ManagerImpl.INSTANCE.allLoad();
-        A_.setA_Plugin(A_ManagerImpl.INSTANCE);
+        PLUGIN_MANAGER.allLoad();
+        A_.setA_Plugin(PLUGIN_MANAGER);
         A_Area.loadArea();
         AdminAxe.load();
-        Bukkit.getOnlinePlayers().forEach(player -> Bukkit.getPluginManager().callEvent(new PlayerJoinEvent(player, null)));
         setSoftPlugin();
         intermediateStorage();
     }
@@ -85,7 +79,7 @@ public final class CommediaDell_arte extends JavaPlugin {
     @Override
     public void onDisable() {
         A_Area.saveArea();
-        A_ManagerImpl.INSTANCE.allSave();
+        PLUGIN_MANAGER.allSave();
     }
 
     private void setSoftPlugin() {
@@ -101,7 +95,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                A_ManagerImpl.INSTANCE.allSave();
+                PLUGIN_MANAGER.allSave();
                 CommediaDell_arte.sendLog("§aAll Data Intermediate Save");
             }
         }.runTaskTimer(this, 6000, 6000);
@@ -112,6 +106,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         if (cmd == null) throw new NullPointerException("Command is null");
         cmd.setExecutor(command);
         cmd.setTabCompleter(command);
+        sendDebugLog("Register Command: " + command.getName());
     }
 
     private void setCommand() {
@@ -119,10 +114,12 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.registerCommand(new BanMaterialCommand());
         this.registerCommand(new LootChestCommand());
         this.registerCommand(new RuleSettingCommand());
+        sendLog("Setting All Command");
     }
 
     private void registerEvent(AbstractListener<?> listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
+        sendDebugLog("Register Event: " + listener.getClass().getSimpleName());
     }
 
     private void setEvent() {
@@ -150,19 +147,21 @@ public final class CommediaDell_arte extends JavaPlugin {
 
         this.registerEvent(new BlockBreakListener());
         this.registerEvent(new BlockPlaceListener());
+        sendLog("Setting All Event");
     }
 
-    private void createFile() {
+    private void checkedFile() {
         boolean value1 = new File("plugins/Dell_arte").mkdir();
         boolean value2 = new File("plugins/Dell_arte/playerData").mkdir();
         boolean value3 = new File("plugins/Dell_arte/npcData").mkdir();
 
-        sendLog(value1 ? "§aCreate Folder: Dell_arte" : "§aChecked Folder: Dell_arte");
-        sendLog(value2 ? "§aCreate Folder: playerData" : "§aChecked Folder: playerData");
-        sendLog(value3 ? "§aCreate Folder: npcData" : "§aChecked Folder: npcData");
+        sendDebugLog(value1 ? "§aCreate Folder: Dell_arte" : "§aChecked Folder: Dell_arte");
+        sendDebugLog(value2 ? "§aCreate Folder: playerData" : "§aChecked Folder: playerData");
+        sendDebugLog(value3 ? "§aCreate Folder: npcData" : "§aChecked Folder: npcData");
+        sendLog("Checked All Folder");
     }
 
-    private void yamlSetting() {
+    private void configurationSerializationSetting() {
         ConfigurationSerialization.registerClass(DataMap.class);
         ConfigurationSerialization.registerClass(CoolTime.class);
         ConfigurationSerialization.registerClass(RuleMap.class);
@@ -172,5 +171,18 @@ public final class CommediaDell_arte extends JavaPlugin {
         ConfigurationSerialization.registerClass(NameSpaceMap.class);
         ConfigurationSerialization.registerClass(BanMaterial.class);
         ConfigurationSerialization.registerClass(A_Area.class);
+        sendLog("Setting All ConfigurationSerialization");
+    }
+
+    private void settingConfig() {
+        File file = new File("plugins/Dell_arte/config.yml");
+
+        if (file.exists()) {
+            this.saveDefaultConfig();
+            CommediaDell_arte.sendDebugLog("§aCreate config.yml");
+        }
+
+        Setting.loadNewConfig(this.getConfig());
+        sendLog("Setting All Config");
     }
 }

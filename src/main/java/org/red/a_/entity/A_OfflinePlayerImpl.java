@@ -220,7 +220,7 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
             e.printStackTrace();
         }
 
-        CommediaDell_arte.sendLog("§aSave PlayerData: " + this.getUniqueId());
+        CommediaDell_arte.sendDebugLog("§aSave PlayerData: " + this.getUniqueId());
     }
 
     @Override
@@ -231,7 +231,7 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
         try {
             fileConfiguration.load(file);
         }  catch (IOException | InvalidConfigurationException e) {
-            if (e instanceof FileNotFoundException) CommediaDell_arte.sendLog("§cNot Found PlayerData: " + this.getUniqueId());
+            if (e instanceof FileNotFoundException) CommediaDell_arte.sendDebugLog("§cNot Found PlayerData: " + this.getUniqueId());
             else e.printStackTrace();
 
             return;
@@ -240,7 +240,7 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
         A_Data aData = (A_Data) fileConfiguration.get("aData");
         if (aData != null) this.aData.copy(aData);
 
-        CommediaDell_arte.sendLog("§aLoad PlayerData: " + this.getUniqueId());
+        CommediaDell_arte.sendDebugLog("§aLoad PlayerData: " + this.getUniqueId());
     }
 
     @Override

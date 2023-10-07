@@ -8,6 +8,7 @@ import org.red.CommediaDell_arte;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.player.npc.A_NPC;
+import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,11 @@ import java.io.IOException;
 public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
     public A_NPCImpl(Player player, A_ManagerImpl.A_Version aVersion) {
         super(player, new A_OfflinePlayerImpl(player, aVersion), aVersion);
+    }
+
+    @Override
+    public A_OfflinePlayer getAOfflinePlayer() {
+        return null;
     }
 
     @Override
@@ -37,7 +43,7 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
             e.printStackTrace();
         }
 
-        CommediaDell_arte.sendLog("§aSave NPCData: " + this.getUniqueId());
+        CommediaDell_arte.sendDebugLog("§aSave NPCData: " + this.getUniqueId());
     }
 
     @Override
@@ -48,7 +54,7 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
         try {
             fileConfiguration.load(file);
         }  catch (IOException | InvalidConfigurationException e) {
-            if (e instanceof FileNotFoundException) CommediaDell_arte.sendLog("§cNot Found NPCData: " + this.getUniqueId());
+            if (e instanceof FileNotFoundException) CommediaDell_arte.sendDebugLog("§cNot Found NPCData: " + this.getUniqueId());
             else e.printStackTrace();
 
             return;
@@ -57,6 +63,6 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
         A_Data aData = (A_Data) fileConfiguration.get("aData");
         if (aData != null) this.getAData().copy(aData);
 
-        CommediaDell_arte.sendLog("§aLoad NPCData: " + this.getUniqueId());
+        CommediaDell_arte.sendDebugLog("§aLoad NPCData: " + this.getUniqueId());
     }
 }

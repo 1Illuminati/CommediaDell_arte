@@ -57,7 +57,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class A_ManagerImpl implements A_Manager {
-    public static final A_ManagerImpl INSTANCE = new A_ManagerImpl(CommediaDell_arte.getPlugin());
     private final Map<UUID, A_EntityImpl> aEntities = new HashMap<>();
     private final Map<UUID, A_PlayerImpl> aPlayers = new HashMap<>();
     private final Map<UUID, A_NPCImpl> aNPCs = new HashMap<>();
@@ -67,7 +66,7 @@ public final class A_ManagerImpl implements A_Manager {
     private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
     private final CommediaDell_arte plugin;
     private final A_Version aVersion;
-    private A_ManagerImpl(CommediaDell_arte plugin) {
+    public A_ManagerImpl(CommediaDell_arte plugin) {
         this.plugin = plugin;
         this.aVersion = new A_Version(plugin);
     }
@@ -77,18 +76,27 @@ public final class A_ManagerImpl implements A_Manager {
         aNPCs.values().forEach(A_NPC::aDataSave);
         aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataSave);
         aWorlds.values().forEach(A_World::aDataSave);
+        CommediaDell_arte.sendLog("§aSaved All Data");
     }
 
     public void allLoad() {
         entitiesADataLoad();
         aNPCs.values().forEach(A_NPC::aDataLoad);
+        CommediaDell_arte.sendDebugLog("§aLoaded All NPC Data");
         aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataLoad);
+        CommediaDell_arte.sendDebugLog("§aLoaded All Player Data");
         aWorlds.values().forEach(A_World::aDataLoad);
+        CommediaDell_arte.sendDebugLog("§aLoaded All Worlds Data");
+        CommediaDell_arte.sendLog("§aLoaded All Data");
     }
 
     public void entitiesADataSave() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
-        aEntities.values().forEach(aEntity -> fileConfiguration.set(aEntity.getUniqueId().toString(), aEntity.getAData()));
+        aEntities.values().forEach(aEntity -> {
+            Entity entity = Bukkit.getEntity(aEntity.getUniqueId());
+            if (entity != null)
+                fileConfiguration.set(aEntity.getUniqueId().toString(), aEntity.getAData());
+        });
         File file = new File("plugins/Dell_arte/entities.yml");
 
         try {
@@ -97,7 +105,7 @@ public final class A_ManagerImpl implements A_Manager {
             e.printStackTrace();
         }
 
-        CommediaDell_arte.sendLog("§aSave EntitiesData");
+        CommediaDell_arte.sendDebugLog("§aSave EntitiesData");
     }
 
     public void entitiesADataLoad() {
@@ -119,7 +127,7 @@ public final class A_ManagerImpl implements A_Manager {
 
             Entity entity = Bukkit.getEntity(uuid);
             if (entity == null) {
-                CommediaDell_arte.sendDebugLog("§cNot Found Entity: " + uuid);
+                CommediaDell_arte.sendErrorLog("§cNot Found Entity: " + uuid);
                 continue;
             }
 
@@ -130,7 +138,7 @@ public final class A_ManagerImpl implements A_Manager {
             }
         }
 
-        CommediaDell_arte.sendLog("§aLoad EntitiesData");
+        CommediaDell_arte.sendDebugLog("§aLoad EntitiesData");
     }
 
     public Plugin getPlugin() {
@@ -142,11 +150,16 @@ public final class A_ManagerImpl implements A_Manager {
     public A_EntityImpl getAEntity(Entity entity) {
         if (entity instanceof Player) return getAPlayer((Player) entity);
         return aEntities.computeIfAbsent(entity.getUniqueId(), uuid -> {
+            A_EntityImpl aEntity;
             if (entity instanceof LivingEntity) {
-                return new A_LivingEntityImpl((LivingEntity) entity, A_Data.newAData(), aVersion);
+                aEntity = new A_LivingEntityImpl((LivingEntity) entity, A_Data.newAData(), aVersion);
+                CommediaDell_arte.sendDebugLog("§aCreated LivingEntity: " + entity.getUniqueId());
+            } else {
+                aEntity = new A_EntityImpl(entity, A_Data.newAData(), aVersion);
+                CommediaDell_arte.sendDebugLog("§aCreated Entity: " + entity.getUniqueId());
             }
 
-            return new A_EntityImpl(entity, A_Data.newAData(), aVersion);
+            return aEntity;
         });
     }
 
@@ -167,17 +180,38 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
+    public void removeAEntity(UUID uuid) {
+        Entity entity = Bukkit.getEntity(uuid);
+
+        if (entity == null) return;
+
+        removeAEntity(entity);
+    }
+
+    @Override
+    public void removeAEntity(Entity entity) {
+        UUID uuid = entity.getUniqueId();
+        if (entity instanceof Player) {
+            if (entity.hasMetadata("NPC")) this.aNPCs.remove(uuid);
+            else this.aPlayers.remove(uuid);
+            return;
+        }
+
+        this.aEntities.remove(uuid);
+    }
+
+    @Override
     public A_OfflinePlayerImpl getAOfflinePlayer(OfflinePlayer offlinePlayer) {
-        return aOfflinePlayers.computeIfAbsent(offlinePlayer.getUniqueId(), uuid -> new A_OfflinePlayerImpl(offlinePlayer, aVersion)).updateOfflinePlayer();
+        return aOfflinePlayers.computeIfAbsent(offlinePlayer.getUniqueId(), uuid -> {
+            A_OfflinePlayerImpl aOfflinePlayer = new A_OfflinePlayerImpl(offlinePlayer, aVersion);
+            CommediaDell_arte.sendDebugLog("§aCreated OfflinePlayer: " + offlinePlayer.getUniqueId());
+            return aOfflinePlayer;
+        }).updateOfflinePlayer();
     }
 
     @Override
     public A_LivingEntityImpl getALivingEntity(LivingEntity livingEntity) {
         return (A_LivingEntityImpl) getAEntity(livingEntity).getALivingEntity();
-    }
-
-    public void deleteOldAPlayer(Player player) {
-        this.aPlayers.remove(player.getUniqueId());
     }
 
     @Override
@@ -199,10 +233,11 @@ public final class A_ManagerImpl implements A_Manager {
         } else if(interactiveObj instanceof InteractiveTile) {
             interactiveObjInfo = new InteractiveTileInfo((InteractiveTile) interactiveObj);
         } else {
-            throw new IllegalArgumentException("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+            CommediaDell_arte.sendErrorLog("Not Supported InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+            return;
         }
         this.interactiveObjs.put(interactiveObj.getKey(), interactiveObjInfo);
-        CommediaDell_arte.sendLog("Register InteractiveObj: " + interactiveObj.getKey());
+        CommediaDell_arte.sendDebugLog("Register InteractiveObj: " + interactiveObj.getKey());
     }
 
     @Override
@@ -215,7 +250,8 @@ public final class A_ManagerImpl implements A_Manager {
         try {
             interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(interactiveObj.getKey());
         } catch (ClassCastException exception) {
-            throw new IllegalArgumentException("Class Type Not Same InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+            CommediaDell_arte.sendErrorLog("Class Type Not Same InteractiveObj: " + interactiveObj.getClass().getSimpleName());
+            return;
         }
 
         interactiveObjInfo.setEventInObj(obj);
@@ -224,14 +260,16 @@ public final class A_ManagerImpl implements A_Manager {
     @Override
     public <T> void setInteractiveInObj(NamespacedKey key, T obj) {
         if (!isRegisteredInteractiveObj(key)) {
-            throw new IllegalArgumentException("Not Registered InteractiveObj: " + key);
+            CommediaDell_arte.sendErrorLog("Not Registered InteractiveObj: " + key);
+            return;
         }
 
         InteractiveObjInfo<T> interactiveObjInfo;
         try {
             interactiveObjInfo = (InteractiveObjInfo<T>) this.interactiveObjs.get(key);
         } catch (ClassCastException exception) {
-            throw new IllegalArgumentException("Class Type Not Same InteractiveObj: " + key);
+            CommediaDell_arte.sendErrorLog("Class Type Not Same InteractiveObj: " + key);
+            return;
         }
 
         interactiveObjInfo.setEventInObj(obj);
@@ -342,14 +380,18 @@ public final class A_ManagerImpl implements A_Manager {
     @Override
     public A_PlayerImpl getAPlayer(Player player) {
         if (player.hasMetadata("NPC")) {
-            return aNPCs.computeIfAbsent(player.getUniqueId(), uuid -> new A_NPCImpl(player, aVersion));
+            return aNPCs.computeIfAbsent(player.getUniqueId(), uuid -> {
+                A_NPCImpl aNpc = new A_NPCImpl(player, aVersion);
+                CommediaDell_arte.sendDebugLog("§aCreated NPC: " + player.getUniqueId());
+                return aNpc;
+            });
         }
 
-        if(aPlayers.containsKey(player.getUniqueId()) && !aPlayers.get(player.getUniqueId()).getPlayer().equals(player)) {
-            this.deleteOldAPlayer(player);
-            CommediaDell_arte.sendLog("test");
-        }
-        return aPlayers.computeIfAbsent(player.getUniqueId(), uuid -> new A_PlayerImpl(player, getAOfflinePlayer(player), aVersion));
+        return aPlayers.computeIfAbsent(player.getUniqueId(), uuid -> {
+            A_PlayerImpl aPlayer = new A_PlayerImpl(player, getAOfflinePlayer(player), aVersion);
+            CommediaDell_arte.sendDebugLog("§aCreated Player: " + player.getUniqueId());
+            return aPlayer;
+        });
     }
 
     @Override

@@ -1,5 +1,10 @@
 config version: 1
 
-# This is the main configuration file for CommediaDell_arte.
+# 코오오온피이이이그으으으
+# 개발하기 귀찮다
 
 debug: false
+
+# 루트 체스트를 열지 못할때 출력되는 메세지
+# %time%은 남은 시간을 초로 표시합니다.
+cant_open_loot_chest: "&c열지 못합니다! (남은 시간 %time%초)"

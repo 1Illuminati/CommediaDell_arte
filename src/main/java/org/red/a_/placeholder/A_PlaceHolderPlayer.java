@@ -4,20 +4,14 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
 import org.red.CommediaDell_arte;
-import org.red.block.loot.LootChestImpl;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.a_.world.A_World;
-import org.red.library.util.map.DataMap;
 import org.red.library.world.Area;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class A_PlaceHolderPlayer extends PlaceholderExpansion {
     public static void setPlaceHolder() {

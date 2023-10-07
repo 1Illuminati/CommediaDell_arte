@@ -91,4 +91,8 @@ public interface A_Manager {
     A_World getAWorld(String worldName);
 
     A_World getAWorld(World world);
+
+    void removeAEntity(UUID uuid);
+
+    void removeAEntity(Entity entity);
 }

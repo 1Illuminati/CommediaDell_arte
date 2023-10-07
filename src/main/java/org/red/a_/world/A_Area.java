@@ -44,6 +44,7 @@ public class A_Area extends Area implements ConfigurationSerializable {
             DataMap areaDataMap = dataMap.getDataMap(a_area.getName());
             areaDataMap.put("area", a_area);
         });
+        CommediaDell_arte.sendDebugLog("A_Area saved");
     }
 
     public static void loadArea() {
@@ -58,6 +59,7 @@ public class A_Area extends Area implements ConfigurationSerializable {
                 }
             });
         });
+        CommediaDell_arte.sendDebugLog("A_Area loaded");
     }
 
     private final String name;

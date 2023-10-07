@@ -22,11 +22,13 @@ import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
+import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 
+import java.util.List;
 import java.util.UUID;
 
 public final class A_ {
@@ -34,6 +36,22 @@ public final class A_ {
 
     public static void setA_Plugin(A_Manager plugin) {
         A_.plugin = plugin;
+    }
+
+    public static RandomBox createRandomBox(String name, List<ItemStack> items) {
+        return plugin.createRandomBox(name, items);
+    }
+
+    public static RandomBox createRandomBox(String name, ItemStack... items) {
+        return plugin.createRandomBox(name, items);
+    }
+
+    public static void removeAEntity(UUID uuid) {
+        plugin.removeAEntity(uuid);
+    }
+
+    public static void removeAEntity(Entity entity) {
+        plugin.removeAEntity(entity);
     }
 
     public static boolean isTileInInteractive(TileState tileState) {

@@ -6,6 +6,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 import org.red.CommediaDell_arte;
+import org.red.Setting;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.block.loot.LootChest;
@@ -39,7 +40,8 @@ public final class InteractiveLootChest implements InteractiveTile {
                 this.lootChest.setCoolTime(player, this.lootChest.getCoolTime());
                 player.openInventory(new LootChestGUI(lootChest));
             } else {
-                player.sendMessage("아직 열지 못합니다! 남은시간: " + this.getLootChest().getLessCoolTime(player) + "초");
+                double coolTime = this.getLootChest().getLessCoolTime(player);
+                player.sendMessage(Setting.CANT_OPEN_LOOT_CHEST.asStringValue().replaceAll("%time%", "" + coolTime));
             }
         }
     }

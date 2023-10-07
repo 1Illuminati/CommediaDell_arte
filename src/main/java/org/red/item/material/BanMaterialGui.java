@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.red.a_.A_ManagerImpl;
 import org.red.a_.world.A_WorldImpl;
+import org.red.library.A_;
 import org.red.library.inventory.CustomGui;
 import org.red.library.item.ItemBuilder;
 import org.red.library.item.material.MaterialAct;
@@ -20,7 +21,7 @@ public class BanMaterialGui extends CustomGui {
     private final BanMaterial banMaterial;
     private final int page;
     public BanMaterialGui(World world) {
-        this(A_ManagerImpl.INSTANCE.getAWorld(world));
+        this((A_WorldImpl) A_.getAWorld(world));
     }
 
     public BanMaterialGui(A_WorldImpl aWorld) {
