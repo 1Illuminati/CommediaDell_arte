@@ -3,14 +3,14 @@ package org.red.util.data.minecraft;
 import org.bukkit.Location;
 import org.red.util.data.DataStrHandler;
 
-public class LocationStrHandler implements DataStrHandler {
+public class LocationStrHandler implements DataStrHandler<Location> {
     private final Location location;
     public LocationStrHandler(Location location) {
         this.location = location;
     }
 
     @Override
-    public Object strToNextData(String key) {
+    public Object strToNextObject(String key) {
         switch (key) {
             case "X":
             return location.getX();
@@ -32,5 +32,10 @@ public class LocationStrHandler implements DataStrHandler {
     @Override
     public String dataToStr() {
         return location.toString();
+    }
+
+    @Override
+    public Location originData() {
+        return location;
     }
 }

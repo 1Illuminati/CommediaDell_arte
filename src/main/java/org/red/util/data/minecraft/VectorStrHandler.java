@@ -3,14 +3,14 @@ package org.red.util.data.minecraft;
 import org.bukkit.util.Vector;
 import org.red.util.data.DataStrHandler;
 
-public class VectorStrHandler implements DataStrHandler {
+public class VectorStrHandler implements DataStrHandler<Vector> {
     private final Vector vector;
     public VectorStrHandler(Vector vector) {
         this.vector = vector;
     }
 
     @Override
-    public Object strToNextData(String key) {
+    public Object strToNextObject(String key) {
         switch (key) {
             case "X":
             return vector.getX();
@@ -26,5 +26,10 @@ public class VectorStrHandler implements DataStrHandler {
     @Override
     public String dataToStr() {
         return vector.toString();
+    }
+
+    @Override
+    public Vector originData() {
+        return vector;
     }
 }

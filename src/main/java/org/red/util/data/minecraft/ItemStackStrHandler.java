@@ -1,17 +1,16 @@
 package org.red.util.data.minecraft;
 
 import org.bukkit.inventory.ItemStack;
-import org.red.util.data.DataMapStrHandler;
 import org.red.util.data.DataStrHandler;
 
-public class ItemStackStrHandler implements DataStrHandler {
+public class ItemStackStrHandler implements DataStrHandler<ItemStack> {
     private final ItemStack itemStack;
     public ItemStackStrHandler(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
     @Override
-    public DataMapStrHandler strToNextData(String key) {
+    public Object strToNextObject(String key) {
         switch (key) {
             case "Amount":
             return itemStack.getAmount();
@@ -26,5 +25,10 @@ public class ItemStackStrHandler implements DataStrHandler {
     @Override
     public String dataToStr() {
         return itemStack.toString();
+    }
+
+    @Override
+    public ItemStack originData() {
+        return itemStack;
     }
 }

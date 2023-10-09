@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface DataStrHandler<T> {
-    DataStrHandler<?> strToNextData(String key);
+    Object strToNextObject(String key);
     String dataToStr();
     T originData();
 

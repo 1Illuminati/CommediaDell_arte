@@ -2,14 +2,14 @@ package org.red.util.data;
 
 import java.util.List;
 
-public class ListStrHandler implements DataStrHandler {
+public class ListStrHandler implements DataStrHandler<List<?>> {
     private final List<?> list;
     public ListStrHandler(List<?> list) {
         this.list = list;
     }
 
     @Override
-    public DataStrHandler strToNextData(String key) {
+    public DataStrHandler strToNextObject(String key) {
         int a;
 
         try {
@@ -24,5 +24,10 @@ public class ListStrHandler implements DataStrHandler {
     @Override
     public String dataToStr() {
         return list.toString();
+    }
+
+    @Override
+    public List<?> originData() {
+        return list;
     }
 }

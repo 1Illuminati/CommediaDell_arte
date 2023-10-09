@@ -7,7 +7,7 @@ public class PrimitiveStrHandler<T> implements DataStrHandler<T> {
     }
 
     @Override
-    public PrimitiveStrHandler<?> strToNextData(String key) {
+    public PrimitiveStrHandler<?> strToNextObject(String key) {
         return null;
     }
 
