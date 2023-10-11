@@ -22,7 +22,7 @@ public class PlayerJoinListener extends AbstractPlayerListener<PlayerJoinEvent> 
     }
 
     @Override
-    protected Class<? extends PlayerJoinEvent> getEventClass() {
+    protected Class<PlayerJoinEvent> getEventClass() {
         return PlayerJoinEvent.class;
     }
 }

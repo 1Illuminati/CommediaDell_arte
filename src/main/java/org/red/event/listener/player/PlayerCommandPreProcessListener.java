@@ -28,7 +28,7 @@ public class PlayerCommandPreProcessListener extends AbstractPlayerListener<Play
     }
 
     @Override
-    protected Class<? extends PlayerCommandPreprocessEvent> getEventClass() {
+    protected Class<PlayerCommandPreprocessEvent> getEventClass() {
         return PlayerCommandPreprocessEvent.class;
     }
 }

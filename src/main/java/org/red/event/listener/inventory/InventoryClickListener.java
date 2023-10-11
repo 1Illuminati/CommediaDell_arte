@@ -33,7 +33,7 @@ public class InventoryClickListener extends AbstractInventoryListener<InventoryC
     }
 
     @Override
-    protected Class<? extends InventoryClickEvent> getEventClass() {
+    protected Class<InventoryClickEvent> getEventClass() {
         return InventoryClickEvent.class;
     }
 }

@@ -27,7 +27,7 @@ public class PlayerDropItemListener extends AbstractPlayerListener<PlayerDropIte
     }
 
     @Override
-    protected Class<? extends PlayerDropItemEvent> getEventClass() {
+    protected Class<PlayerDropItemEvent> getEventClass() {
         return PlayerDropItemEvent.class;
     }
 }

@@ -29,7 +29,7 @@ public class EntitySpawnListener extends AbstractEntityListener<EntitySpawnEvent
     }
 
     @Override
-    protected Class<? extends EntitySpawnEvent> getEventClass() {
+    protected Class<EntitySpawnEvent> getEventClass() {
         return EntitySpawnEvent.class;
     }
 }

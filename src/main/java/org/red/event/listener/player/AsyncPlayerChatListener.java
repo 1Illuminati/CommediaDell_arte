@@ -25,7 +25,7 @@ public class AsyncPlayerChatListener extends AbstractPlayerListener<AsyncPlayerC
     }
 
     @Override
-    protected Class<? extends AsyncPlayerChatEvent> getEventClass() {
+    protected Class<AsyncPlayerChatEvent> getEventClass() {
         return AsyncPlayerChatEvent.class;
     }
 }

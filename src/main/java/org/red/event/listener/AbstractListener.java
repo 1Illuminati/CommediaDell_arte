@@ -25,7 +25,7 @@ public abstract class AbstractListener<T extends Event> implements Listener {
 
     protected abstract Class<? extends AreaEvent<T>> getAreaEventClass();
 
-    protected abstract Class<? extends T> getEventClass();
+    protected abstract Class<T> getEventClass();
 
     protected void runAreaEvent(T event, Set<Area> areas) {
         for (Area area : areas) {
@@ -35,7 +35,7 @@ public abstract class AbstractListener<T extends Event> implements Listener {
                 areaEvent = getAreaEventClass().getConstructor(Area.class, getEventClass()).newInstance(area, event);
                 if (!area.inAreaEvent(areaEvent)) Bukkit.getPluginManager().callEvent(areaEvent);
             } catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }

@@ -43,7 +43,7 @@ public class EntityDamageByEntityListener extends AbstractEntityListener<EntityD
     }
 
     @Override
-    protected Class<? extends EntityDamageByEntityEvent> getEventClass() {
+    protected Class<EntityDamageByEntityEvent> getEventClass() {
         return EntityDamageByEntityEvent.class;
     }
 }

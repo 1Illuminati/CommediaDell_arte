@@ -27,7 +27,7 @@ public class CreatureSpawnListener extends AbstractEntityListener<CreatureSpawnE
     }
 
     @Override
-    protected Class<? extends CreatureSpawnEvent> getEventClass() {
+    protected Class<CreatureSpawnEvent> getEventClass() {
         return CreatureSpawnEvent.class;
     }
 }

@@ -25,7 +25,7 @@ public class CraftItemListener extends AbstractInventoryListener<CraftItemEvent>
     }
 
     @Override
-    protected Class<? extends CraftItemEvent> getEventClass() {
+    protected Class<CraftItemEvent> getEventClass() {
         return CraftItemEvent.class;
     }
 }

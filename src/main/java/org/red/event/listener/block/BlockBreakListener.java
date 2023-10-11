@@ -46,7 +46,7 @@ public class BlockBreakListener extends AbstractBlockListener<BlockBreakEvent> {
     }
 
     @Override
-    protected Class<? extends BlockBreakEvent> getEventClass() {
+    protected Class<BlockBreakEvent> getEventClass() {
         return BlockBreakEvent.class;
     }
 }

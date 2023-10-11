@@ -25,7 +25,7 @@ public class PlayerMoveListener extends AbstractPlayerListener<PlayerMoveEvent> 
     }
 
     @Override
-    protected Class<? extends PlayerMoveEvent> getEventClass() {
+    protected Class<PlayerMoveEvent> getEventClass() {
         return PlayerMoveEvent.class;
     }
 }

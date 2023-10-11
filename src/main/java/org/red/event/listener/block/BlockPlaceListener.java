@@ -40,7 +40,7 @@ public class BlockPlaceListener extends AbstractBlockListener<BlockPlaceEvent> {
     }
 
     @Override
-    protected Class<? extends BlockPlaceEvent> getEventClass() {
+    protected Class<BlockPlaceEvent> getEventClass() {
         return BlockPlaceEvent.class;
     }
 }

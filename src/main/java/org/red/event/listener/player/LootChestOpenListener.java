@@ -19,7 +19,7 @@ public class LootChestOpenListener extends AbstractPlayerListener<LootChestOpenE
     }
 
     @Override
-    protected Class<? extends LootChestOpenEvent> getEventClass() {
+    protected Class<LootChestOpenEvent> getEventClass() {
         return LootChestOpenEvent.class;
     }
 }

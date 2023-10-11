@@ -27,7 +27,7 @@ public class PlayerFishListener extends AbstractPlayerListener<PlayerFishEvent> 
     }
 
     @Override
-    protected Class<? extends PlayerFishEvent> getEventClass() {
+    protected Class<PlayerFishEvent> getEventClass() {
         return PlayerFishEvent.class;
     }
 }

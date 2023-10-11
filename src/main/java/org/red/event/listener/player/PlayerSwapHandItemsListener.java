@@ -27,7 +27,7 @@ public class PlayerSwapHandItemsListener extends AbstractPlayerListener<PlayerSw
     }
 
     @Override
-    protected Class<? extends PlayerSwapHandItemsEvent> getEventClass() {
+    protected Class<PlayerSwapHandItemsEvent> getEventClass() {
         return PlayerSwapHandItemsEvent.class;
     }
 }

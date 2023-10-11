@@ -39,7 +39,7 @@ public class InventoryCloseListener extends AbstractInventoryListener<InventoryC
     }
 
     @Override
-    protected Class<? extends InventoryCloseEvent> getEventClass() {
+    protected Class<InventoryCloseEvent> getEventClass() {
         return InventoryCloseEvent.class;
     }
 }

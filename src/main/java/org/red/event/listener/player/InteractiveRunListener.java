@@ -19,7 +19,7 @@ public class InteractiveRunListener extends AbstractPlayerListener<InteractiveRu
     }
 
     @Override
-    protected Class<? extends InteractiveRunEvent> getEventClass() {
+    protected Class<InteractiveRunEvent> getEventClass() {
         return InteractiveRunEvent.class;
     }
 }

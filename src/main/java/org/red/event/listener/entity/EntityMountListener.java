@@ -27,7 +27,7 @@ public class EntityMountListener extends AbstractEntityListener<EntityMountEvent
     }
 
     @Override
-    protected Class<? extends EntityMountEvent> getEventClass() {
+    protected Class<EntityMountEvent> getEventClass() {
         return EntityMountEvent.class;
     }
 }

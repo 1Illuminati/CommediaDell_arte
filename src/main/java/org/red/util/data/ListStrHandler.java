@@ -9,7 +9,7 @@ public class ListStrHandler implements DataStrHandler<List<?>> {
     }
 
     @Override
-    public DataStrHandler strToNextObject(String key) {
+    public Object strToNextObject(String key) {
         int a;
 
         try {

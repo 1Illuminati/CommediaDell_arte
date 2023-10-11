@@ -21,7 +21,7 @@ public class PlayerQuitListener extends AbstractPlayerListener<PlayerQuitEvent> 
     }
 
     @Override
-    protected Class<? extends PlayerQuitEvent> getEventClass() {
+    protected Class<PlayerQuitEvent> getEventClass() {
         return PlayerQuitEvent.class;
     }
 }

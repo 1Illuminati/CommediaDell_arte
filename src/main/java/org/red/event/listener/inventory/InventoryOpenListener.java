@@ -29,7 +29,7 @@ public class InventoryOpenListener extends AbstractInventoryListener<InventoryOp
     }
 
     @Override
-    protected Class<? extends InventoryOpenEvent> getEventClass() {
+    protected Class<InventoryOpenEvent> getEventClass() {
         return InventoryOpenEvent.class;
     }
 }

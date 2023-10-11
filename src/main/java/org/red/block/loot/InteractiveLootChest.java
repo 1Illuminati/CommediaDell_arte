@@ -1,5 +1,6 @@
 package org.red.block.loot;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -41,7 +42,7 @@ public final class InteractiveLootChest implements InteractiveTile {
                 player.openInventory(new LootChestGUI(lootChest));
             } else {
                 double coolTime = this.getLootChest().getLessCoolTime(player);
-                player.sendMessage(Setting.CANT_OPEN_LOOT_CHEST.asStringValue().replaceAll("%time%", "" + coolTime));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Setting.CANT_OPEN_LOOT_CHEST.asStringValue().replaceAll("%time%", "" + coolTime)));
             }
         }
     }

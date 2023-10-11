@@ -61,7 +61,7 @@ public class PlayerInteractListener extends AbstractPlayerListener<PlayerInterac
     }
 
     @Override
-    protected Class<? extends PlayerInteractEvent> getEventClass() {
+    protected Class<PlayerInteractEvent> getEventClass() {
         return PlayerInteractEvent.class;
     }
 }
