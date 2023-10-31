@@ -68,12 +68,15 @@ public final class CommediaDell_arte extends JavaPlugin {
         PLUGIN_MANAGER = new A_ManagerImpl(this);
         this.setCommand();
         this.setEvent();
-        PLUGIN_MANAGER.allLoad();
-        A_.setA_Plugin(PLUGIN_MANAGER);
-        A_Area.loadArea();
-        AdminAxe.load();
         setSoftPlugin();
-        intermediateStorage();
+
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            PLUGIN_MANAGER.allLoad();
+            A_.setA_Plugin(PLUGIN_MANAGER);
+            A_Area.loadArea();
+            AdminAxe.load();
+            intermediateStorage();
+        }, 20);
     }
 
     @Override

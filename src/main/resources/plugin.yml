@@ -6,6 +6,8 @@ authors: [Arlecchino, RedKiller]
 softdepend:
   - PlaceholderAPI
   - Vault
+  - ItemsAdder
+  - MythicMobs
 description: For Fun
 
 
