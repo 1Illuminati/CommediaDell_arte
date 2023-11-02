@@ -1117,6 +1117,12 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
     }
 
     @Override
+    public void closeInventory(boolean ignoreInventoryEvent) {
+        this.ignoreInvCloseEvent = ignoreInventoryEvent;
+        player.closeInventory();
+    }
+
+    @Override
     @NotNull
     public ItemStack getItemInHand() {
         return player.getItemInHand();

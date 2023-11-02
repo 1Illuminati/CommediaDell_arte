@@ -186,6 +186,8 @@ public interface A_Player extends A_LivingEntity {
 
     void closeInventory();
 
+    void closeInventory(boolean ignoreInventoryEvent);
+
     @NotNull
     ItemStack getItemInHand();
 

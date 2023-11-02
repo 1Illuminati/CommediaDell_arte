@@ -67,6 +67,11 @@ public class LootChestImpl implements LootChest, ConfigurationSerializable {
     }
 
     @Override
+    public BoxRestrictionType getType() {
+        return null;
+    }
+
+    @Override
     public void giveReward(A_Player player) {
         this.setCoolTime(player, this.getCoolTime());
         player.openInventory(new LootChestGUI(this));

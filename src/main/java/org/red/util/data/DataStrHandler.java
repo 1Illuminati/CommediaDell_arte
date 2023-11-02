@@ -12,6 +12,10 @@ public interface DataStrHandler<T> {
     String dataToStr();
     T originData();
 
+    default void register() {
+
+    }
+
     static DataStrHandler<?> objToDataStrHandler(Object object) {
         if (object instanceof DataStrHandler) {
             return (DataStrHandler<?>) object;
