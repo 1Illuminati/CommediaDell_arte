@@ -71,6 +71,12 @@ public class A_EconomyAccount implements EconomyAccount {
         this.bank += balance;
     }
 
+    @Override
+    public void copy(EconomyAccount economyAccount) {
+        this.balance = economyAccount.getBalance();
+        this.bank = economyAccount.getBank();
+    }
+
     public void copy(A_EconomyAccount account) {
         this.balance = account.getBalance();
         this.bank = account.getBank();

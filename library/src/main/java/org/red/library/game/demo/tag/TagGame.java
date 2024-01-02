@@ -6,7 +6,6 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffectType;
-import org.red.CommediaDell_arte;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 import org.red.library.game.Game;
@@ -30,7 +29,7 @@ public class TagGame extends Game {
 
     @Override
     public Plugin getPlugin() {
-        return CommediaDell_arte.getPlugin();
+        return null;
     }
 
     @Override

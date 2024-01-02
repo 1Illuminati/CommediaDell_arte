@@ -17,15 +17,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.red</groupId>
-            <artifactId>library</artifactId>
-            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -35,9 +29,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.red</groupId>
+            <artifactId>library</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>20.1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

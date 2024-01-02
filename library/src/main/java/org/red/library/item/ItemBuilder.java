@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemBuilder {
-    private final ItemStack itemStack;
-    private ItemMeta itemMeta;
-    private PersistentDataContainer persistentDataContainer;
+    protected final ItemStack itemStack;
+    protected ItemMeta itemMeta;
+    protected PersistentDataContainer persistentDataContainer;
 
     public ItemBuilder(Material material) {
         this(new ItemStack(material));

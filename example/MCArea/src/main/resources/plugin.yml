@@ -1,0 +1,13 @@
+name: MCArea
+version: '${project.version}'
+main: org.red.mcarea.MCArea
+api-version: '1.19'
+depend: [ CommediaDell_arte ]
+authors: [ RedKiller ]
+
+commands:
+  mcareatest:
+    description: Test command
+    usage: /<command>
+    aliases: [ mct ]
+    permission: op

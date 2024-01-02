@@ -12,6 +12,8 @@ import org.red.event.listener.inventory.CraftItemListener;
 import org.red.event.listener.inventory.InventoryClickListener;
 import org.red.event.listener.inventory.InventoryCloseListener;
 import org.red.event.listener.inventory.InventoryOpenListener;
+import org.red.library.item.ItemUtil;
+import org.red.nms.NmsFactory;
 import org.red.world.rule.RuleSettingCommand;
 import org.red.a_.A_ManagerImpl;
 import org.red.a_.command.A_Command;
@@ -58,7 +60,7 @@ public final class CommediaDell_arte extends JavaPlugin {
 
     public static void sendDebugLog(Object message) {
         if (Setting.DEBUG.asBooleanValue())
-            Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Debug ] §f" + message);
+            Bukkit.getConsoleSender().sendMessage("§c[ CommediaD  ell_arte Debug ] §f" + message);
     }
 
     public static void sendErrorLog(Object message) {
@@ -72,6 +74,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.configurationSerializationSetting();
         this.checkedFile();
         PLUGIN_MANAGER = new A_ManagerImpl(this);
+        managerSetting();
         this.setCommand();
         this.setEvent();
         setSoftPlugin();
@@ -79,11 +82,15 @@ public final class CommediaDell_arte extends JavaPlugin {
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             PLUGIN_MANAGER.allLoad();
-            A_.setA_Plugin(PLUGIN_MANAGER);
             A_Area.loadArea();
             AdminAxe.load();
             intermediateStorage();
         }, 20);
+    }
+
+    private void managerSetting() {
+        A_.setA_Plugin(PLUGIN_MANAGER);
+        ItemUtil.setItemManager(NmsFactory.createItemManager());
     }
 
     public void settingServerVersion() {
@@ -176,10 +183,12 @@ public final class CommediaDell_arte extends JavaPlugin {
         boolean value1 = new File("plugins/Dell_arte").mkdir();
         boolean value2 = new File("plugins/Dell_arte/playerData").mkdir();
         boolean value3 = new File("plugins/Dell_arte/npcData").mkdir();
+        boolean value4 = new File("plugins/Dell_arte/plugins").mkdir();
 
         sendDebugLog(value1 ? "§aCreate Folder: Dell_arte" : "§aChecked Folder: Dell_arte");
         sendDebugLog(value2 ? "§aCreate Folder: playerData" : "§aChecked Folder: playerData");
         sendDebugLog(value3 ? "§aCreate Folder: npcData" : "§aChecked Folder: npcData");
+        sendDebugLog(value4 ? "§aCreate Folder: plugins" : "§aChecked Folder: plugins");
         sendLog("Checked All Folder");
     }
 

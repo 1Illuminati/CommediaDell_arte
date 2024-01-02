@@ -2,6 +2,7 @@ package org.red.library.a_;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.jetbrains.annotations.NotNull;
+import org.red.library.A_;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 import org.red.library.vault.EconomyAccount;
@@ -77,6 +78,6 @@ public final class A_Data implements ConfigurationSerializable {
     }
 
     public static A_Data newAData() {
-        return new A_Data(new DataMap(), new CoolTime(), new EconomyAccount());
+        return new A_Data(new DataMap(), new CoolTime(), A_.createEmptyEconomyAccount());
     }
 }

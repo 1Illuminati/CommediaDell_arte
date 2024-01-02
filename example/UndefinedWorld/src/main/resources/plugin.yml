@@ -1,0 +1,7 @@
+name: UndefinedWorld
+version: 1.0
+main: org.red.game.UndefinedWorld
+api-version: '1.20'
+depend: [ CommediaDell_arte ]
+authors: [ RedKiller ]
+description: It just game

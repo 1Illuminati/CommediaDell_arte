@@ -23,6 +23,10 @@ public class CustomGui implements InventoryHolder {
         this.inventory = Bukkit.createInventory(this, slot, title);
     }
 
+    public CustomGui(int slot, String title) {
+        this(title, slot);
+    }
+
     public CustomGui(int slot) {
         this.inventory = Bukkit.createInventory(this, slot);
     }
@@ -88,6 +92,22 @@ public class CustomGui implements InventoryHolder {
         inventory.setItem(i, itemStack);
         this.setButton(i, button);
         return this.getItem(i);
+    }
+
+    public ItemStack setSameItem(int startSlot, int endSlot, ItemStack itemStack) {
+        for (int i = startSlot; i <= endSlot; i++) {
+            this.setItem(i, itemStack);
+        }
+
+        return this.getItem(startSlot);
+    }
+
+    public ItemStack setSameItem(int startSlot, int endSlot, ItemStack itemStack, Button button) {
+        for (int i = startSlot; i <= endSlot; i++) {
+            this.setItem(i, itemStack, button);
+        }
+
+        return this.getItem(startSlot);
     }
 
     public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {

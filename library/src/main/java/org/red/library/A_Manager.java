@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
@@ -25,6 +26,7 @@ import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
+import org.red.library.util.map.DataMap;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 import org.red.library.vault.EconomyAccount;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface A_Manager {
+    DataMap getPluginDataMap(Plugin plugin, String name);
     RandomBox createRandomBox(String name, List<ItemStack> items);
     RandomBox createRandomBox(String name, ItemStack... items);
     void registerInteractiveObj(InteractiveObj<?> interactiveObj);

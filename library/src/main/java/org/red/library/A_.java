@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.red.library.interactive.block.InteractiveTile;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
@@ -25,6 +26,7 @@ import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
+import org.red.library.util.map.DataMap;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
 import org.red.library.vault.EconomyAccount;
@@ -45,6 +47,10 @@ public final class A_ {
 
     public static RandomBox createRandomBox(String name, ItemStack... items) {
         return plugin.createRandomBox(name, items);
+    }
+
+    public static DataMap getPluginDataMap(Plugin plugin, String name) {
+        return A_.plugin.getPluginDataMap(plugin, name);
     }
 
     public static void removeAEntity(UUID uuid) {
@@ -68,6 +74,7 @@ public final class A_ {
     }
 
     private A_() {
+        throw new IllegalStateException("Utility class");
     }
 
     public static ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice) {

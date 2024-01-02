@@ -43,6 +43,7 @@ import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.randombox.RandomBox;
 import org.red.library.item.shop.ShopItem;
 import org.red.library.item.shop.price.Price;
+import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
 import org.red.library.util.timer.BossBarTimer;
@@ -65,6 +66,7 @@ public final class A_ManagerImpl implements A_Manager {
     private final Map<String, A_WorldImpl> aWorlds = new HashMap<>();
     private final NameSpaceMap<RandomBoxImpl> randomBoxes = new NameSpaceMap<>();
     private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
+    private final NameSpaceMap<DataMap> pluginDataMaps = new NameSpaceMap<>();
     private final CommediaDell_arte plugin;
     private final A_Version aVersion;
     public A_ManagerImpl(CommediaDell_arte plugin) {
@@ -77,6 +79,7 @@ public final class A_ManagerImpl implements A_Manager {
         aNPCs.values().forEach(A_NPC::aDataSave);
         aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataSave);
         aWorlds.values().forEach(A_WorldImpl::aDataSave);
+        pluginDataMapsSave();
         CommediaDell_arte.sendLog("§aSaved All Data");
     }
 
@@ -88,7 +91,50 @@ public final class A_ManagerImpl implements A_Manager {
         CommediaDell_arte.sendDebugLog("§aLoaded All Player Data");
         aWorlds.values().forEach(A_WorldImpl::aDataLoad);
         CommediaDell_arte.sendDebugLog("§aLoaded All Worlds Data");
+        pluginDataMapsLoad();
         CommediaDell_arte.sendLog("§aLoaded All Data");
+    }
+
+    public void pluginDataMapsLoad() {
+        File file = new File("plugins/Dell_arte/plugins");
+        File[] files = file.listFiles();
+        if (files == null) return;
+
+        for (File file1 : files) {
+            FileConfiguration fileConfiguration = new YamlConfiguration();
+            try {
+                fileConfiguration.load(file1);
+            } catch (IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+                continue;
+            }
+
+            for (String key : fileConfiguration.getKeys(false)) {
+                NamespacedKey namespacedKey = new NamespacedKey(file1.getName().replace(".yml", ""), key);
+                DataMap dataMap = (DataMap) fileConfiguration.get(key);
+                this.pluginDataMaps.put(namespacedKey, dataMap);
+            }
+        }
+
+        CommediaDell_arte.sendDebugLog("§aLoad PluginDataMaps");
+    }
+
+    public void pluginDataMapsSave() {
+        Map<String, FileConfiguration> map = new HashMap<>();
+        this.pluginDataMaps.forEach((namespacedKey, dataMap) -> {
+            map.computeIfAbsent(namespacedKey.getNamespace(), namespace -> new YamlConfiguration()).set(namespacedKey.getKey(), dataMap);
+        });
+
+        try {
+            for (Map.Entry<String, FileConfiguration> entry : map.entrySet()) {
+                File file = new File("plugins/Dell_arte/plugins/" + entry.getKey() + ".yml");
+                entry.getValue().save(file);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        CommediaDell_arte.sendDebugLog("§aSave PluginDataMaps");
     }
 
     public void entitiesADataSave() {
@@ -218,6 +264,11 @@ public final class A_ManagerImpl implements A_Manager {
     @Override
     public A_LivingEntityImpl getALivingEntity(LivingEntity livingEntity) {
         return (A_LivingEntityImpl) getAEntity(livingEntity).getALivingEntity();
+    }
+
+    @Override
+    public DataMap getPluginDataMap(Plugin plugin, String name) {
+        return this.pluginDataMaps.computeIfAbsent(new NamespacedKey(plugin, name), key -> new DataMap());
     }
 
     @Override
