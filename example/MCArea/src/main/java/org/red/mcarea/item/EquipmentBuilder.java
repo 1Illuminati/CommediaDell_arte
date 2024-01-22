@@ -2,7 +2,6 @@ package org.red.mcarea.item;
 
 import lombok.Builder;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +9,10 @@ import org.red.library.item.ItemBuilder;
 
 @Builder
 public class EquipmentBuilder extends ItemBuilder {
+
+    public EquipmentBuilder() {
+        super(new ItemStack(Material.AIR));
+    }
 
     public EquipmentBuilder(ItemStack itemStack) {
         super(itemStack);

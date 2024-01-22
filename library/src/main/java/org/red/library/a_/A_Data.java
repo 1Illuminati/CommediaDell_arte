@@ -1,6 +1,7 @@
 package org.red.library.a_;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.red.library.A_;
 import org.red.library.util.map.CoolTime;
@@ -11,21 +12,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class A_Data implements ConfigurationSerializable {
-    private final DataMap dataMap;
-    private final CoolTime coolTime;
+    private final Map<String, DataMap> dataMaps;
+    private final Map<String, CoolTime> coolTimes;
     private final EconomyAccount economyAccount;
-    public A_Data(DataMap dataMap, CoolTime coolTime, EconomyAccount economyAccount) {
-        this.dataMap = dataMap;
-        this.coolTime = coolTime;
+    public A_Data(Map<String, DataMap> dataMaps, Map<String, CoolTime> coolTimes, EconomyAccount economyAccount) {
+        this.dataMaps = dataMaps;
+        this.coolTimes = coolTimes;
         this.economyAccount = economyAccount;
     }
 
-    public DataMap getDataMap() {
-        return dataMap;
+    public DataMap getDataMap(Plugin plugin) {
+        return dataMaps.computeIfAbsent(plugin.getName(), k -> new DataMap());
     }
 
-    public CoolTime getCoolTime() {
-        return coolTime;
+    public Map<String, DataMap> getDataMaps() {
+        return dataMaps;
+    }
+
+    public CoolTime getCoolTime(Plugin plugin) {
+        return coolTimes.computeIfAbsent(plugin.getName(), k -> new CoolTime());
+    }
+
+    public Map<String, CoolTime> getCoolTimes() {
+        return coolTimes;
     }
 
     public EconomyAccount getEconomyAccount() {
@@ -33,8 +42,10 @@ public final class A_Data implements ConfigurationSerializable {
     }
 
     public void copy(A_Data aData) {
-        this.dataMap.copy(aData.getDataMap());
-        this.coolTime.copy(aData.getCoolTime());
+        this.dataMaps.clear();
+        this.dataMaps.putAll(aData.getDataMaps());
+        this.coolTimes.clear();
+        this.coolTimes.putAll(aData.getCoolTimes());
         this.economyAccount.copy(aData.getEconomyAccount());
     }
 
@@ -42,42 +53,18 @@ public final class A_Data implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
-        map.put("dataMap", dataMap);
-        map.put("coolTime", coolTime);
+        map.put("dataMaps", dataMaps);
+        map.put("coolTimes", coolTimes);
         map.put("economyAccount", economyAccount);
         return map;
     }
 
-    public Object strToData(String str) {
-        if (str.startsWith("data.")) {
-            String[] split = str.split("\\.");
-            DataMap dataMap = this.dataMap;
-            for (int i = 1; i < split.length; i++) {
-                if (!dataMap.containsKey(split[i]))
-                    return null;
-                Object obj = dataMap.get(split[i]);
-                if (obj instanceof DataMap) {
-                    dataMap = (DataMap) obj;
-                } else {
-                    return obj;
-                }
-            }
-            return dataMap;
-        } else if (str.startsWith("cooltime.")) {
-            String[] split = str.split("\\.");
-            return this.coolTime.getCoolTime(split[1]);
-        } else if (str.startsWith("economy.")) {
-            return this.economyAccount.getBalance();
-        }
-        return null;
-    }
-
     @NotNull
     public static A_Data deserialize(Map<String, Object> map) {
-        return new A_Data((DataMap) map.get("dataMap"), (CoolTime) map.get("coolTime"), (EconomyAccount) map.get("economyAccount"));
+        return new A_Data((HashMap<String, DataMap>) map.get("dataMap"), (HashMap<String, CoolTime>) map.get("coolTime"), (EconomyAccount) map.get("economyAccount"));
     }
 
     public static A_Data newAData() {
-        return new A_Data(new DataMap(), new CoolTime(), A_.createEmptyEconomyAccount());
+        return new A_Data(new HashMap<>(), new HashMap<>(), A_.createEmptyEconomyAccount());
     }
 }

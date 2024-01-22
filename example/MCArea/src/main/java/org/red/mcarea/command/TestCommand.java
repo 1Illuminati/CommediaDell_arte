@@ -9,6 +9,7 @@ import org.red.library.command.AbstractPlayerCommand;
 import org.red.mcarea.item.EquipmentUpgradeInv;
 import org.red.mcarea.item.Items;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,12 +63,33 @@ public class TestCommand extends AbstractPlayerCommand {
                     break;
                 }
             break;
+            case "upgradeItem":
+                switch (args[1]) {
+                    case "attack":
+                        aPlayer.addItem(Items.upgradeAttack);
+                    break;
+                    case "armor":
+                        aPlayer.addItem(Items.upgradeArmor);
+                    break;
+                    case "armor_toughness":
+                        aPlayer.addItem(Items.upgradeArmorToughness);
+                    break;
+                    case "attack_speed":
+                        aPlayer.addItem(Items.upgradeAttackSpeed);
+                    break;
+                    case "max_health":
+                        aPlayer.addItem(Items.upgradeMaxHealth);
+                    break;
+                    case "speed":
+                        aPlayer.addItem(Items.upgradeSpeed);
+                    break;
+                }
         }
         return true;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull String label, String[] args) {
-        return Collections.emptyList();
+        return Arrays.asList("upgrade", "defaultEquipment", "upgradeItem");
     }
 }

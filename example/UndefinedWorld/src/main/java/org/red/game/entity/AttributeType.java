@@ -29,7 +29,9 @@ public enum AttributeType {
     STAMINA("스태미나"),
     STAMINA_REGEN("스태미나 재생"),
     MAX_STAMINA("최대 스태미나"),
-    SPEED("이동 속도"),
+    MOVEMENT_SPEED("이동 속도"),
+    FIRE_DAMAGE("화염 데미지"),
+    FIRE_RESIST("화염 저항력"),
     ATTACK_SPEED("공격 속도");
 
     String krName;

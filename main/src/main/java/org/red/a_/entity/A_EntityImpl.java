@@ -21,12 +21,15 @@ import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.red.CommediaDell_arte;
 import org.red.library.A_;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.A_Entity;
 import org.red.library.a_.entity.A_LivingEntity;
 import org.red.library.a_.world.A_World;
+import org.red.library.util.map.CoolTime;
+import org.red.library.util.map.DataMap;
 
 import java.util.*;
 
@@ -39,6 +42,24 @@ public class A_EntityImpl implements A_Entity {
         this.entity = entity;
         this.aData = aData;
         this.version = version;
+    }
+
+    /**
+     * this method will return CommediaDell_arte's DataMap
+     * if you want your own DataMap, use getDataMap(Plugin)
+     * @return CommediaDell_arte's DataMap
+     */
+    public DataMap getDataMap() {
+        return getDataMap(CommediaDell_arte.getPlugin());
+    }
+
+    /**
+     * this method will return CommediaDell_arte's CoolTime
+     * if you want your own CoolTime, use getCoolTime(Plugin)
+     * @return CommediaDell_arte's CoolTime
+     */
+    public CoolTime getCoolTime() {
+        return getCoolTime(CommediaDell_arte.getPlugin());
     }
 
     public A_World getAWorld() {

@@ -79,8 +79,6 @@ public class A_PlayerImpl extends A_LivingEntityImpl implements A_Player {
         entityHideManager = NmsFactory.createEntityHideManager(this);
     }
 
-
-
     @Nullable
     public A_Admin getAAdmin() {
         return aAdmin;
