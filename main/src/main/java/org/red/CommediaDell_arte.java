@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.red.a_.admin.AdminAxe;
+import org.red.a_.util.A_File;
 import org.red.event.listener.AbstractListener;
 import org.red.event.listener.inventory.CraftItemListener;
 import org.red.event.listener.inventory.InventoryClickListener;
@@ -53,6 +54,9 @@ public final class CommediaDell_arte extends JavaPlugin {
     public static ServerVersionEnum getServerVersion() {
         return SERVER_VERSION;
     }
+    public static A_ManagerImpl getDell_arteManager() {
+        return PLUGIN_MANAGER;
+    }
 
     public static void sendLog(Object message) {
         Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Log ] §f" + message);
@@ -60,7 +64,7 @@ public final class CommediaDell_arte extends JavaPlugin {
 
     public static void sendDebugLog(Object message) {
         if (Setting.DEBUG.asBooleanValue())
-            Bukkit.getConsoleSender().sendMessage("§c[ CommediaD  ell_arte Debug ] §f" + message);
+            Bukkit.getConsoleSender().sendMessage("§c[ CommediaDell_arte Debug ] §f" + message);
     }
 
     public static void sendErrorLog(Object message) {
@@ -78,11 +82,10 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.setCommand();
         this.setEvent();
         setSoftPlugin();
-        Test.start();
+        //Test.start();
 
         Bukkit.getScheduler().runTaskLater(this, () -> {
             PLUGIN_MANAGER.allLoad();
-            A_Area.loadArea();
             AdminAxe.load();
             intermediateStorage();
         }, 20);
@@ -107,7 +110,6 @@ public final class CommediaDell_arte extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        A_Area.saveArea();
         PLUGIN_MANAGER.allSave();
     }
 
@@ -180,12 +182,10 @@ public final class CommediaDell_arte extends JavaPlugin {
     }
 
     private void checkedFile() {
-        boolean value1 = new File("plugins/Dell_arte").mkdir();
-        boolean value2 = new File("plugins/Dell_arte/playerData").mkdir();
-        boolean value3 = new File("plugins/Dell_arte/npcData").mkdir();
-        boolean value4 = new File("plugins/Dell_arte/plugins").mkdir();
+        boolean value2 = new A_File("playerData").mkdir();
+        boolean value3 = new A_File("npcData").mkdir();
+        boolean value4 = new A_File("plugins").mkdir();
 
-        sendDebugLog(value1 ? "§aCreate Folder: Dell_arte" : "§aChecked Folder: Dell_arte");
         sendDebugLog(value2 ? "§aCreate Folder: playerData" : "§aChecked Folder: playerData");
         sendDebugLog(value3 ? "§aCreate Folder: npcData" : "§aChecked Folder: npcData");
         sendDebugLog(value4 ? "§aCreate Folder: plugins" : "§aChecked Folder: plugins");

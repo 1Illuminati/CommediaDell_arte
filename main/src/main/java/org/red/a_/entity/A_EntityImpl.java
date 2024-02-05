@@ -44,11 +44,22 @@ public class A_EntityImpl implements A_Entity {
         this.version = version;
     }
 
+    @NotNull
+    public DataMap getDataMap(Plugin plugin) {
+        return aData.getDataMap(plugin);
+    }
+
+    @NotNull
+    public CoolTime getCoolTime(Plugin plugin) {
+        return aData.getCoolTime(plugin);
+    }
+
     /**
      * this method will return CommediaDell_arte's DataMap
      * if you want your own DataMap, use getDataMap(Plugin)
      * @return CommediaDell_arte's DataMap
      */
+    @NotNull
     public DataMap getDataMap() {
         return getDataMap(CommediaDell_arte.getPlugin());
     }
@@ -58,10 +69,12 @@ public class A_EntityImpl implements A_Entity {
      * if you want your own CoolTime, use getCoolTime(Plugin)
      * @return CommediaDell_arte's CoolTime
      */
+    @NotNull
     public CoolTime getCoolTime() {
         return getCoolTime(CommediaDell_arte.getPlugin());
     }
 
+    @Override
     public A_World getAWorld() {
         return A_.getAWorld(entity.getWorld());
     }

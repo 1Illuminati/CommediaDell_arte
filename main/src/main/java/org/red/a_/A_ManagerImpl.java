@@ -16,18 +16,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.a_.entity.*;
 import org.red.a_.util.A_BossBarTimer;
+import org.red.a_.util.A_File;
 import org.red.a_.util.A_Timer;
+import org.red.a_.util.A_YamlConfiguration;
 import org.red.a_.vault.A_EconomyAccount;
+import org.red.a_.world.A_Area;
 import org.red.a_.world.A_WorldImpl;
 import org.red.interactive.InteractiveObjInfo;
 import org.red.interactive.block.InteractiveTileInfo;
 import org.red.interactive.item.InteractiveItemInfo;
-import org.red.item.shop.ShopItemImpl;
 import org.red.item.randombox.RandomBoxImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
@@ -41,8 +44,6 @@ import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.interactive.item.InteractiveItem;
 import org.red.library.interactive.item.InteractiveItemAct;
 import org.red.library.item.randombox.RandomBox;
-import org.red.library.item.shop.ShopItem;
-import org.red.library.item.shop.price.Price;
 import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.util.persistent.NameSpaceKeyPersistentDataType;
@@ -53,17 +54,15 @@ import org.red.library.vault.EconomyAccount;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public final class A_ManagerImpl implements A_Manager {
     private final Map<UUID, A_EntityImpl> aEntities = new HashMap<>();
     private final Map<UUID, A_PlayerImpl> aPlayers = new HashMap<>();
     private final Map<UUID, A_NPCImpl> aNPCs = new HashMap<>();
     private final Map<UUID, A_OfflinePlayerImpl> aOfflinePlayers = new HashMap<>();
-    private final Map<String, A_WorldImpl> aWorlds = new HashMap<>();
+    private final Map<World, A_WorldImpl> aWorlds = new HashMap<>();
+    private final Map<String, A_Area> aAreas = new HashMap<>();
     private final NameSpaceMap<RandomBoxImpl> randomBoxes = new NameSpaceMap<>();
     private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
     private final NameSpaceMap<DataMap> pluginDataMaps = new NameSpaceMap<>();
@@ -80,6 +79,7 @@ public final class A_ManagerImpl implements A_Manager {
         aOfflinePlayers.values().forEach(A_OfflinePlayer::aDataSave);
         aWorlds.values().forEach(A_WorldImpl::aDataSave);
         pluginDataMapsSave();
+        aAreasSave();
         CommediaDell_arte.sendLog("§aSaved All Data");
     }
 
@@ -92,26 +92,63 @@ public final class A_ManagerImpl implements A_Manager {
         aWorlds.values().forEach(A_WorldImpl::aDataLoad);
         CommediaDell_arte.sendDebugLog("§aLoaded All Worlds Data");
         pluginDataMapsLoad();
+        aAreasLoad();
         CommediaDell_arte.sendLog("§aLoaded All Data");
     }
 
+    public void aAreasSave() {
+        A_YamlConfiguration aYamlConfiguration = new A_YamlConfiguration();
+        this.aAreas.forEach(aYamlConfiguration::set);
+        aYamlConfiguration.save(new A_File("area.yml"));
+        CommediaDell_arte.sendDebugLog("§aSaved All aAreas");
+    }
+
+    public void aAreasLoad() {
+        A_YamlConfiguration aYamlConfiguration = new A_YamlConfiguration();
+        aYamlConfiguration.load(new A_File("area.yml"));
+        aYamlConfiguration.getKeys(false).forEach(key -> aAreas.put(key, (A_Area) aYamlConfiguration.get(key)));
+        CommediaDell_arte.sendDebugLog("§aLoaded All aAreas");
+    }
+
+    public A_Area createAArea(World world, BoundingBox box, String name) {
+        A_Area area = new A_Area(world, box, name, aVersion);
+        this.aAreas.put(name, area);
+        area.getAWorld().putArea(area);
+        return area;
+    }
+
+    public Collection<A_Area> getAreas() {
+        return this.aAreas.values();
+    }
+
+    @Nullable
+    public A_Area getArea(String name) {
+        return this.aAreas.getOrDefault(name, null);
+    }
+
+    @Nullable
+    public A_Area removeArea(String name) {
+        A_Area area = getArea(name);
+
+        if (area == null) return null;
+
+        area.getAWorld().removeArea(area);
+
+        return this.aAreas.remove(name);
+    }
+
     public void pluginDataMapsLoad() {
-        File file = new File("plugins/Dell_arte/plugins");
-        File[] files = file.listFiles();
+        File pluginsFile = new A_File("plugins");
+        File[] files = pluginsFile.listFiles();
         if (files == null) return;
 
-        for (File file1 : files) {
-            FileConfiguration fileConfiguration = new YamlConfiguration();
-            try {
-                fileConfiguration.load(file1);
-            } catch (IOException | InvalidConfigurationException e) {
-                e.printStackTrace();
-                continue;
-            }
+        for (File file : files) {
+            A_YamlConfiguration aYamlConfiguration = new A_YamlConfiguration();
+            aYamlConfiguration.load(file);
 
-            for (String key : fileConfiguration.getKeys(false)) {
-                NamespacedKey namespacedKey = new NamespacedKey(file1.getName().replace(".yml", ""), key);
-                DataMap dataMap = (DataMap) fileConfiguration.get(key);
+            for (String key : aYamlConfiguration.getKeys(false)) {
+                NamespacedKey namespacedKey = new NamespacedKey(file.getName().replace(".yml", ""), key);
+                DataMap dataMap = (DataMap) aYamlConfiguration.get(key);
                 this.pluginDataMaps.put(namespacedKey, dataMap);
             }
         }
@@ -120,53 +157,31 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     public void pluginDataMapsSave() {
-        Map<String, FileConfiguration> map = new HashMap<>();
+        Map<String, A_YamlConfiguration> map = new HashMap<>();
         this.pluginDataMaps.forEach((namespacedKey, dataMap) -> {
-            map.computeIfAbsent(namespacedKey.getNamespace(), namespace -> new YamlConfiguration()).set(namespacedKey.getKey(), dataMap);
+            map.computeIfAbsent(namespacedKey.getNamespace(), namespace -> new A_YamlConfiguration()).set(namespacedKey.getKey(), dataMap);
         });
-
-        try {
-            for (Map.Entry<String, FileConfiguration> entry : map.entrySet()) {
-                File file = new File("plugins/Dell_arte/plugins/" + entry.getKey() + ".yml");
-                entry.getValue().save(file);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        map.forEach((name, configuration) -> configuration.save(new A_File("plugins/" + name + ".yml")));
 
         CommediaDell_arte.sendDebugLog("§aSave PluginDataMaps");
     }
 
     public void entitiesADataSave() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
         aEntities.values().forEach(aEntity -> {
             Entity entity = Bukkit.getEntity(aEntity.getUniqueId());
             if (entity != null)
                 fileConfiguration.set(aEntity.getUniqueId().toString(), aEntity.getAData());
         });
-        File file = new File("plugins/Dell_arte/entities.yml");
-
-        try {
-            fileConfiguration.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        File file = new A_File("entities.yml");
+        fileConfiguration.save(file);
         CommediaDell_arte.sendDebugLog("§aSave EntitiesData");
     }
 
     public void entitiesADataLoad() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
-        File file = new File("plugins/Dell_arte/entities.yml");
-
-        try {
-            fileConfiguration.load(file);
-        }  catch (IOException | InvalidConfigurationException e) {
-            if (e instanceof FileNotFoundException) CommediaDell_arte.sendLog("§cNot Found EntitiesData");
-            else e.printStackTrace();
-
-            return;
-        }
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
+        File file = new A_File("entities.yml");
+        fileConfiguration.load(file);
 
         for (String key : fileConfiguration.getKeys(false)) {
             UUID uuid = UUID.fromString(key);
@@ -193,7 +208,6 @@ public final class A_ManagerImpl implements A_Manager {
     }
 
     @Override
-
     public A_EntityImpl getAEntity(Entity entity) {
         if (entity instanceof Player) return getAPlayer((Player) entity);
         return aEntities.computeIfAbsent(entity.getUniqueId(), uuid -> {
@@ -223,7 +237,7 @@ public final class A_ManagerImpl implements A_Manager {
 
     @Override
     public A_WorldImpl getAWorld(World world) {
-        return this.aWorlds.computeIfAbsent(world.getName(), name -> new A_WorldImpl(world, aVersion));
+        return this.aWorlds.computeIfAbsent(world, name -> new A_WorldImpl(world, aVersion));
     }
 
     @Override
@@ -419,20 +433,6 @@ public final class A_ManagerImpl implements A_Manager {
         return aBossBarTimer;
     }
 
-    @Override
-    public ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice) {
-        return new ShopItemImpl(originItem, true, buyPrice, false, null);
-    }
-
-    @Override
-    public ShopItem createSellShopItem(ItemStack originItem, Price sellPrice) {
-        return new ShopItemImpl(originItem, false, null, true, sellPrice);
-    }
-
-    @Override
-    public ShopItem createBothShopItem(ItemStack originItem, Price buyPrice, Price sellPrice) {
-        return null;
-    }
 
     @Override
     public A_PlayerImpl getAPlayer(Player player) {

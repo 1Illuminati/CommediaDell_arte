@@ -4,9 +4,6 @@ import org.bukkit.*;
 import org.bukkit.block.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.boss.DragonBattle;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -24,6 +21,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
+import org.red.a_.util.A_YamlConfiguration;
 import org.red.block.loot.InteractiveLootChest;
 import org.red.library.A_;
 import org.red.library.a_.A_Data;
@@ -32,14 +30,14 @@ import org.red.library.a_.world.A_World;
 import org.red.item.material.BanMaterial;
 import org.red.library.block.loot.LootChest;
 import org.red.library.item.material.MaterialAct;
+import org.red.library.util.map.CoolTime;
+import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.Area;
 import org.red.library.world.rule.Rule;
 import org.red.library.world.rule.RuleMap;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -243,49 +241,55 @@ public class A_WorldImpl implements A_World {
 
     @Override
     public void aDataSave() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
         fileConfiguration.set("aData", this.aData);
         fileConfiguration.set("banMaterial", this.banMaterial);
         fileConfiguration.set("ruleMap", this.ruleMap);
         fileConfiguration.set("lootChestMap", this.lootChestMap);
-
-        File file = new File( this.world.getName() + "/worldData.yml");
-
-        try {
-            fileConfiguration.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileConfiguration.save(new File( this.world.getWorldFolder() + "/worldData.yml"));
         CommediaDell_arte.sendLog("§aSave WorldData: " + this.world.getName());
     }
 
     @Override
     public void aDataLoad() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
-        File file = new File( this.world.getName() + "/worldData.yml");
-
-        try {
-            fileConfiguration.load(file);
-        }  catch (IOException | InvalidConfigurationException e) {
-            if (e instanceof FileNotFoundException) CommediaDell_arte.sendLog("§cNot Found WorldData: " + this.world.getName());
-            else e.printStackTrace();
-            return;
-        }
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
+        File file = new File( this.world.getWorldFolder() + "/worldData.yml");
+        fileConfiguration.load(file);
 
         A_Data aData = (A_Data) fileConfiguration.get("aData");
         if (aData != null) this.aData.copy(aData);
+
         BanMaterial banMaterial = (BanMaterial) fileConfiguration.get("banMaterial");
         if (banMaterial != null) this.banMaterial.copy(banMaterial);
+
         RuleMap ruleMap = (RuleMap) fileConfiguration.get("ruleMap");
         if (ruleMap != null) this.ruleMap.copy(ruleMap);
+
         NameSpaceMap<LootChest> lootChestMap = (NameSpaceMap<LootChest>) fileConfiguration.get("lootChestMap");
-        if (lootChestMap != null) {
-            lootChestMap.forEach((key, lootChest) -> this.registeredLootChest(lootChest));
-        }
+        if (lootChestMap != null) lootChestMap.forEach((key, lootChest) -> this.registeredLootChest(lootChest));
 
 
         CommediaDell_arte.sendLog("§aLoad WorldData: " + this.world.getName());
+    }
+
+    @Override
+    public DataMap getDataMap() {
+        return getDataMap(CommediaDell_arte.getPlugin());
+    }
+
+    @Override
+    public DataMap getDataMap(Plugin plugin) {
+        return this.aData.getDataMap(plugin);
+    }
+
+    @Override
+    public CoolTime getCoolTime() {
+        return getCoolTime(CommediaDell_arte.getPlugin());
+    }
+
+    @Override
+    public CoolTime getCoolTime(Plugin plugin) {
+        return this.aData.getCoolTime(plugin);
     }
 
     @Override

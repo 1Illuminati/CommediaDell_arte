@@ -6,13 +6,6 @@ import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 
 public interface A_DataHolder {
-    default DataMap getDataMap(Plugin plugin) {
-        return getAData().getDataMap(plugin);
-    }
-
-    default CoolTime getCoolTime(Plugin plugin) {
-        return getAData().getCoolTime(plugin);
-    }
 
     default EconomyAccount getEconomyAccount() {
         return getAData().getEconomyAccount();
@@ -20,7 +13,11 @@ public interface A_DataHolder {
 
     DataMap getDataMap();
 
+    DataMap getDataMap(Plugin plugin);
+
     CoolTime getCoolTime();
+
+    CoolTime getCoolTime(Plugin plugin);
 
     A_Data getAData();
 }

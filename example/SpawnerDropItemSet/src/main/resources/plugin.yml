@@ -1,0 +1,11 @@
+name: SpawnerDropItemSet
+version: '${project.version}'
+main: org.red.work.SpawnerDropItemSet
+api-version: '1.18'
+depend: [ CommediaDell_arte ]
+authors: [ LastDice ]
+
+commands:
+  spawnerset:
+    description: Set the item that spawner drops
+    permission: op

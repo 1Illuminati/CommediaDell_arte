@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public enum Setting {
     CANT_OPEN_LOOT_CHEST_MESSAGE(),
+    VAULT_ENABLE(),
     DEBUG();
 
     private Object value;

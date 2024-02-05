@@ -1,4 +1,4 @@
-package org.red.nms.v1_17_R1;
+package org.red.nms.v1_18_R2;
 
 import org.bukkit.entity.Entity;
 import org.red.library.a_.entity.player.A_Player;

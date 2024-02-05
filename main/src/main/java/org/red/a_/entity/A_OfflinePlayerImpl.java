@@ -8,14 +8,19 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.a_.A_ManagerImpl;
+import org.red.a_.util.A_File;
+import org.red.a_.util.A_YamlConfiguration;
 import org.red.library.A_;
 import org.red.library.a_.A_Data;
 import org.red.library.a_.entity.player.A_Player;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
+import org.red.library.util.map.CoolTime;
+import org.red.library.util.map.DataMap;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +41,26 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
     public A_OfflinePlayerImpl updateOfflinePlayer() {
         this.offlinePlayer = Bukkit.getOfflinePlayer(this.getUniqueId());
         return this;
+    }
+
+    @Override
+    public DataMap getDataMap() {
+        return this.aData.getDataMap(CommediaDell_arte.getPlugin());
+    }
+
+    @Override
+    public DataMap getDataMap(Plugin plugin) {
+        return this.aData.getDataMap(plugin);
+    }
+
+    @Override
+    public CoolTime getCoolTime() {
+        return this.aData.getCoolTime(CommediaDell_arte.getPlugin());
+    }
+
+    @Override
+    public CoolTime getCoolTime(Plugin plugin) {
+        return this.aData.getCoolTime(plugin);
     }
 
     @Override
@@ -208,38 +233,18 @@ public class A_OfflinePlayerImpl implements A_OfflinePlayer {
 
     @Override
     public void aDataSave() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
         fileConfiguration.set("aData", this.aData);
-
-
-        File file = new File("plugins/Dell_arte/playerData/" + this.getUniqueId() + ".yml");
-
-        try {
-            fileConfiguration.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        fileConfiguration.save(new A_File("playerData/" + this.getUniqueId() + ".yml"));
         CommediaDell_arte.sendDebugLog("§aSave PlayerData: " + this.getUniqueId());
     }
 
     @Override
     public void aDataLoad() {
-        FileConfiguration fileConfiguration = new YamlConfiguration();
-        File file = new File("plugins/Dell_arte/playerData/" + this.getUniqueId() + ".yml");
-
-        try {
-            fileConfiguration.load(file);
-        }  catch (IOException | InvalidConfigurationException e) {
-            if (e instanceof FileNotFoundException) CommediaDell_arte.sendDebugLog("§cNot Found PlayerData: " + this.getUniqueId());
-            else e.printStackTrace();
-
-            return;
-        }
-
+        A_YamlConfiguration fileConfiguration = new A_YamlConfiguration();
+        fileConfiguration.load(new A_File("playerData/" + this.getUniqueId() + ".yml"));
         A_Data aData = (A_Data) fileConfiguration.get("aData");
         if (aData != null) this.aData.copy(aData);
-
         CommediaDell_arte.sendDebugLog("§aLoad PlayerData: " + this.getUniqueId());
     }
 

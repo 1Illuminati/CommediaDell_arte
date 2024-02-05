@@ -12,6 +12,7 @@
     <groupId>org.red</groupId>
     <artifactId>library</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
 
     <name>library</name>
 

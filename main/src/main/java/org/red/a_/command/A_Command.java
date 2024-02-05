@@ -2,10 +2,12 @@ package org.red.a_.command;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
 import org.jetbrains.annotations.NotNull;
+import org.red.CommediaDell_arte;
 import org.red.a_.admin.AdminAxe;
 import org.red.a_.world.A_Area;
 import org.red.a_.world.setting.AreaSettingMainGui;
@@ -48,27 +50,31 @@ public class A_Command extends AbstractPlayerCommand {
                 }
             return true;
             case "area":
+                String name = args[2];
                 switch (args[1]) {
                     case "setting":
-                        A_Area area = A_Area.getArea(args[2]);
-                        if (area == null) return false;
+                        A_Area area = CommediaDell_arte.getDell_arteManager().getArea(name);
+                        if (area == null) {
+                            player.sendMessage("존재하지 않는 Area 입니다.");
+                            return false;
+                        }
 
                         player.openInventory(new AreaSettingMainGui(area));
                     break;
                     case "create":
                         Location start = player.getDataMap().getLocation("admin_second_location");
+                        World startWorld = start.getWorld();
                         Location end = player.getDataMap().getLocation("admin_first_location");
 
-                        if (!start.getWorld().equals(end.getWorld())) {
+                        if (!startWorld.equals(end.getWorld())) {
                             throw new IllegalArgumentException("다른 월드입니다.");
                         }
 
-                        A_Area a_area = new A_Area(start.getWorld(), BoundingBox.of(start, end), args[2]);
-                        A_Area.registerArea(a_area);
+                        CommediaDell_arte.getDell_arteManager().createAArea(startWorld, BoundingBox.of(start, end), name);
                         sender.sendMessage("생성 완료");
                     break;
                     case "delete":
-                        A_Area.removeArea(A_Area.getArea(args[2]));
+                        CommediaDell_arte.getDell_arteManager().removeArea(name);
                         sender.sendMessage("삭제 완료");
                     break;
                 }
@@ -91,7 +97,7 @@ public class A_Command extends AbstractPlayerCommand {
             if (args.length == 4) return Collections.singletonList("[INT]");
         } else if (args[0].equals("area")) {
             if (args.length == 2) return Arrays.asList("create", "setting", "delete");
-            if (args.length == 3) return A_Area.getAreas().stream().map(A_Area::getName).collect(Collectors.toList());
+            if (args.length == 3) return CommediaDell_arte.getDell_arteManager().getAreas().stream().map(A_Area::getName).collect(Collectors.toList());
         }
 
         return new ArrayList<>();

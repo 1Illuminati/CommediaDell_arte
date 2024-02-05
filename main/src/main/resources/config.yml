@@ -8,3 +8,7 @@ debug: false
 # 루트 체스트를 열지 못할때 출력되는 메세지
 # %time%은 남은 시간을 초로 표시합니다.
 cant_open_loot_chest_message: "&c열지 못합니다! (남은 시간 %time%초)"
+
+# 볼트 연동 플긴 없으면 쓰삼
+# 근데 이거 은행 지원안함
+vault_enable: false

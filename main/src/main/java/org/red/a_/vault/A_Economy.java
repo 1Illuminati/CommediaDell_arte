@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.red.CommediaDell_arte;
+import org.red.Setting;
 import org.red.library.A_;
 import org.red.library.a_.entity.player.offline.A_OfflinePlayer;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class A_Economy implements Economy {
     private static A_Economy aEconomy;
     public static void setEconomy() {
+        if (!Setting.VAULT_ENABLE.asBooleanValue()) return;
         CommediaDell_arte.sendLog("Vault Plugin Checked");
         A_Economy aEconomy = new A_Economy();
         Bukkit.getServicesManager().register(Economy.class, aEconomy, CommediaDell_arte.getPlugin(), org.bukkit.plugin.ServicePriority.Highest);

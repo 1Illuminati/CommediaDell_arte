@@ -1,5 +1,7 @@
 package org.red.library.a_;
 
+import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -43,9 +45,10 @@ public final class A_Data implements ConfigurationSerializable {
 
     public void copy(A_Data aData) {
         this.dataMaps.clear();
-        this.dataMaps.putAll(aData.getDataMaps());
+        Bukkit.getConsoleSender().sendMessage(String.valueOf(aData.getDataMaps() == null));
+        if (aData.getDataMaps() != null) this.dataMaps.putAll(aData.getDataMaps());
         this.coolTimes.clear();
-        this.coolTimes.putAll(aData.getCoolTimes());
+        if (aData.getCoolTimes() != null) this.coolTimes.putAll(aData.getCoolTimes());
         this.economyAccount.copy(aData.getEconomyAccount());
     }
 
@@ -61,7 +64,7 @@ public final class A_Data implements ConfigurationSerializable {
 
     @NotNull
     public static A_Data deserialize(Map<String, Object> map) {
-        return new A_Data((HashMap<String, DataMap>) map.get("dataMap"), (HashMap<String, CoolTime>) map.get("coolTime"), (EconomyAccount) map.get("economyAccount"));
+        return new A_Data((Map<String, DataMap>) map.get("dataMaps"), (Map<String, CoolTime>) map.get("coolTimes"), (EconomyAccount) map.get("economyAccount"));
     }
 
     public static A_Data newAData() {

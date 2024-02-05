@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.red.CommediaDell_arte;
+import org.red.a_.util.A_File;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.entity.player.npc.A_NPC;
@@ -35,7 +36,7 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
         fileConfiguration.set("aData", this.getAData());
 
 
-        File file = new File("plugins/Dell_arte/npcData/" + this.getUniqueId() + ".yml");
+        File file = new A_File("npcData/" + this.getUniqueId() + ".yml");
 
         try {
             fileConfiguration.save(file);
@@ -49,7 +50,7 @@ public class A_NPCImpl extends A_PlayerImpl implements A_NPC {
     @Override
     public void aDataLoad() {
         FileConfiguration fileConfiguration = new YamlConfiguration();
-        File file = new File("plugins/Dell_arte/npcData/" + this.getUniqueId() + ".yml");
+        File file = new A_File("npcData/" + this.getUniqueId() + ".yml");
 
         try {
             fileConfiguration.load(file);

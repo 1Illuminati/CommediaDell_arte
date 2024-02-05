@@ -24,8 +24,6 @@ import org.red.library.interactive.InteractiveAct;
 import org.red.library.interactive.InteractiveObj;
 import org.red.library.interactive.block.InteractiveTileAct;
 import org.red.library.item.randombox.RandomBox;
-import org.red.library.item.shop.ShopItem;
-import org.red.library.item.shop.price.Price;
 import org.red.library.util.map.DataMap;
 import org.red.library.util.timer.BossBarTimer;
 import org.red.library.util.timer.Timer;
@@ -75,18 +73,6 @@ public final class A_ {
 
     private A_() {
         throw new IllegalStateException("Utility class");
-    }
-
-    public static ShopItem createBuyShopItem(ItemStack originItem, Price buyPrice) {
-        return plugin.createBuyShopItem(originItem, buyPrice);
-    }
-
-    public static ShopItem createSellShopItem(ItemStack originItem, Price sellPrice) {
-        return plugin.createSellShopItem(originItem, sellPrice);
-    }
-
-    public static ShopItem createBothShopItem(ItemStack originItem, Price buyPrice, Price sellPrice) {
-        return plugin.createBothShopItem(originItem, buyPrice, sellPrice);
     }
 
     public static void registerInteractiveObj(InteractiveObj<?> interactiveObj) {
