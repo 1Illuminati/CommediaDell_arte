@@ -30,6 +30,7 @@ public class RuleSettingGui extends CustomGui {
         this.settingBooleanRuleButton(i++, Rule.DROP, Material.DIAMOND, "§f아이템을 버릴 수 있는지 설정합니다.");
         this.settingBooleanRuleButton(i++, Rule.MOVE, Material.MINECART, "§f이동할 수 있는지 설정합니다.");
         this.settingBooleanRuleButton(i++, Rule.BREED, Material.WHEAT, "§f번식할 수 있는지 설정합니다.");
+        this.settingBooleanRuleButton(i++, Rule.ENCHANT, Material.ENCHANTING_TABLE, "§f인챈트가 가능한지를 설정합니다.");
     }
 
     protected void settingBooleanRuleButton(int slot, Rule<Boolean> rule, Material dispalyMaterial, String description) {

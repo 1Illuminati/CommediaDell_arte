@@ -12,10 +12,10 @@ public class AreaPlayerMoveEvent extends AreaPlayerEvent<PlayerMoveEvent> {
         super(area, event);
         Location to = event.getTo();
         Location from = event.getFrom();
-        boolean formCheck = area.contain(from);
-        boolean toCheck = to == null || area.contain(to);
-        this.inArea = !formCheck && toCheck;
-        this.outArea = formCheck && !toCheck;
+        boolean fromCheck = area.contain(from);
+        boolean toCheck = area.contain(to);
+        this.inArea = !fromCheck && toCheck;
+        this.outArea = fromCheck && !toCheck;
     }
 
     public boolean isInArea() {

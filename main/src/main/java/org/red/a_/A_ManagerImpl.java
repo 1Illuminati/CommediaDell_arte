@@ -330,10 +330,6 @@ public final class A_ManagerImpl implements A_Manager {
 
     @Override
     public <T> void setInteractiveInObj(NamespacedKey key, T obj) {
-        if (!isRegisteredInteractiveObj(key)) {
-            CommediaDell_arte.sendErrorLog("Not Registered InteractiveObj: " + key);
-            return;
-        }
 
         InteractiveObjInfo<T> interactiveObjInfo;
         try {

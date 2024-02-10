@@ -9,10 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.red.a_.admin.AdminAxe;
 import org.red.a_.util.A_File;
 import org.red.event.listener.AbstractListener;
-import org.red.event.listener.inventory.CraftItemListener;
-import org.red.event.listener.inventory.InventoryClickListener;
-import org.red.event.listener.inventory.InventoryCloseListener;
-import org.red.event.listener.inventory.InventoryOpenListener;
+import org.red.event.listener.inventory.*;
 import org.red.library.item.ItemUtil;
 import org.red.nms.NmsFactory;
 import org.red.world.rule.RuleSettingCommand;
@@ -159,6 +156,7 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.registerEvent(new InventoryOpenListener());
 
         this.registerEvent(new CraftItemListener());
+        this.registerEvent(new EnchantItemListener());
         this.registerEvent(new EntityDamageByEntityListener());
         this.registerEvent(new EntityDamageListener());
         this.registerEvent(new EntityMountListener());

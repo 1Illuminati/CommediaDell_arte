@@ -56,7 +56,7 @@ public final class RuleMap implements ConfigurationSerializable {
         RuleMap ruleMap = new RuleMap();
 
         for (int i = 0; i < ruleMap.rules.length; i++) {
-            ruleMap.values[i] = map.get(ruleMap.rules[i].getKey());
+            ruleMap.values[i] = map.getOrDefault(ruleMap.rules[i].getKey(), ruleMap.rules[i].getDefaultValue());
         }
 
         return ruleMap;

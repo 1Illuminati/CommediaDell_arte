@@ -26,6 +26,10 @@ public class BanMaterial implements ConfigurationSerializable {
         map.put(material, new BanMaterialInfo(material));
     }
 
+    public void removeInfo(Material material) {
+        map.remove(material);
+    }
+
     public List<BanMaterialInfo> getBanMaterialInfos() {
         return new ArrayList<>(map.values());
     }

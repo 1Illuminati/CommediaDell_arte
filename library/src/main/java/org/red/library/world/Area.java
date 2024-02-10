@@ -55,7 +55,7 @@ public class Area implements HasRule, Keyed {
      * @return 포함되어있으면 true, 아니면 false
      */
     public boolean contain(Location loc) {
-        return this.contain(loc.toVector());
+        return this.contain(loc.toVector()) && loc.getWorld().equals(world);
     }
 
     /**

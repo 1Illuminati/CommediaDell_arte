@@ -2,6 +2,7 @@ package org.red.item.material;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
@@ -46,7 +47,15 @@ public class BanMaterialGui extends CustomGui {
 
             this.setButton(i, event -> {
                 event.setCancelled(true);
-                event.getWhoClicked().openInventory(new BanMaterialInfoGui(this, banMaterialInfo).getInventory());
+
+                ClickType type = event.getClick();
+
+                if (type == ClickType.LEFT)
+                    event.getWhoClicked().openInventory(new BanMaterialInfoGui(this, banMaterialInfo).getInventory());
+                else if (type == ClickType.SHIFT_LEFT) {
+                    banMaterial.removeInfo(banMaterialInfo.getMaterial());
+                    event.getWhoClicked().openInventory(new BanMaterialGui(banMaterial, page).getInventory());
+                }
             });
         }
 
