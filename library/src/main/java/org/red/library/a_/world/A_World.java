@@ -23,7 +23,6 @@ import org.red.library.world.Area;
 import org.red.library.world.rule.HasRule;
 import org.red.library.world.rule.Rule;
 import org.red.library.a_.A_DataHolder;
-import org.red.library.block.loot.LootChest;
 import org.red.library.item.material.HasMaterialBan;
 
 import java.io.File;
@@ -41,13 +40,6 @@ public interface A_World extends A_DataHolder, HasMaterialBan, HasRule {
 
     void removeArea(NamespacedKey key);
 
-    Collection<LootChest> getLootChests();
-    void registeredLootChest(LootChest lootChest);
-    boolean isLootChest(Location location);
-    LootChest getLootChest(Location location);
-    LootChest getLootChest(String name);
-    void removeLootChest(LootChest lootChest);
-    void removeLootChest(String name);
     Collection<Area> getAreas();
     Set<Area> getContainAreas(Vector... vectors);
     Set<Area> getContainAreas(Location... locs);

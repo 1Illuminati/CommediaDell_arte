@@ -45,7 +45,6 @@ public final class A_Data implements ConfigurationSerializable {
 
     public void copy(A_Data aData) {
         this.dataMaps.clear();
-        Bukkit.getConsoleSender().sendMessage(String.valueOf(aData.getDataMaps() == null));
         if (aData.getDataMaps() != null) this.dataMaps.putAll(aData.getDataMaps());
         this.coolTimes.clear();
         if (aData.getCoolTimes() != null) this.coolTimes.putAll(aData.getCoolTimes());

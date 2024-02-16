@@ -7,9 +7,6 @@ import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.TileState;
 import org.bukkit.boss.BossBar;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -31,7 +28,6 @@ import org.red.a_.world.A_WorldImpl;
 import org.red.interactive.InteractiveObjInfo;
 import org.red.interactive.block.InteractiveTileInfo;
 import org.red.interactive.item.InteractiveItemInfo;
-import org.red.item.randombox.RandomBoxImpl;
 import org.red.library.A_Manager;
 import org.red.library.a_.A_Data;
 import org.red.library.a_.entity.player.A_Player;
@@ -52,8 +48,6 @@ import org.red.library.util.timer.Timer;
 import org.red.library.vault.EconomyAccount;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 public final class A_ManagerImpl implements A_Manager {
@@ -63,7 +57,6 @@ public final class A_ManagerImpl implements A_Manager {
     private final Map<UUID, A_OfflinePlayerImpl> aOfflinePlayers = new HashMap<>();
     private final Map<World, A_WorldImpl> aWorlds = new HashMap<>();
     private final Map<String, A_Area> aAreas = new HashMap<>();
-    private final NameSpaceMap<RandomBoxImpl> randomBoxes = new NameSpaceMap<>();
     private final NameSpaceMap<InteractiveObjInfo<?>> interactiveObjs = new NameSpaceMap<>();
     private final NameSpaceMap<DataMap> pluginDataMaps = new NameSpaceMap<>();
     private final CommediaDell_arte plugin;

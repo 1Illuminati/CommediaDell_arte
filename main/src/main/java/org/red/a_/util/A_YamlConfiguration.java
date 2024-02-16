@@ -13,6 +13,8 @@ import java.io.*;
 public class A_YamlConfiguration extends YamlConfiguration {
     public void save(@NotNull File file)  {
         try {
+            boolean result = file.delete();
+            CommediaDell_arte.sendLog(result);
             super.save(file);
         } catch (IOException exception) {
             throw new RuntimeException(exception);

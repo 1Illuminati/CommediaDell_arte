@@ -22,13 +22,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.CommediaDell_arte;
 import org.red.a_.util.A_YamlConfiguration;
-import org.red.block.loot.InteractiveLootChest;
-import org.red.library.A_;
 import org.red.library.a_.A_Data;
 import org.red.a_.A_ManagerImpl;
 import org.red.library.a_.world.A_World;
 import org.red.item.material.BanMaterial;
-import org.red.library.block.loot.LootChest;
 import org.red.library.item.material.MaterialAct;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
@@ -46,7 +43,6 @@ public class A_WorldImpl implements A_World {
     private final A_Data aData = A_Data.newAData();
     private final RuleMap ruleMap = new RuleMap();
     private final NameSpaceMap<Area> areaMap = new NameSpaceMap<>();
-    private final NameSpaceMap<LootChest> lootChestMap = new NameSpaceMap<>();
     private final BanMaterial banMaterial = new BanMaterial();
     private final A_ManagerImpl.A_Version version;
 
@@ -108,47 +104,6 @@ public class A_WorldImpl implements A_World {
     @Override
     public void removeArea(NamespacedKey key) {
         areaMap.remove(key);
-    }
-
-    @Override
-    public Collection<LootChest> getLootChests() {
-        return this.lootChestMap.values();
-    }
-
-    @Override
-    public void registeredLootChest(LootChest lootChest) {
-        A_.registerInteractiveObj(new InteractiveLootChest(lootChest));
-        A_.setInteractiveInObj(lootChest.getKey(), lootChest.getChest());
-        this.lootChestMap.put(lootChest.getKey(), lootChest);
-    }
-
-    @Override
-    public boolean isLootChest(Location location) {
-        Block block = location.getBlock();
-        BlockState blockState = block.getState();
-        return blockState instanceof Chest && A_.isItemInTile((Chest) blockState) && A_.getInteractiveInBlock((TileState) blockState) instanceof InteractiveLootChest;
-    }
-
-    @Override
-    public LootChest getLootChest(Location location) {
-        return isLootChest(location) ? ((InteractiveLootChest) A_.getInteractiveInBlock((TileState) location.getBlock().getState())).getLootChest() : null;
-    }
-
-    @Override
-    public LootChest getLootChest(String name) {
-        return this.lootChestMap.getOrDefault(new NamespacedKey(CommediaDell_arte.getPlugin(), name), null);
-    }
-
-    @Override
-    public void removeLootChest(LootChest lootChest) {
-        this.lootChestMap.remove(lootChest.getKey());
-    }
-
-    @Override
-    public void removeLootChest(String name) {
-        NamespacedKey key = new NamespacedKey(CommediaDell_arte.getPlugin(), name);
-        A_.disableInteractiveObj(key);
-        this.lootChestMap.remove(key);
     }
 
     @Override
@@ -245,7 +200,6 @@ public class A_WorldImpl implements A_World {
         fileConfiguration.set("aData", this.aData);
         fileConfiguration.set("banMaterial", this.banMaterial);
         fileConfiguration.set("ruleMap", this.ruleMap);
-        fileConfiguration.set("lootChestMap", this.lootChestMap);
         fileConfiguration.save(new File( this.world.getWorldFolder() + "/worldData.yml"));
         CommediaDell_arte.sendLog("§aSave WorldData: " + this.world.getName());
     }
@@ -264,10 +218,6 @@ public class A_WorldImpl implements A_World {
 
         RuleMap ruleMap = (RuleMap) fileConfiguration.get("ruleMap");
         if (ruleMap != null) this.ruleMap.copy(ruleMap);
-
-        NameSpaceMap<LootChest> lootChestMap = (NameSpaceMap<LootChest>) fileConfiguration.get("lootChestMap");
-        if (lootChestMap != null) lootChestMap.forEach((key, lootChest) -> this.registeredLootChest(lootChest));
-
 
         CommediaDell_arte.sendLog("§aLoad WorldData: " + this.world.getName());
     }

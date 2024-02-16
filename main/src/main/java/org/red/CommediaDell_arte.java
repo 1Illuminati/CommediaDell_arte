@@ -19,8 +19,6 @@ import org.red.a_.placeholder.A_PlaceHolderPlayer;
 import org.red.a_.vault.A_Economy;
 import org.red.a_.vault.A_EconomyAccount;
 import org.red.a_.world.A_Area;
-import org.red.block.loot.LootChestCommand;
-import org.red.block.loot.LootChestImpl;
 import org.red.event.listener.block.BlockBreakListener;
 import org.red.event.listener.block.BlockPlaceListener;
 import org.red.event.listener.entity.EntityDamageByEntityListener;
@@ -37,9 +35,6 @@ import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 import org.red.library.util.map.NameSpaceMap;
 import org.red.library.world.rule.RuleMap;
-import org.red.test.Test;
-
-import java.io.File;
 
 public final class CommediaDell_arte extends JavaPlugin {
     private static A_ManagerImpl PLUGIN_MANAGER;
@@ -96,7 +91,6 @@ public final class CommediaDell_arte extends JavaPlugin {
     public void settingServerVersion() {
         String nmsClassName = Bukkit.getServer().getClass().getPackage().getName();
         String version = nmsClassName.substring(nmsClassName.lastIndexOf('.') + 1);
-
         try {
             SERVER_VERSION = ServerVersionEnum.valueOf(version);
         } catch (Exception e) {
@@ -140,7 +134,6 @@ public final class CommediaDell_arte extends JavaPlugin {
     private void setCommand() {
         this.registerCommand(new A_Command());
         this.registerCommand(new BanMaterialCommand());
-        this.registerCommand(new LootChestCommand());
         this.registerCommand(new RuleSettingCommand());
         sendLog("Setting All Command");
     }
@@ -172,7 +165,6 @@ public final class CommediaDell_arte extends JavaPlugin {
         this.registerEvent(new AsyncPlayerChatListener());
         this.registerEvent(new InteractiveRunListener());
         this.registerEvent(new PlayerSwapHandItemsListener());
-        this.registerEvent(new LootChestOpenListener());
 
         this.registerEvent(new BlockBreakListener());
         this.registerEvent(new BlockPlaceListener());
@@ -196,7 +188,6 @@ public final class CommediaDell_arte extends JavaPlugin {
         ConfigurationSerialization.registerClass(RuleMap.class);
         ConfigurationSerialization.registerClass(A_EconomyAccount.class);
         ConfigurationSerialization.registerClass(A_Data.class);
-        ConfigurationSerialization.registerClass(LootChestImpl.class);
         ConfigurationSerialization.registerClass(NameSpaceMap.class);
         ConfigurationSerialization.registerClass(BanMaterial.class);
         ConfigurationSerialization.registerClass(A_Area.class);
