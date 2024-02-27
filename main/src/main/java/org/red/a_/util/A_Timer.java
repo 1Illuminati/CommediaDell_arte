@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.red.CommediaDell_arte;
+import org.red.library.event.TimerEndEvent;
 import org.red.library.util.timer.Timer;
 
 public class A_Timer implements Timer {
@@ -32,17 +33,19 @@ public class A_Timer implements Timer {
     public void start() {
         this.setRunning(true);
 
-        Bukkit.getScheduler().runTaskTimerAsynchronously(CommediaDell_arte.getPlugin(), new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 addTime(1);
                 getRunnable().run();
                 if (getTime() >= getMaxTime() || !isRunning()) {
-                    //이벤트 코드
+                    Bukkit.getScheduler().runTask(CommediaDell_arte.getPlugin(), () -> {
+                        Bukkit.getPluginManager().callEvent(new TimerEndEvent(A_Timer.this));
+                    });
                     this.cancel();
                 }
             }
-        },1, 0);
+        }.runTaskTimerAsynchronously(CommediaDell_arte.getPlugin(), 1, 0);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class A_Timer implements Timer {
 
     @Override
     public void setTime(int time) {
-        if (time > maxTime) throw new IllegalArgumentException("time cannot be greater than maxTime");
+        if (time >= maxTime) throw new IllegalArgumentException("time cannot be greater than maxTime");
         this.time = time;
     }
 

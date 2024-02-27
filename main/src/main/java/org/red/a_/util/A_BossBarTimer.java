@@ -5,6 +5,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BossBar;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.red.CommediaDell_arte;
+import org.red.library.event.TimerEndEvent;
 import org.red.library.util.timer.BossBarTimer;
 
 import java.util.ArrayList;
@@ -43,18 +44,20 @@ public class A_BossBarTimer extends A_Timer implements BossBarTimer {
     @Override
     public void start() {
         this.setRunning(true);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(CommediaDell_arte.getPlugin(), new BukkitRunnable() {
+        new BukkitRunnable() {
             @Override
             public void run() {
                 addTime(1);
                 getRunnable().run();
-                getBossBars().forEach(bossBar -> bossBar.setProgress((double) getTime() / getMaxTime()));
+                Bukkit.getScheduler().runTask(CommediaDell_arte.getPlugin(), () -> bossBars.forEach(bossBar -> bossBar.setProgress((double) getTime() / (double) getMaxTime())));
 
                 if (getTime() >= getMaxTime() || !isRunning()) {
-                    //이벤트 코드
+                    Bukkit.getScheduler().runTask(CommediaDell_arte.getPlugin(), () -> {
+                        Bukkit.getPluginManager().callEvent(new TimerEndEvent(A_BossBarTimer.this));
+                    });
                     this.cancel();
                 }
             }
-        },1, 0);
+        }.runTaskTimerAsynchronously(CommediaDell_arte.getPlugin(), 1, 0);
     }
 }
